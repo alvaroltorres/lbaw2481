@@ -19,20 +19,20 @@ CREATE SCHEMA lbaw2481;
 
 -- Cria a tabela Category
 CREATE TABLE IF NOT EXISTS lbaw2481.Category (
-                                                 category_id SERIAL PRIMARY KEY,
-                                                 parent_id INTEGER REFERENCES lbaw2481.Category(category_id) ON DELETE CASCADE,
+    category_id SERIAL PRIMARY KEY,
+    parent_id INTEGER REFERENCES lbaw2481.Category(category_id) ON DELETE CASCADE,
     name VARCHAR(255) UNIQUE NOT NULL
     );
 
 -- Cria a tabela User
 CREATE TABLE IF NOT EXISTS lbaw2481."User" (
-                                               user_id SERIAL PRIMARY KEY,
-                                               is_enterprise BOOLEAN NOT NULL,
-                                               is_admin BOOLEAN NOT NULL,
-                                               two_factor_enabled BOOLEAN NOT NULL,
-                                               created_at TIMESTAMP NOT NULL,
-                                               updated_at TIMESTAMP NOT NULL,
-                                               username VARCHAR(50) UNIQUE NOT NULL,
+    user_id SERIAL PRIMARY KEY,
+    is_enterprise BOOLEAN NOT NULL,
+    is_admin BOOLEAN NOT NULL,
+    two_factor_enabled BOOLEAN NOT NULL,
+    created_at TIMESTAMP NOT NULL,
+    updated_at TIMESTAMP NOT NULL,
+    username VARCHAR(50) UNIQUE NOT NULL,
     email VARCHAR(100) UNIQUE NOT NULL,
     password_hash VARCHAR(255) NOT NULL,
     fullname VARCHAR(100) NOT NULL,
@@ -41,8 +41,8 @@ CREATE TABLE IF NOT EXISTS lbaw2481."User" (
 
 -- Cria a tabela Address
 CREATE TABLE IF NOT EXISTS lbaw2481.Address (
-                                                address_id SERIAL PRIMARY KEY,
-                                                user_id INTEGER REFERENCES lbaw2481."User"(user_id) ON DELETE CASCADE,
+    address_id SERIAL PRIMARY KEY,
+    user_id INTEGER REFERENCES lbaw2481."User"(user_id) ON DELETE CASCADE,
     created_at TIMESTAMP NOT NULL,
     updated_at TIMESTAMP NOT NULL,
     street VARCHAR(255) NOT NULL,
@@ -54,8 +54,8 @@ CREATE TABLE IF NOT EXISTS lbaw2481.Address (
 
 -- Cria a tabela PaymentMethod
 CREATE TABLE IF NOT EXISTS lbaw2481.PaymentMethod (
-                                                      payment_method_id SERIAL PRIMARY KEY,
-                                                      user_id INTEGER REFERENCES lbaw2481."User"(user_id) ON DELETE CASCADE,
+    payment_method_id SERIAL PRIMARY KEY,
+    user_id INTEGER REFERENCES lbaw2481."User"(user_id) ON DELETE CASCADE,
     is_enterprise BOOLEAN NOT NULL,
     expiry_date DATE NOT NULL,
     created_at TIMESTAMP NOT NULL,
@@ -68,8 +68,8 @@ CREATE TABLE IF NOT EXISTS lbaw2481.PaymentMethod (
 
 -- Cria a tabela Auction
 CREATE TABLE IF NOT EXISTS lbaw2481.Auction (
-                                                auction_id SERIAL PRIMARY KEY,
-                                                user_id INTEGER REFERENCES lbaw2481."User"(user_id) ON DELETE CASCADE,
+    auction_id SERIAL PRIMARY KEY,
+    user_id INTEGER REFERENCES lbaw2481."User"(user_id) ON DELETE CASCADE,
     category_id INTEGER REFERENCES lbaw2481.Category(category_id) ON DELETE CASCADE,
     starting_price DECIMAL(10, 2) NOT NULL,
     reserve_price DECIMAL(10, 2),
@@ -85,8 +85,8 @@ CREATE TABLE IF NOT EXISTS lbaw2481.Auction (
 
 -- Cria a tabela Rating
 CREATE TABLE IF NOT EXISTS lbaw2481.Rating (
-                                               rating_id SERIAL PRIMARY KEY,
-                                               rated_user_id INTEGER REFERENCES lbaw2481."User"(user_id) ON DELETE CASCADE,
+    rating_id SERIAL PRIMARY KEY,
+    rated_user_id INTEGER REFERENCES lbaw2481."User"(user_id) ON DELETE CASCADE,
     rater_user_id INTEGER REFERENCES lbaw2481."User"(user_id) ON DELETE CASCADE,
     score INTEGER CHECK (score >=1 AND score <=5) NOT NULL,
     comment TEXT,
@@ -95,8 +95,8 @@ CREATE TABLE IF NOT EXISTS lbaw2481.Rating (
 
 -- Cria a tabela Notification
 CREATE TABLE IF NOT EXISTS lbaw2481.Notification (
-                                                     notification_id SERIAL PRIMARY KEY,
-                                                     user_id INTEGER REFERENCES lbaw2481."User"(user_id) ON DELETE CASCADE,
+    notification_id SERIAL PRIMARY KEY,
+    user_id INTEGER REFERENCES lbaw2481."User"(user_id) ON DELETE CASCADE,
     content TEXT NOT NULL,
     is_read BOOLEAN NOT NULL DEFAULT FALSE,
     created_at TIMESTAMP NOT NULL,
@@ -105,8 +105,8 @@ CREATE TABLE IF NOT EXISTS lbaw2481.Notification (
 
 -- Cria a tabela Transaction
 CREATE TABLE IF NOT EXISTS lbaw2481.Transaction (
-                                                    transaction_id SERIAL PRIMARY KEY,
-                                                    buyer_id INTEGER REFERENCES lbaw2481."User"(user_id) ON DELETE CASCADE,
+    transaction_id SERIAL PRIMARY KEY,
+    buyer_id INTEGER REFERENCES lbaw2481."User"(user_id) ON DELETE CASCADE,
     auction_id INTEGER REFERENCES lbaw2481.Auction(auction_id) ON DELETE CASCADE,
     payment_method_id INTEGER REFERENCES lbaw2481.PaymentMethod(payment_method_id) ON DELETE CASCADE,
     value DECIMAL(10, 2) NOT NULL,
@@ -117,15 +117,15 @@ CREATE TABLE IF NOT EXISTS lbaw2481.Transaction (
 
 -- Cria a tabela Order
 CREATE TABLE IF NOT EXISTS lbaw2481."Order" (
-                                                order_id SERIAL PRIMARY KEY,
-                                                transaction_id INTEGER REFERENCES lbaw2481.Transaction(transaction_id) ON DELETE CASCADE,
+    order_id SERIAL PRIMARY KEY,
+    transaction_id INTEGER REFERENCES lbaw2481.Transaction(transaction_id) ON DELETE CASCADE,
     created_at TIMESTAMP NOT NULL
     );
 
 -- Cria a tabela Watchlist
 CREATE TABLE IF NOT EXISTS lbaw2481.Watchlist (
-                                                  watchlist_id SERIAL PRIMARY KEY,
-                                                  user_id INTEGER REFERENCES lbaw2481."User"(user_id) ON DELETE CASCADE,
+    watchlist_id SERIAL PRIMARY KEY,
+    user_id INTEGER REFERENCES lbaw2481."User"(user_id) ON DELETE CASCADE,
     auction_id INTEGER REFERENCES lbaw2481.Auction(auction_id) ON DELETE CASCADE,
     added_at TIMESTAMP NOT NULL,
     UNIQUE (user_id, auction_id)
@@ -133,8 +133,8 @@ CREATE TABLE IF NOT EXISTS lbaw2481.Watchlist (
 
 -- Cria a tabela Bid
 CREATE TABLE IF NOT EXISTS lbaw2481.Bid (
-                                            bid_id SERIAL PRIMARY KEY,
-                                            auction_id INTEGER REFERENCES lbaw2481.Auction(auction_id) ON DELETE CASCADE,
+    bid_id SERIAL PRIMARY KEY,
+    auction_id INTEGER REFERENCES lbaw2481.Auction(auction_id) ON DELETE CASCADE,
     user_id INTEGER REFERENCES lbaw2481."User"(user_id) ON DELETE CASCADE,
     price DECIMAL(10, 2) NOT NULL,
     time TIMESTAMP NOT NULL
@@ -142,15 +142,15 @@ CREATE TABLE IF NOT EXISTS lbaw2481.Bid (
 
 -- Cria a tabela Chat
 CREATE TABLE IF NOT EXISTS lbaw2481.Chat (
-                                             chat_id SERIAL PRIMARY KEY,
-                                             is_private BOOLEAN NOT NULL,
-                                             created_at TIMESTAMP NOT NULL
+    chat_id SERIAL PRIMARY KEY,
+    is_private BOOLEAN NOT NULL,
+    created_at TIMESTAMP NOT NULL
 );
 
 -- Cria a tabela ChatParticipant
 CREATE TABLE IF NOT EXISTS lbaw2481.ChatParticipant (
-                                                        chat_participant_id SERIAL PRIMARY KEY,
-                                                        chat_id INTEGER REFERENCES lbaw2481.Chat(chat_id) ON DELETE CASCADE,
+    chat_participant_id SERIAL PRIMARY KEY,
+    chat_id INTEGER REFERENCES lbaw2481.Chat(chat_id) ON DELETE CASCADE,
     user_id INTEGER REFERENCES lbaw2481."User"(user_id) ON DELETE CASCADE,
     joined_at TIMESTAMP NOT NULL,
     UNIQUE (chat_id, user_id)
@@ -158,8 +158,8 @@ CREATE TABLE IF NOT EXISTS lbaw2481.ChatParticipant (
 
 -- Cria a tabela Message
 CREATE TABLE IF NOT EXISTS lbaw2481.Message (
-                                                message_id SERIAL PRIMARY KEY,
-                                                chat_id INTEGER REFERENCES lbaw2481.Chat(chat_id) ON DELETE CASCADE,
+    message_id SERIAL PRIMARY KEY,
+    chat_id INTEGER REFERENCES lbaw2481.Chat(chat_id) ON DELETE CASCADE,
     sender_id INTEGER REFERENCES lbaw2481."User"(user_id) ON DELETE CASCADE,
     text TEXT NOT NULL,
     time TIMESTAMP NOT NULL
