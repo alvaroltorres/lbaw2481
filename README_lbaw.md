@@ -211,7 +211,7 @@ The method searches for a card in the database, checks if the user as permission
 
 ### 3) Database and Models
 
-To access the database, we will use the query builder capabilities of [Eloquent](https://laravel.com/docs/10.x/eloquent) but the initial database seeding will still be done using raw SQL (the script that creates the tables can be found in `database/thingy-seed.sql`).
+To access the database, we will use the query builder capabilities of [Eloquent](https://laravel.com/docs/10.x/eloquent) but the initial database seeding will still be done using raw SQL (the script that creates the tables can be found in `database/create.sql`).
 
 One important aspect is that we won't be using migrations in LBAW projects.
 
