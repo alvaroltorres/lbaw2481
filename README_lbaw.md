@@ -2,9 +2,9 @@
 
 ## Introduction
 
-This README describes how to setup the development environment for LBAW.
+This README describes how to set up the development environment for LBAW.
 
-These instructions address the development with a local environment (with PhP installed) and Docker containers for PostgreSQL and pgAdmin.
+These instructions address the development with a local environment (with PHP installed) and Docker containers for PostgreSQL and pgAdmin.
 
 - [LBAW's framework](#lbaws-framework)
   - [Introduction](#introduction)
@@ -28,106 +28,127 @@ These instructions address the development with a local environment (with PhP in
 
 ## Installing the software dependencies
 
-To prepare you computer for development you need to install PHP >=v8.1 and Composer >=v2.2.
+To prepare your computer for development, you need to install:
 
-We recommend using an __Ubuntu__ distribution that ships with these versions (e.g Ubuntu 22.04 or newer). You may install the required software with:
+* [PHP](https://www.php.net/) version 8.3 or higher
+* [Composer](https://getcomposer.org/) version 2.2 or higher
+
+We recommend using an **Ubuntu** distribution (24.04 or newer) that ships with these versions.
+
+Install the required software with:
 
 ```bash
 sudo apt update
-sudo apt install git composer php8.1 php8.1-mbstring php8.1-xml php8.1-pgsql php8.1-curl
+sudo apt install git composer php8.3 php8.3-mbstring php8.3-xml php8.3-pgsql php8.3-curl
 ```
 
-On MacOS, you can install them using [Homebrew](https://brew.sh/) and:
+On macOS, install using [Homebrew](https://brew.sh/):
+
 ```bash
-brew install php@8.1 composer
+brew install php@8.3 composer
 ```
 
-If you use [Windows WSL](https://learn.microsoft.com/en-us/windows/wsl/install), please ensure you are also using Ubuntu 22.04 inside. Previous versions do not provide the requirements needed for this template, and then follow the Ubuntu instructions above.
+If you use [Windows WSL](https://learn.microsoft.com/en-us/windows/wsl/install), ensure you are using Ubuntu 24.04 inside WSL. Previous versions do not provide the required packages. After setting up WSL, follow the Ubuntu instructions above.
 
 
 ## Setting up the development repository
 
-Only one of the group members needs to execute the steps described in this section.
+**Important**: Only one group member should perform these steps.
 
-You should have the group's repository and a copy of the demo repository within the same folder in your machine.
-Then, copy the contents of the demo repository to your own.
+First, ensure you have both repositories in the same folder:
+
+* Your group's repository
+* The demo repository (template-laravel)
+
+Follow these steps to set up your development environment:
 
 ```bash
-# Clone your group repository (replacing lbawYYXX, eg. lbaw2211), if not yet available locally.
-# Notice that you need to substitute XX by your group's number and YY or YYYY as needed.
-git clone https://git.fe.up.pt/lbaw/lbawYYYY/lbawYYXX.git
+# Clone your group repository
+# Replace YYYY with the year (e.g., 2024) and XX with your group number
+git clone https://gitlab.up.pt/lbaw/lbawYYYY/lbawYYXX.git
 
-# Clone the LBAW project skeleton.
-git clone https://git.fe.up.pt/lbaw/template-laravel.git
+# Clone the LBAW project skeleton
+git clone https://gitlab.up.pt/lbaw/template-laravel.git
 
-# Remove the Git folder from the demo folder.
+# Remove the Git folder from the demo folder
 rm -rf template-laravel/.git
 
-# Preserve the existing README.md.
+# Preserve the existing README.md
 mv template-laravel/README.md template-laravel/README_lbaw.md
 
-# Go to your repository.
+# Go to your repository
 cd lbawYYXX
 
-# Make sure you are using the main branch.
+# Switch to main branch
 git checkout main
 
-# Copy all the demo files.
+# Copy all demo files
 cp -r ../template-laravel/. .
 
-# Add the new files to your repository.
+# Add the new files to your repository
 git add .
 git commit -m "Base Laravel structure"
 git push origin main
 ```
 
-At this point you should have the project skeleton in your local machine and be ready to start working on it.
-You may remove the `template-laravel` demo directory, as it is not needed anymore.
+After these steps:
 
-Only one member of the group should commit and push these changes to the group repository. After this, the rest of the group members should clone the updated group repository to their local machines. file is not tracked by git (as indicated in the [.gitignore](.gitignore) file), each group member needs to create this file by copying it from the `.env.thingy` file provided in the demo repository.
+1. You'll have the project skeleton in your local machine
+2. You can remove the `template-laravel` directory
+
+For team collaboration:
+
+1. Only one group member should perform the above steps and push changes
+2. Other group members should then clone the updated repository:
 
 ```bash
-# Create a new .env file based on the .env.thingy reference file.
+git clone https://gitlab.up.pt/lbaw/lbawYYYY/lbawYYXX.git
+```
+
+3. Each group member must create their own `.env` file:
+
+```bash
 cp .env.thingy .env
 ```
 
+The `.env` file contains configuration settings and is not tracked by Git (see [.gitignore](.gitignore)).
+
+
 ## Installing local PHP dependencies
 
-After the steps above, you will have updated your repository with the required Laravel structure from this repository.
-Afterwards, the command bellow will install all local dependencies, required for development.
+After setting up your repository, install all local dependencies required for development:
 
 ```bash
 composer update
 ```
 
-If this fails, ensure you're using version 2 or above of Composer. If there are errors regarding missing extensions, make sure you uncomment them in your [php.ini file](https://www.php.net/manual/en/configuration.file.php).
+If the installation fails:
+
+1. Check your Composer version (should be 2 or above): `composer --version`
+2. If you see errors about missing PHP extensions, ensure they are enabled in your [php.ini file](https://www.php.net/manual/en/configuration.file.php) file
 
 
 ## Working with PostgreSQL
 
-We've created a _docker compose_ file that sets up __PostgreSQL__ and __pgAdmin4__ to run as local Docker containers.
+The _Docker Compose_ file provided sets up **PostgreSQL** and **pgAdmin4** as local Docker containers.
 
-From the project root issue the following command:
+Start the containers from your project root:
 
 ```bash
 docker compose up -d
 ```
 
-This will start your containers in detached mode. To stop them use:
+Stop the containers when needed:
 
 ```bash
 docker compose down
 ```
 
-Navigate on your browser to http://localhost:4321 to access pgAdmin4 and manage your database. Depending on your installation setup, you might need to use the IP address from the virtual machine providing docker instead of `localhost`. Please refer to your installation documentation.
-Use the following credentials to login:
+Open your browser and navigate to `http://localhost:4321` to access pgAdmin4.
 
-```
-Email: postgres@lbaw.com
-Password: pg!password
-```
+Depending on your installation setup, you might need to use the IP address from the virtual machine providing docker instead of `localhost`.
 
-On the first usage you will need to add the connection to the database using the following attributes:
+On first use, add a local database connection with these settings:
 
 ```
 hostname: postgres
@@ -135,47 +156,56 @@ username: postgres
 password: pg!password
 ```
 
-Hostname is _postgres_ instead of _localhost_ since _Docker Compose_ creates an internal DNS entry to facilitate the connection between linked containers.
+Use `postgres` as hostname (not `localhost`) because _Docker Compose_ creates an internal DNS entry for container communication.
 
 
 ## Developing the project
 
 You're all set up to start developing the project.
-In the provided skeleton you will already find a basic todo list application -- Thingy, which you will modify to start implementing your own project.
+The provided skeleton includes a basic todo list application -- **Thingy**, which you'll modify to implement your project.
 
-To start the development server from the project's root run:
+Start the development server from your project root:
 
 ```bash
-# Seed database from the SQL file.
-# Needed on first run and every time the database script changes.
+# Seed database from the SQL file
+# Required: first run and after database script changes
 php artisan db:seed
 
 # Start the development server
 php artisan serve
 ```
 
-Access `http://localhost:8000` to access the app. Username is `admin@example.com`, and password `1234`. These credentials are copied to the database on the first instruction above.
+Access the application at `http://localhost:8000`
 
-To stop the server just hit Ctrl-C.
+* Username: admin@example.com
+* Password: 1234
+
+These credentials are created when seeding the database.
+
+To stop the server: Press `Ctrl-C`
 
 
 ## Laravel code structure
 
-Before you start, you should make yourself familiar with [Laravel's documentation](https://laravel.com/docs/10.x).
+Before you start, familiarize yourself with [Laravel's documentation](https://laravel.com/docs/10.x).
 
-In Laravel, a typical web request will touch the following concepts and files.
+A typical web request in Laravel involves several components. Here are the key concepts.
 
 
 ### 1) Routes
 
-The web page is processed by *Laravel*'s [routing](https://laravel.com/docs/10.x/routing) mechanism.
-By default, routes are defined inside `routes/web.php`. A typical *route* looks like this:
+Laravel processes web pages through its [routing](https://laravel.com/docs/10.x/routing) mechanism.
+Routes are defined in `routes/web.php`. Example:
 
 ```php
 Route::get('cards/{id}', [CardController::class, 'show']);
 ```
 
-This route receives a parameter *id* that is passed on to the *show* method of a controller called *CardController*.
+This route:
+
+* Handles GET requests to `cards/{id}`
+* Uses the parameter `id`
+* Calls the `show` method of `CardController`
 
 
 ### 2) Controllers
@@ -187,17 +217,17 @@ Controllers are normally defined in the `app/Http/Controllers` folder.
 class CardController extends Controller
 {
     /**
-     * Show the card for a given id.
+     * Show the card for a given id
      */
     public function show(string $id): View
     {
         // Get the card.
         $card = Card::findOrFail($id);
 
-        // Check if the current user can see (show) the card.
-        $this->authorize('show', $card);  
+        // Check if the current user can see (show) the card
+        $this->authorize('show', $card);
 
-        // Use the pages.card template to display the card.
+        // Use the pages.card template to display the card
         return view('pages.card', [
             'card' => $card
         ]);
@@ -205,29 +235,33 @@ class CardController extends Controller
 }
 ```
 
-This particular controller contains a *show* method that receives an *id* from a route.
-The method searches for a card in the database, checks if the user as permission to view the card, and then returns a view.
+This particular controller contains a `show` method that:
+
+* Receives an `id` from a route
+* Searches for a card in the database
+* Checks if the user has permission to view the card
+* Returns a view with the card data
 
 
 ### 3) Database and Models
 
-To access the database, we will use the query builder capabilities of [Eloquent](https://laravel.com/docs/10.x/eloquent) but the initial database seeding will still be done using raw SQL (the script that creates the tables can be found in `database/create.sql`).
+To access the database, we will use the query builder capabilities of [Eloquent](https://laravel.com/docs/10.x/eloquent) but the initial database seeding will still be done using raw SQL (the script that creates the tables can be found in `database/thingy-seed.sql`).
 
-One important aspect is that we won't be using migrations in LBAW projects.
+One important aspect is that **we won't be using migrations in LBAW projects**.
 
-Here is an example of Eloquent's query building syntax.
+Here is an example of Eloquent's query building syntax:
 
 ```php
 $card = Card::findOrFail($id);
 ```
 
-This line tells *Eloquent* to fetch a card from the database with a certain *id* (the primary key of the table).
-The result will be an object of the class *Card* defined in `app/Models/Card.php`.
-This class extends the *Model* class and contains information about the relation between the *card* tables and other tables:
+This line tells Eloquent to fetch a card from the database with a certain `id` (the primary key of the table).
+The result will be an object of the class `Card` defined in `app/Models/Card.php`.
+This class extends the `Model` class and contains information about the relation between the `card` tables and other tables:
 
 ```php
 /**
- * Get the user that owns the card.
+ * Get the user that owns the card
  */
 public function user(): BelongsTo
 {
@@ -235,7 +269,7 @@ public function user(): BelongsTo
 }
 
 /**
- * Get the items for the card.
+ * Get the items for the card
  */
 public function items(): HasMany
 {
@@ -247,11 +281,11 @@ public function items(): HasMany
 
 [Policies](https://laravel.com/docs/10.x/authorization#writing-policies) define which actions a user can take.
 You can find policies inside the `app/Policies` folder.
-For example, in the `CardPolicy.php` file we defined a *show* method that only allows a certain user to view a card if that user is the card owner:
+For example, in the `CardPolicy.php` file we defined a `show` method that only allows a certain user to view a card if that user is the card owner:
 
 ```php
 /**
- * Determine if a given card can be shown to a user.
+ * Determine if a given card can be shown to a user
  */
 public function show(User $user, Card $card): bool
 {
@@ -260,37 +294,44 @@ public function show(User $user, Card $card): bool
 }
 ```
 
-In this example, *$user* and *$card* are models that represent their respective tables, *$id* and *$user_id* are columns from those tables that are automatically mapped into those models.
+In this example:
 
-To use this policy, we just have to use the following code inside the *CardController*:
+* `$user` and `$card` are models that represent their respective tables
+* `$id` and `$user_id` are columns automatically mapped into those models
+
+To use this policy inside the `CardController`:
 
 ```php
 $this->authorize('show', $card);
 ```
 
-As you can see, there is no need to pass the current *user*.
+As you can see, there is no need to pass the current user.
 
-If you name the controllers following the expected pattern (e.g., CardPolicy for the Card model), Laravel will [auto-discover the policies](https://laravel.com/docs/10.x/authorization#policy-auto-discovery). If you do not use the expected naming pattern, you will need to manually register the policies ([see the documentation](https://laravel.com/docs/10.x/authorization#registering-policies)).
+If you name the controllers following the expected pattern (e.g., `CardPolicy` for the `Card` model), Laravel will [auto-discover the policies](https://laravel.com/docs/10.x/authorization#policy-auto-discovery). If you do not use the expected naming pattern, you will need to manually register the policies ([see the documentation](https://laravel.com/docs/10.x/authorization#registering-policies)).
 
 
 ### 5) Views
 
-A *controller* only needs to return HTML code for it to be sent to the *browser*. However we will be using [Blade](https://laravel.com/docs/10.x/blade) templates to make this task easier:
+A controller only needs to return HTML code for it to be sent to the browser.
+However we will be using [Blade](https://laravel.com/docs/10.x/blade) templates to make this task easier:
 
 ```php
 return view('pages.card', ['card' => $card]);
 ```
 
-In this example, *pages.card* refers to a blade template that can be found at `resources/views/pages/card.blade.php`.
-The second parameter contains the data we are injecting into the template.
+In this example:
 
-The first line of the template states that it extends another template:
+* `pages.card` refers to a blade template at `resources/views/pages/card.blade.php`
+* The second parameter contains the data we are injecting into the template
+
+Templates can extend other templates:
 
 ```php
 @extends('layouts.app')
 ```
 
-This second template can be found at `resources/views/layouts/app.blade.php` and is the basis of all pages in our application. Inside this template, the place where the page template is introduced is identified by the following command:
+The base template (`resources/views/layouts/app.blade.php`) serves as the foundation for all pages.
+Inside this template, the place where the page template is introduced is identified by the following command:
 
 ```php
 @yield('content')
@@ -301,25 +342,35 @@ Besides the `pages` and `layouts` template folders, we also have a `partials` fo
 
 ### 6) CSS
 
-The easiest way to use CSS is just to edit the CSS file found at `public/css/app.css`. You can have multiple CSS files to better organize your style definitions.
+The easiest way to use CSS is just to edit the CSS file found at `public/css/app.css`.
+You can have multiple CSS files to better organize your style definitions.
 
 
 ### 7) JavaScript
 
-To add JavaScript into your project, just edit the file found at `public/js/app.js``.
+To add JavaScript into your project, just edit the file found at `public/js/app.js`.
 
 
 ### 8) Configuration
 
-Laravel configurations are acquired from environment variables. They can be available in the environment where the Laravel process is started, or acquired by reading the `.env` file in the root folder of the Laravel project. This file can set environment variables, which set or override the variables from the current context. You will likely have to update these variables, mainly the ones configuring the access to the database, starting with `DB_`.
+Laravel configurations are acquired from environment variables through:
 
-*You must manually create a schema that matches your username.*
+* The environment where Laravel process starts
+* The `.env` file in the project root
 
-There are two environment configuration files: `.env` should be used for local development and `.env_production` will be bundled with your Docker image. The difference is that the production environment should connect to the production database and use HTTPS.
+The `.env` file can set or override environment variables from the current context.
+You will need to update these variables, especially those for database access (prefixed with `DB_`).
 
-Note that you can make your local application use the remote database by simply changing the `.env` file accordingly.
+**Important**: You must manually create a schema that matches your group's username.
 
-If you change the configuration, you might need to run the following command to discard a compiled version of the configuration from Laravel's cache:
+Environment Files:
+
+* `.env`: Use for local development
+* `.env.production`: Bundled with Docker image, uses production database
+
+Note that you can use the remote database locally by updating your `.env` file accordingly.
+
+If you change the configuration, clear Laravel's cache with:
 
 ```bash
 php artisan route:clear
@@ -329,13 +380,15 @@ php artisan config:clear
 
 ## Publishing your image
 
+To deploy your project, we'll create a container image using the [Dockerfile](Dockerfile) in your repository, which specifies how to package your application and its dependencies. This image will then be published to GitLab's Container Registry where it can be accessed for deployment and evaluation. The following steps guide you through this process.
+
 You need to have Docker installed to publish your project image for deployment.
 
-Please note that if you are using an ARM CPU, you need to explicitly build an AMD64 Docker image. Docker supports multi-platform building. Create a multi-platform builder and adjust your `upload_image.sh` file to use it, as described in [this guide](https://docs.docker.com/build/building/multi-platform/).
+**Note for ARM CPU users**: You must explicitly build an AMD64 Docker image. Follow [this guide](https://docs.docker.com/build/building/multi-platform/) to create a multi-platform builder and update your `upload_image.sh` file.
 
-You should keep your git main branch functional, and frequently build and deploy your code as a Docker image. LBAW's production machine will regularly pull all these images and make them available at http://lbawYYXX.lbaw.fe.up.pt/.
+You should keep your git main branch functional and regularly deploy your code as a Docker image. This image will be used to test and evaluate your project.
 
-**Always ensure your `.env_production` file is configured with your group's `db.fe.up.pt` credentials before building your docker image, by updating the DB section:**
+**Important**: Before building your docker image, configure your `.env.production` file with your group's `db.fe.up.pt` credentials:
 
 ```bash
 DB_CONNECTION=pgsql
@@ -347,58 +400,67 @@ DB_USERNAME=lbawYYXX
 DB_PASSWORD=password
 ```
 
-This demo repository is available at http://template-laravel.lbaw.fe.up.pt/. To view it make sure you are inside FEUP's network or are using the VPN.
+Images must be published to Gitlab's Container Registry, available from the side menu option `Deploy > Container Registry`.
 
-Images must be published to Gitlab's Container Registry, available from the side menu option `Packages & Registries > Container Registry`.
+Publishing steps:
 
-The first thing you need to do is login against this registry with Docker. In the command line, use the following command, and authenticate with your institutional credentials, and inside FEUP's VPN/network:
-
-```bash
-docker login git.fe.up.pt:5050
-```
-
-Once Docker is authenticated, configure the `upload_image.sh` script with your image name.
-Example configuration:
+1. Login to GitLab's Container Registry (using FEUP VPN/network):
 
 ```bash
-IMAGE_NAME=git.fe.up.pt:5050/lbaw/lbawYYYY/lbawYYXX # Replace with your group's image name
+docker login gitlab.up.pt:5050 # Username is upXXXXX@up.pt
 ```
 
-You can now build and upload the docker image by executing that script from the project root folder:
+2. Configure `upload_image.sh` with your image name:
+
+```bash
+IMAGE_NAME=gitlab.up.pt:5050/lbaw/lbawYYYY/lbawYYXX # Replace with your group's image name
+```
+
+3. Build and upload from the project's root:
 
 ```bash
 ./upload_image.sh
 ```
 
-There should be only one image per group. All team members should be able to update the image at any time, after they login with the Gitlab's registry.
+Maintain one image per group. All team members can update the image after logging in to GitLab's registry.
+
 
 ## Testing your image
 
-After building it, you can test locally the image by running:
+After publishing, you can test your image locally using:
 
 ```bash
-docker run -it -p 8000:80 --name=lbawYYXX -e DB_DATABASE="lbawYYXX" -e DB_SCHEMA="lbawYYXX" -e DB_USERNAME="lbawYYXX" -e DB_PASSWORD="PASSWORD" git.fe.up.pt:5050/lbaw/lbawYYYY/lbawYYXX # Replace with your group's image name
+docker run -d --name lbawYYXX -p 8001:80 gitlab.up.pt:5050/lbaw/lbawYYYY/lbawYYXX
 ```
 
-The above command exposes your application on http://localhost:8000.
+This command:
 
-The `-e` argument creates environment variables inside the container, used to provide Laravel with the required database configurations.
+* Starts a Docker container named `lbawYYXX` with your published image (`-d` runs it in the background)
+* Maps port 8001 on your machine to port 80 in the container
+* Your application will be available at `http://localhost:8001`
 
-Your database configuration will be provided as an environment variable to your container on start. You do not need to specify it on your env file. Any specification there will be replaced when the docker image starts.
-
-While running your container, you can use another terminal to run a shell inside the container by executing:
+While running your container, you can use another terminal to run a shell inside the container:
 
 ```bash
 docker exec -it lbawYYXX bash
 ```
 
-Inside the container you may, for example, see the content of the Web server logs by executing:
+Inside the container you may, for example, see the content of the web server logs:
 
 ```bash
-root@2804d54698c0:/# tail -f /var/log/nginx/error.log    # follow the errors
-root@2804d54698c0:/# tail -f /var/log/nginx/access.log   # follow the accesses
+# Follow error logs
+root@2804d54698c0:/# tail -f /var/log/nginx/error.log
+
+# Follow access logs
+root@2804d54698c0:/# tail -f /var/log/nginx/access.log
 ```
 
-You can stop the container with `CTRL+C` on the terminal running it, or with `docker stop lbawYYXX` on another terminal.
+To stop and remove the container:
 
--- LBAW, 2023
+```bash
+docker stop lbawYYXX
+docker rm lbawYYXX
+```
+
+---
+-- LBAW, 2024
