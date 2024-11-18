@@ -1,0 +1,312 @@
+openapi: 3.0.0
+info:
+  version: '1.0'
+  title: 'BidZenith Web API'
+  description: 'Web Resources Specification for BidZenith'
+
+servers:
+  - url: http://localhost:3000
+    description: Development server
+
+tags:
+  - name: 'M01: Authentication and Individual Profile'
+  - name: 'M02: Auctions'
+  - name: 'M03: Bidding and Following Auctions'
+  - name: 'M04: Notifications'
+  - name: 'M05: User Administration and Static Pages'
+
+paths:
+  /login:
+    get:
+      operationId: R101
+      summary: 'R101: Login Form'
+      description: 'Provide login form for user authentication. Access: PUB'
+      tags:
+        - 'M01: Authentication and Individual Profile'
+      responses:
+        '200':
+          description: 'OK. Display login form.'
+
+    post:
+      operationId: R102
+      summary: 'R102: Login Action'
+      description: 'Process user login form submission. Access: PUB'
+      tags:
+        - 'M01: Authentication and Individual Profile'
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+              required:
+                - email
+                - password
+      responses:
+        '302':
+          description: 'Redirect after successful/failed login.'
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                success:
+                  value: '/profile'
+                failure:
+                  value: '/login'
+
+  /register:
+    get:
+      operationId: R103
+      summary: 'R103: Register Form'
+      description: 'Provide registration form for new users. Access: PUB'
+      tags:
+        - 'M01: Authentication and Individual Profile'
+      responses:
+        '200':
+          description: 'OK. Display registration form.'
+
+    post:
+      operationId: R104
+      summary: 'R104: Register Action'
+      description: 'Process new user registration form submission. Access: PUB'
+      tags:
+        - 'M01: Authentication and Individual Profile'
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                email:
+                  type: string
+                password:
+                  type: string
+              required:
+                - username
+                - email
+                - password
+      responses:
+        '302':
+          description: 'Redirect after successful/failed registration.'
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                success:
+                  value: '/profile'
+                failure:
+                  value: '/register'
+
+  /profile:
+    get:
+      operationId: R105
+      summary: 'R105: View User Profile'
+      description: 'Display the user profile details. Access: AUTH'
+      tags:
+        - 'M01: Authentication and Individual Profile'
+      responses:
+        '200':
+          description: 'OK. Display user profile details.'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  username:
+                    type: string
+                  email:
+                    type: string
+                  joinedDate:
+                    type: string
+                    format: date
+                  auctionsParticipated:
+                    type: array
+                    items:
+                      type: string
+                example:
+                  username: 'john_doe'
+                  email: 'john.doe@example.com'
+                  joinedDate: '2022-05-01'
+                  auctionsParticipated:
+                    - 'Antique Vase'
+                    - 'Vintage Clock'
+
+    put:
+      operationId: R106
+      summary: 'R106: Edit User Profile'
+      description: 'Allow user to update their profile information. Access: AUTH'
+      tags:
+        - 'M01: Authentication and Individual Profile'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                email:
+                  type: string
+              required:
+                - username
+                - email
+      responses:
+        '200':
+          description: 'Profile updated successfully.'
+        '400':
+          description: 'Invalid input or update failed.'
+
+  /auctions:
+    get:
+      operationId: R201
+      summary: 'R201: View Active Auctions'
+      description: 'List active auctions available for browsing. Access: PUB'
+      tags:
+        - 'M02: Auctions'
+      responses:
+        '200':
+          description: 'OK. Return list of active auctions.'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    title:
+                      type: string
+                    startingBid:
+                      type: number
+                    category:
+                      type: string
+                example:
+                  - id: '1'
+                    title: 'Antique Vase'
+                    startingBid: 100.00
+                    category: 'Antiques'
+
+  /auctions/{id}:
+    get:
+      operationId: R202
+      summary: 'R202: View Auction Details'
+      description: 'Display details of a specific auction. Access: PUB'
+      tags:
+        - 'M02: Auctions'
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: 'OK. Display auction details.'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  title:
+                    type: string
+                  description:
+                    type: string
+                  startingBid:
+                    type: number
+                  currentBid:
+                    type: number
+                  endTime:
+                    type: string
+                    format: date-time
+                example:
+                  id: '1'
+                  title: 'Antique Vase'
+                  description: 'A beautiful 19th-century vase.'
+                  startingBid: 100.00
+                  currentBid: 150.00
+                  endTime: '2024-12-01T15:00:00Z'
+
+  /auctions/create:
+    post:
+      operationId: R203
+      summary: 'R203: Create Auction'
+      description: 'Allow a seller to create a new auction. Access: AUTH'
+      tags:
+        - 'M02: Auctions'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                description:
+                  type: string
+                startingBid:
+                  type: number
+                images:
+                  type: array
+                  items:
+                    type: string
+                  description: 'URLs of images'
+                category:
+                  type: string
+                endTime:
+                  type: string
+                  format: date-time
+              required:
+                - title
+                - description
+                - startingBid
+                - category
+                - endTime
+      responses:
+        '201':
+          description: 'Auction created successfully.'
+        '400':
+          description: 'Invalid input or creation failed.'
+
+  /bids:
+    post:
+      operationId: R301
+      summary: 'R301: Place Bid on Auction'
+      description: 'Place a bid on an active auction. Access: AUTH'
+      tags:
+        - 'M03: Bidding and Following Auctions'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                auctionId:
+                  type: string
+                bidAmount:
+                  type: number
+              required:
+                - auctionId
+                - bidAmount
+      responses:
+        '200':
+          description: 'Bid placed successfully.'
+        '400':
+          description: 'Invalid bid amount or bid failed.'
+        '404':
+          description: 'Auction not found.'
