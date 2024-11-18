@@ -1,3 +1,5 @@
+SET search_path TO thingy;
+
 -- Expanded Populate Category table
 INSERT INTO lbaw2481.Category (parent_id, name)
 VALUES
@@ -33,21 +35,21 @@ VALUES
     (NULL, 'Automotive');
 
 -- Expanded Populate User table
-INSERT INTO lbaw2481."User" (is_enterprise, is_admin, two_factor_enabled, created_at, updated_at, username, email, password_hash, fullname, nif)
+INSERT INTO "users" (is_enterprise, is_admin, two_factor_enabled, created_at, updated_at, username, email, password_hash, fullname, nif)
 VALUES
-    (FALSE, FALSE, TRUE, NOW(), NOW(), 'john_doe', 'john@example.com', '$2b$12$0FVHcYb5ofOzTlV1n9dMseJ7hX4Ed9UwJOTfBqFX7pb4WhpMuf1sK', 'John Doe', '123456789'),
-    (FALSE, TRUE, TRUE, NOW(), NOW(), 'admin', 'admin@example.com', '$2b$12$z92ZJ2z0W2aPx6pQRE5xGe72gMwClSc.xQdYI33O28HJkV3GrR5gy', 'Admin User', '987654321'),
-    (TRUE, FALSE, FALSE, NOW(), NOW(), 'enterprise_user', 'enterprise@example.com', '$2b$12$N67LQ.qCMF.8RUzRY9tOzuE5s8PobRfWcBNkEok.dJXL2JTp9AEVW', 'Enterprise Corp', '123123123'),
-    (FALSE, FALSE, TRUE, NOW(), NOW(), 'jane_doe', 'jane@example.com', '$2b$12$9KJjeaFYmvIIOWe/eZ01ke7qCv3HLN7DE5ykOv0xBq8m6e/uJexAS', 'Jane Doe', '456456456'),
-    (FALSE, FALSE, FALSE, NOW(), NOW(), 'charlie', 'charlie@example.com', '$2b$12$jdBR/zXMiG09ZkriJJe7CeU2S.woKXgqMhzSkue.6kF4YZF1Kh2Wy', 'Charlie Brown', '789789789'),
-    (TRUE, FALSE, TRUE, NOW(), NOW(), 'tech_corp', 'techcorp@example.com', '$2b$12$3gPkeVq8wrLRP2MB0u2/cOLKZ9xzau/ltXUMyJOKBo.dGH1g/PIyi', 'Tech Corporation', '741741741'),
-    (FALSE, FALSE, TRUE, NOW(), NOW(), 'alice', 'alice@example.com', '$2b$12$C8LPFlE3f9XHphTTybkUluPn7GLcC0klcvlTm1G5h3gxqGp/VW.JS', 'Alice Wonderland', '852852852'),
-    (FALSE, FALSE, FALSE, NOW(), NOW(), 'bob', 'bob@example.com', '$2b$12$jlKCMH3eWOKfwa3VJxUn7u5E9kV9Kt1uZTjEdyHnp9F8D.jW.G5XO', 'Bob Builder', '963963963'),
-    (TRUE, FALSE, FALSE, NOW(), NOW(), 'big_store', 'bigstore@example.com', '$2b$12$eJdGAmt74VjtB.jD3N.8ZOowQ6HTndJ8NH9n52SpHuoAIDfh7MlvW', 'Big Store Inc.', '159159159'),
-    (FALSE, TRUE, TRUE, NOW(), NOW(), 'support_admin', 'support@example.com', '$2b$12$6XokdF54rrctG4GhJbJr9e2qRm5xq7J8MLNQbsU6ZjSE1lf7ouEDa', 'Support Admin', '753753753'),
-    (FALSE, FALSE, TRUE, NOW(), NOW(), 'eliza', 'eliza@example.com', '$2b$12$eWx5Lg6d87jUqiw2x8cdO.ijB60P.dhfqOJbjQRZ4pOkWhmRXuiEm', 'Eliza Thornberry', '951753852'),
-    (FALSE, FALSE, TRUE, NOW(), NOW(), 'mike', 'mike@example.com', '$2b$12$v0G7Wj4w7OYjKwZG1oYrHuXJcxGrghNHZmhdYNqP5UpfQsAmKhPMy', 'Mike Wazowski', '654987321'),
-    (TRUE, FALSE, TRUE, NOW(), NOW(), 'toy_shop', 'toyshop@example.com', '$2b$12$LMdQaZ0b2Oa9RJ6IQ/9W6.jvRaJxA8lJjzxPaqwFGujxizNi5HlmO', 'Toy Shop LLC', '314159265');
+    (FALSE, FALSE, TRUE, NOW(), NOW(), 'john_doe', 'john@example.com', Hash::make('1234'), 'John Doe', '123456789'),
+    (FALSE, TRUE, TRUE, NOW(), NOW(), 'admin', 'admin@example.com', Hash::make('1234'), 'Admin User', '987654321'),
+    (TRUE, FALSE, FALSE, NOW(), NOW(), 'enterprise_user', 'enterprise@example.com', Hash::make('1234'), 'Enterprise Corp', '123123123'),
+    (FALSE, FALSE, TRUE, NOW(), NOW(), 'jane_doe', 'jane@example.com', Hash::make('1234'), 'Jane Doe', '456456456'),
+    (FALSE, FALSE, FALSE, NOW(), NOW(), 'charlie', 'charlie@example.com', Hash::make('1234'), 'Charlie Brown', '789789789'),
+    (TRUE, FALSE, TRUE, NOW(), NOW(), 'tech_corp', 'techcorp@example.com', Hash::make('1234'), 'Tech Corporation', '741741741'),
+    (FALSE, FALSE, TRUE, NOW(), NOW(), 'alice', 'alice@example.com', Hash::make('1234'), 'Alice Wonderland', '852852852'),
+    (FALSE, FALSE, FALSE, NOW(), NOW(), 'bob', 'bob@example.com', Hash::make('1234'), 'Bob Builder', '963963963'),
+    (TRUE, FALSE, FALSE, NOW(), NOW(), 'big_store', 'bigstore@example.com', Hash::make('1234'), 'Big Store Inc.', '159159159'),
+    (FALSE, TRUE, TRUE, NOW(), NOW(), 'support_admin', 'support@example.com', Hash::make('1234'), 'Support Admin', '753753753'),
+    (FALSE, FALSE, TRUE, NOW(), NOW(), 'eliza', 'eliza@example.com', Hash::make('1234'), 'Eliza Thornberry', '951753852'),
+    (FALSE, FALSE, TRUE, NOW(), NOW(), 'mike', 'mike@example.com', Hash::make('1234'), 'Mike Wazowski', '654987321'),
+    (TRUE, FALSE, TRUE, NOW(), NOW(), 'toy_shop', 'toyshop@example.com', Hash::make('1234'), 'Toy Shop LLC', '314159265');
 
 -- Expanded Populate Address table
 INSERT INTO lbaw2481.Address (user_id, created_at, updated_at, street, city, state_district, postal_code, country)

@@ -111,8 +111,8 @@
             <x-responsive-nav-link :href="route('home')" :active="request()->routeIs('home')">
                 {{ __('Home') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('auctions.index')" :active="request()->routeIs('auctions.*')">
-                {{ __('Auctions') }}
+            <x-responsive-nav-link :href="route('auction.index')" :active="request()->routeIs('auction.*')">
+                {{ __('Auction') }}
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('about')" :active="request()->routeIs('about')">
                 {{ __('About Us') }}
