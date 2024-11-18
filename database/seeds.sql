@@ -104,9 +104,9 @@ VALUES
     (1, 2, 1, 'User is posting fraudulent items.', 'Pending');
 
 -- 16. Populate Orders Table
-INSERT INTO Orders (transaction_id)
-VALUES
-    (1);
+--INSERT INTO Orders (transaction_id)
+--VALUES
+    --(1);
 
 -- 17. Populate Transaction Table
 INSERT INTO Transaction (buyer_id, auction_id, payment_method_id, value, payment_deadline, status)

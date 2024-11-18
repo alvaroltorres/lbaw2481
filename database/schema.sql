@@ -1,5 +1,6 @@
 
 -- Set the search path to the new schema
+CREATE SCHEMA lbaw2481;
 SET search_path TO lbaw2481;
 
 -- ******************************
@@ -220,6 +221,3 @@ CREATE TABLE Orders (
                         transaction_id INTEGER REFERENCES Transaction(transaction_id) ON DELETE CASCADE,
                         created_at TIMESTAMP NOT NULL DEFAULT NOW()
 );
-
--- inclui os triggers
-\i triggers.sql

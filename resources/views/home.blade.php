@@ -9,7 +9,7 @@
         <div class="relative z-10 text-center p-4">
             <h1 class="text-5xl font-bold mb-4 animate-fadeInDown">Discover the Most Sought-After Auctions</h1>
             <p class="text-xl mb-8 animate-fadeInUp">Join exclusive auctions with an interactive and secure experience.</p>
-            <a href="{{ route('auctions.index') }}" class="btn btn-primary animate-pulse">Explore Auctions</a>
+            <a href="{{ route('auction.index') }}" class="btn btn-primary animate-pulse">Explore Auctions</a>
         </div>
     </section>
 
@@ -60,7 +60,7 @@
                                 <span class="text-lg font-bold text-primary">${{ number_format($auction->current_bid, 2) }}</span>
                                 <span class="text-sm text-gray-500 dark:text-gray-400 auction-timer" id="timer-{{ $auction->id }}">00:00:00</span>
                             </div>
-                            <a href="{{ route('auctions.show', $auction) }}" class="btn btn-secondary mt-4 block text-center">Participate</a>
+                            <a href="{{ route('auction.show', $auction) }}" class="btn btn-secondary mt-4 block text-center">Participate</a>
                         </div>
                     </div>
                 @endforeach
@@ -82,7 +82,7 @@
                                 <span class="text-sm text-gray-500 dark:text-gray-400">Starts in:</span>
                                 <span class="text-sm text-gray-500 dark:text-gray-400 upcoming-timer" id="upcoming-timer-{{ $auction->id }}">00:00:00</span>
                             </div>
-                            <a href="{{ route('auctions.show', $auction) }}" class="btn btn-secondary mt-4 block text-center">View Details</a>
+                            <a href="{{ route('auction.show', $auction) }}" class="btn btn-secondary mt-4 block text-center">View Details</a>
                         </div>
                     </div>
                 @endforeach
