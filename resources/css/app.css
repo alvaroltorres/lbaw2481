@@ -1,0 +1,20 @@
+/* Tailwind Directives */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Import Custom Styles */
+@import 'style.css';
+@import 'home.css';
+@import 'auctions.css';
+
+/* Some CSS rules */
+body {
+    font-family: 'Figtree', sans-serif;
+}
+
+/* More CSS rules */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}

@@ -1,0 +1,205 @@
+/* resources/css/home.scss */
+
+/* Banner Principal */
+.hero {
+  @apply relative flex items-center justify-center h-screen bg-cover bg-center;
+  background-image: url('../images/hero-bg.jpg');
+  animation: fadeIn 2s ease-in-out;
+
+  &::before {
+    @apply absolute inset-0 bg-primary opacity-60 dark:bg-gray-800 dark:opacity-70 transition-opacity duration-500;
+  }
+
+  .hero-content {
+    @apply relative z-10 text-center p-4;
+    animation: slideIn 1s ease-out;
+
+    h1 {
+      @apply text-5xl font-bold mb-4;
+      animation: fadeInDown 1s ease-out;
+    }
+
+    p {
+      @apply text-xl mb-8;
+      animation: fadeInUp 1s ease-out;
+    }
+
+    .btn-primary {
+      @apply btn btn-primary animate-pulse;
+    }
+  }
+}
+
+/* Categorias de Leilões */
+.categories {
+  @apply py-20 bg-lightbg dark:bg-darkbg transition-colors duration-300;
+
+  h2 {
+    @apply text-3xl font-semibold text-center mb-12;
+  }
+
+  .grid {
+    @apply grid grid-cols-1 md:grid-cols-3 gap-8;
+  }
+
+  .category-item {
+    @apply bg-white dark:bg-gray-700 p-6 rounded-lg shadow-lg transition-transform transform hover:-translate-y-2;
+    text-align: center;
+
+    img {
+      @apply w-16 h-16 mx-auto mb-4;
+    }
+
+    h3 {
+      @apply text-xl font-medium text-center mb-2;
+    }
+
+    p {
+      @apply text-center;
+    }
+  }
+}
+
+/* Benefícios do BidZenith */
+.benefits {
+  @apply py-20 bg-lightbg dark:bg-darkbg transition-colors duration-300;
+
+  h2 {
+    @apply text-3xl font-semibold text-center mb-12;
+  }
+
+  .grid {
+    @apply grid grid-cols-1 md:grid-cols-3 gap-8;
+  }
+
+  .benefit-item {
+    @apply bg-white dark:bg-gray-700 p-6 rounded-lg shadow-lg transition-transform transform hover:-translate-y-2;
+    text-align: center;
+
+    img {
+      @apply w-16 h-16 mx-auto mb-4;
+    }
+
+    h3 {
+      @apply text-xl font-medium text-center mb-2 text-primary;
+    }
+
+    p {
+      @apply text-center;
+    }
+  }
+}
+
+/* Testemunhos */
+.testimonials {
+  @apply py-20 bg-white dark:bg-gray-800 transition-colors duration-300;
+
+  h2 {
+    @apply text-3xl font-semibold text-center mb-12;
+  }
+
+  .swiper-container {
+    @apply w-full;
+  }
+
+  .swiper-slide {
+    @apply flex justify-center;
+  }
+
+  .testimonial-item {
+    @apply bg-gray-100 dark:bg-gray-700 p-8 rounded-lg shadow-lg text-center transition-transform transform hover:scale-105;
+  }
+}
+
+/* Rodapé */
+footer {
+  @apply py-8 bg-gray-100 dark:bg-gray-900 transition-colors duration-300;
+
+  .container {
+    @apply flex flex-col md:flex-row justify-between items-center;
+  }
+
+  p {
+    @apply text-gray-600 dark:text-gray-400 mb-4 md:mb-0;
+  }
+
+  .social-links {
+    @apply flex space-x-4;
+  }
+
+  .social-links a {
+    @apply text-gray-600 dark:text-gray-400 hover:text-primary transition-colors duration-300;
+  }
+}
+
+/* Animações */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideIn {
+  from { transform: translateX(-100px); }
+  to { transform: translateX(0); }
+}
+
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-50px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(50px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+
+/* Floating Help Button */
+.fixed-button {
+  @apply fixed bottom-8 right-8 bg-primary text-white p-4 rounded-full shadow-lg hover:bg-primary-dark transition-colors duration-300;
+}
+
+/* Search Box in Header */
+.header-search {
+  @apply relative;
+  input {
+    @apply pl-10 pr-4 py-2 w-full rounded-full bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 focus:outline-none;
+  }
+  i {
+    @apply absolute left-3 top-3 text-gray-500 dark:text-gray-400;
+  }
+}
+
+/* Adjustments for New Sections */
+.about {
+  @apply py-20 bg-lightbg dark:bg-darkbg transition-colors duration-300;
+  h2 {
+    @apply text-3xl font-semibold mb-8;
+  }
+  p {
+    @apply text-lg mb-12;
+  }
+  .feature-item {
+    @apply bg-white dark:bg-gray-700 p-6 rounded-lg shadow-lg transition-transform transform hover:-translate-y-2 text-center;
+    i {
+      @apply text-primary text-6xl mb-4;
+    }
+    h3 {
+      @apply text-xl font-medium mb-2;
+    }
+    p {
+      @apply text-gray-600 dark:text-gray-300;
+    }
+  }
+}
+
+/* Upcoming Auctions */
+.upcoming-auctions {
+  @apply py-20 bg-lightbg dark:bg-darkbg transition-colors duration-300;
+  h2 {
+    @apply text-3xl font-semibold text-center mb-12;
+  }
+  .auction-card {
+    /* Similar styles as active auctions */
+  }
+}

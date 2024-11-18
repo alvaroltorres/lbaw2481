@@ -1,0 +1,58 @@
+/* resources/css/auctions.scss */
+
+/* Leilões Ativos */
+.active-auctions {
+  @apply py-20 bg-white dark:bg-gray-800 transition-colors duration-300;
+
+  h2 {
+    @apply text-3xl font-semibold text-center mb-12;
+  }
+
+  .grid {
+    @apply grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8;
+  }
+
+  .auction-card {
+    @apply bg-white dark:bg-gray-700 rounded-lg shadow-md overflow-hidden transition-transform transform hover:-translate-y-2;
+    position: relative;
+
+    img {
+      @apply w-full h-48 object-cover;
+    }
+
+    .p-4 {
+      @apply p-4;
+    }
+
+    h3 {
+      @apply text-xl font-semibold mb-2 text-primary;
+    }
+
+    p {
+      @apply text-gray-600 dark:text-gray-300 mb-4;
+    }
+
+    .flex {
+      @apply flex items-center justify-between;
+    }
+
+    .text-lg {
+      @apply text-lg font-bold text-primary;
+    }
+
+    .text-sm {
+      @apply text-sm text-gray-500 dark:text-gray-400;
+    }
+
+    .btn-secondary {
+      @apply btn btn-secondary mt-4 block text-center;
+    }
+  }
+}
+
+/* Contadores de Tempo para Leilões */
+.auction-timer {
+  font-weight: bold;
+  color: theme('colors.white');
+  /* Adicione outros estilos se necessário */
+}
