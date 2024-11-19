@@ -15,6 +15,10 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+    protected $table = 'User';
+
+    protected $primaryKey = 'user_id';
+
     // Don't add create and update timestamps in database.
     public $timestamps  = false;
 
@@ -24,9 +28,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
-        'email',
-        'password',
+        'username', 'email', 'fullname', 'nif', 'password_hash', 'is_admin', 'is_enterprise'
     ];
 
     /**
@@ -35,7 +37,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $hidden = [
-        'password',
+        'password_hash',
         'remember_token',
     ];
 
@@ -46,7 +48,7 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'password' => 'hashed',
+        'password_hash' => 'hashed',
     ];
 
     /**
@@ -55,5 +57,11 @@ class User extends Authenticatable
     public function cards(): HasMany
     {
         return $this->hasMany(Card::class);
+    }
+
+    // Column used for password.
+    public function getAuthPassword()
+    {
+        return $this->password_hash;
     }
 }
