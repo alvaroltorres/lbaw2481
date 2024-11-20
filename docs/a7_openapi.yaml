@@ -5,7 +5,7 @@ info:
   description: 'Web Resources Specification for BidZenith'
 
 servers:
-  - url: http://localhost:3000
+  - url: http://127.0.0.1:8000
     description: Development server
 
 tags:
