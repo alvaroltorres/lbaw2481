@@ -10,3 +10,34 @@
         </ul>
     </div>
 </footer>
+
+
+<!-- Scripts -->
+<script>
+    // Função para alternar o idioma (se ainda estiver utilizando esta abordagem)
+    function changeLanguage(locale) {
+        console.log("Changing language to:", locale); // Log the selected locale
+        window.location.href = `/lang/${locale}`;
+    }
+
+    // Contador regressivo para leilões
+    document.querySelectorAll('.auction-timer').forEach(function(timer) {
+        const endTime = new Date(timer.getAttribute('data-end-time'));
+        const interval = setInterval(function() {
+            const now = new Date();
+            const diff = endTime - now;
+            if (diff <= 0) {
+                timer.textContent = '{{ __('Auction ended') }}';
+                clearInterval(interval);
+                return;
+            }
+            const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+            const minutes = Math.floor((diff / (1000 * 60)) % 60);
+            const seconds = Math.floor((diff / 1000) % 60);
+            timer.textContent = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }, 1000);
+    });
+</script>
+
+</body>
+</html>

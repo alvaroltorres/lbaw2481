@@ -1,3 +1,26 @@
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<head>
+    <!-- Metadados Básicos -->
+    <meta charset="UTF-8">
+    <title>{{ __('BidZenith - Discover the Most Sought-After Auctions') }}</title>
+    <meta name="description" content="{{ __('Join exclusive auctions with an interactive and secure experience.') }}">
+    <meta name="keywords" content="{{ __('auctions, bidding, online auctions, BidZenith') }}">
+    <meta name="author" content="BidZenith">
+
+    <!-- Metas Específicas para Mobile -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Font Awesome para Ícones -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,300,0,0&icon_names=search" />
+    <!-- CSS e JS Compilados pelo Vite -->
+    @vite(['resources/css/style.css', 'resources/js/main.js'])
+
+    <!-- Favicon -->
+    <link rel="icon" href="{{ asset('favicon.ico') }}">
+</head>
+<body>
 <header class="header">
     <div class="container header__container flex items-center justify-between">
         <!-- Logo -->
@@ -9,7 +32,7 @@
 
         <!-- search bar -->
         <div class="search-bar flex items-center ml-6 flex-grow">
-            <form action="{{ route('search') }}" method="GET" class="flex w-full">
+            <form action="{{route('search')}}" method="GET" class="search-bar-form">
                 <input type="text" name="query" placeholder="{{ __('Buscar...') }}" class="search-input flex-grow px-4 py-2 border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary-color dark:bg-gray-700 dark:text-white">
                 <select name="category" class="search-select px-4 py-2 border-t border-b border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary-color dark:bg-gray-700 dark:text-white">
                     <option value="">{{ __('Todas as Categorias') }}</option>
@@ -18,7 +41,7 @@
                     @endforeach
                 </select>
                 <button type="submit" class="search-button px-4 py-2 bg-accent-color text-white hover:bg-accent-color-dark focus:outline-none focus:ring-2 focus:ring-accent-color">
-                    <i class="fas fa-search"></i>
+                    <span class="material-symbols-outlined" style="scale: 1.7; margin-top: 0.2rem">search</span>
                 </button>
             </form>
         </div>

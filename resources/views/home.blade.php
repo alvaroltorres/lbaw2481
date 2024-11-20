@@ -1,28 +1,6 @@
 <!-- resources/views/home.blade.php -->
 
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-<head>
-    <!-- Metadados Básicos -->
-    <meta charset="UTF-8">
-    <title>{{ __('BidZenith - Discover the Most Sought-After Auctions') }}</title>
-    <meta name="description" content="{{ __('Join exclusive auctions with an interactive and secure experience.') }}">
-    <meta name="keywords" content="{{ __('auctions, bidding, online auctions, BidZenith') }}">
-    <meta name="author" content="BidZenith">
 
-    <!-- Metas Específicas para Mobile -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <!-- Font Awesome para Ícones -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
-
-    <!-- CSS e JS Compilados pelo Vite -->
-    @vite(['resources/css/style.css', 'resources/js/main.js'])
-
-    <!-- Favicon -->
-    <link rel="icon" href="{{ asset('favicon.ico') }}">
-</head>
-<body>
 <!-- Incluir o Header -->
 @include('partials.header')
 
@@ -40,7 +18,7 @@
         <div class="container hero__content">
             <h1>{{ __('Discover the Most Sought-After Auctions') }}</h1>
             <p>{{ __('Join exclusive auctions with an interactive and secure experience.') }}</p>
-            <a href="{{ route('auction.index') }}" class="btn btn--primary">{{ __('Explore Auctions') }}</a>
+            <a href="{{ route('auctions.index') }}" class="btn btn--primary">{{ __('Explore Auctions') }}</a>
         </div>
     </section>
 
@@ -93,7 +71,7 @@
                                     <span class="auction-price">${{ number_format($auction->current_price ?? $auction->starting_price, 2, ',', '.') }}</span>
                                     <span class="auction-timer" data-end-time="{{ $auction->ending_date->toIso8601String() }}">{{ $auction->ending_date->diffForHumans() }}</span>
                                 </div>
-                                <a href="{{ route('auction.show', $auction->auction_id) }}" class="btn btn--secondary">{{ __('Participate') }}</a>
+                                <a href="{{ route('auctions.show', $auction) }}" class="btn btn--secondary">{{ __('Participate') }}</a>
                             </div>
                         </article>
                     @endforeach
@@ -129,32 +107,3 @@
 <!-- Incluir o Footer -->
 @include('partials.footer')
 
-<!-- Scripts -->
-<script>
-    // Função para alternar o idioma (se ainda estiver utilizando esta abordagem)
-    function changeLanguage(locale) {
-        console.log("Changing language to:", locale); // Log the selected locale
-        window.location.href = `/lang/${locale}`;
-    }
-
-    // Contador regressivo para leilões
-    document.querySelectorAll('.auction-timer').forEach(function(timer) {
-        const endTime = new Date(timer.getAttribute('data-end-time'));
-        const interval = setInterval(function() {
-            const now = new Date();
-            const diff = endTime - now;
-            if (diff <= 0) {
-                timer.textContent = '{{ __('Auction ended') }}';
-                clearInterval(interval);
-                return;
-            }
-            const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-            const minutes = Math.floor((diff / (1000 * 60)) % 60);
-            const seconds = Math.floor((diff / 1000) % 60);
-            timer.textContent = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-        }, 1000);
-    });
-</script>
-
-</body>
-</html>
