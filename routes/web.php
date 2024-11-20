@@ -49,7 +49,7 @@ Route::get('/lang/{locale}', [LanguageController::class, 'switchLang'])->name('l
 Route::get('/search', [HomeController::class, 'search'])->name('search');
 
 // auctions
-Route::resource('auction', AuctionController::class);
+Route::resource('auctions', AuctionController::class);
 
 // auctions followed by the authenticated user
 Route::get('/auction/followed', [AuctionController::class, 'followed'])->middleware('auth')->name('auction.followed');

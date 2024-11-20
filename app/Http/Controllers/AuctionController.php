@@ -12,8 +12,8 @@ class AuctionController extends Controller
      */
     public function index()
     {
-        $auctions = Auction::where('status', 'Open')->get();
-        return view('auctions.index', compact('auctions'));
+        $activeauctions = Auction::where('status', 'Open')->get();
+        return view('auctions.index', compact('activeauctions'));
     }
     /**
      * Show the form for creating a new resource.
@@ -36,7 +36,7 @@ class AuctionController extends Controller
      */
     public function show(Auction $auction)
     {
-        //
+        return view('auctions.show', ['auction' => $auction]);
     }
 
     /**
