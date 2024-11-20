@@ -12,7 +12,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        $categories = Category::all();
+        return view('categories.index', compact('categories'));
     }
 
     /**
@@ -34,9 +35,10 @@ class CategoryController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Category $category)
+    public function show($category)
     {
-        //
+        $category = Category::where('slug', $category)->firstOrFail();
+        return view('categories.show', compact('category'));
     }
 
     /**

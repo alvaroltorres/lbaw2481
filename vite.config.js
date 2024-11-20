@@ -8,7 +8,7 @@ export default defineConfig({
     plugins: [
         laravel({
             input: [
-                'resources/css/style.scss', // Alterado de style.css para style.scss
+                'resources/css/style.css', // Revertido para style.css
                 'resources/js/main.js'
             ],
             refresh: true,

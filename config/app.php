@@ -83,6 +83,11 @@ return [
     |
     */
 
+    'available_locales' => [
+        'en' => 'English',
+        'pt' => 'Português',
+    ],
+
     'locale' => 'en',
 
 

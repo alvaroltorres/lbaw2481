@@ -24,5 +24,24 @@
   "Facebook": "Facebook",
   "Twitter": "Twitter",
   "Instagram": "Instagram",
-  "All Rights Reserved.": "All Rights Reserved."
+  "All Rights Reserved.": "All Rights Reserved.",
+  "Test String": "Test String",
+  "Entrar": "Log In",
+  "Cadastrar": "Sign In",
+  "Mensagens": "Messages",
+  "Notificações": "Notifications",
+  "Perfil": "Profile",
+  "Configurações": "Settings",
+  "Sair": "Logout",
+  "Home": "Home",
+  "Leilões": "Auctions",
+  "Categorias": "Categories",
+  "Sobre Nós": "About Us",
+  "Contato": "Contact",
+  "Todas as Categorias": "All Categories",
+  "Buscar...": "Search...",
+  "Eletrónicos": "Electronics",
+  "Arte": "Art",
+  "Colecionáveis": "Collectibles"
+
 }
