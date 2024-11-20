@@ -1,50 +1,422 @@
-/* resources/css/style.css */
-
-/* Root Variables */
+/* General Styles */
 :root {
-    --primary-color: #007bff;
-    --secondary-color: #6c757d;
-    --accent-color: #ff6f61;
-    --light-color: #f8f9fa;
-    --dark-color: #343a40;
-    --font-family: 'Arial', sans-serif;
+    --primary-color: #1e3c72;
+    --secondary-color: #2a5298;
+    --accent-color: #f0b429;
+    --light-color: #f4f4f4;
+    --dark-color: #333;
+    --text-color: #555;
+    --white-color: #fff;
+    --transition: all 0.3s ease;
 }
 
-/* General Styles */
 body {
     margin: 0;
-    font-family: var(--font-family);
-    color: var(--dark-color);
-    background-color: var(--light-color);
+    font-family: Arial, sans-serif;
+    color: var(--text-color);
+    background-color: var(--white-color);
 }
 
-/* Container */
 .container {
     width: 90%;
     max-width: 1200px;
     margin: 0 auto;
 }
 
-/* Buttons */
+.visually-hidden {
+    position: absolute !important;
+    height: 1px; width: 1px;
+    overflow: hidden;
+    clip: rect(1px, 1px, 1px, 1px);
+    white-space: nowrap;
+}
+
+/* Header */
+.header {
+    background-color: var(--white-color);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.header__container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 0;
+}
+
+.logo a {
+    text-decoration: none;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--primary-color);
+    display: flex;
+    align-items: center;
+}
+.logo img {
+    height: 32px; /* 8 * 4px = 32px */
+    width: 32px;
+    margin-right: 8px; /* 2 * 4px = 8px */
+}
+
+.logo span {
+    font-weight: 600; /* Equivalente a font-semibold */
+    font-size: 1.25rem; /* Equivalente a text-xl */
+}
+.header__actions {
+    display: flex;
+    align-items: center;
+}
+
+.search-form {
+    position: relative;
+}
+
+.search-input {
+    padding: 0.5rem;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
+.theme-toggle {
+    margin-left: 1rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.25rem;
+    color: var(--primary-color);
+}
+
+/* Hero Section */
+.hero {
+    position: relative;
+    background-image: url('images/hero-bg.jpg');
+    background-size: cover;
+    background-position: center;
+    color: var(--white-color);
+    text-align: center;
+    padding: 6rem 1rem;
+}
+
+.hero__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(30, 60, 114, 0.7);
+    z-index: 1;
+}
+
+.hero__content {
+    position: relative;
+    z-index: 2;
+}
+
+.hero h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.hero p {
+    font-size: 1.25rem;
+    margin-bottom: 2rem;
+}
+
 .btn {
     display: inline-block;
-    padding: 12px 24px;
-    background-color: var(--primary-color);
-    color: #fff;
+    padding: 0.75rem 1.5rem;
     text-decoration: none;
-    font-size: 1em;
-    border-radius: 5px;
-    transition: background-color 0.3s ease, transform 0.3s ease;
+    color: var(--white-color);
+    background-color: var(--primary-color);
+    border-radius: 4px;
+    transition: var(--transition);
 }
 
 .btn:hover {
-    background-color: darken(var(--primary-color), 10%);
-    transform: translateY(-3px);
+    background-color: var(--secondary-color);
 }
 
-/* Responsive Utilities */
+.btn--primary {
+    background-color: var(--accent-color);
+}
+
+.btn--primary:hover {
+    background-color: #d89a24;
+}
+
+.btn--secondary {
+    background-color: var(--primary-color);
+}
+
+.btn--secondary:hover {
+    background-color: var(--secondary-color);
+}
+
+/* Features Section */
+.features {
+    padding: 4rem 0;
+    background-color: var(--light-color);
+}
+
+.section-title {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 2rem;
+}
+
+.features__grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.feature-item {
+    flex: 1;
+    min-width: 250px;
+    max-width: 300px;
+    margin: 1rem;
+    text-align: center;
+}
+
+.feature-icon {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+}
+
+.feature-title {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.feature-description {
+    font-size: 1rem;
+    color: var(--text-color);
+}
+
+/* Active Auctions Section */
+.active-auctions {
+    padding: 4rem 0;
+}
+
+.auction-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+}
+
+.auction-card {
+    flex: 1;
+    min-width: 250px;
+    max-width: 300px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    overflow: hidden;
+    background-color: var(--white-color);
+    transition: transform 0.3s;
+}
+
+.auction-card:hover {
+    transform: translateY(-5px);
+}
+
+.auction-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.auction-details {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.auction-title {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+}
+
+.auction-description {
+    flex-grow: 1;
+    margin-bottom: 1rem;
+}
+
+.auction-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.auction-price {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: var(--accent-color);
+}
+
+.auction-timer {
+    font-size: 1rem;
+    color: var(--text-color);
+}
+
+/* Testimonials Section */
+.testimonials {
+    padding: 4rem 0;
+    background-color: var(--light-color);
+}
+
+.testimonials__grid {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.testimonial-item {
+    max-width: 600px;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.testimonial-text {
+    font-style: italic;
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+}
+
+.testimonial-author {
+    font-size: 1rem;
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+/* Footer */
+.footer {
+    background-color: var(--dark-color);
+    color: var(--white-color);
+    padding: 2rem 0;
+}
+
+.footer__container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.footer p {
+    margin: 0;
+}
+
+.social-links {
+    list-style: none;
+    display: flex;
+    gap: 1rem;
+    padding: 0;
+    margin: 0;
+}
+
+.social-links a {
+    color: var(--white-color);
+    font-size: 1.25rem;
+    transition: var(--transition);
+}
+
+.social-links a:hover {
+    color: var(--accent-color);
+}
+
+/* Responsive Styles */
 @media (max-width: 768px) {
-    .container {
-        width: 95%;
+    .header__container {
+        flex-direction: column;
+        align-items: flex-start;
     }
+
+    .hero h1 {
+        font-size: 2rem;
+    }
+
+    .hero p {
+        font-size: 1rem;
+    }
+
+    .features__grid, .auction-grid {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .auction-card {
+        max-width: 100%;
+    }
+
+    .footer__container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .footer p {
+        margin-bottom: 1rem;
+    }
+}
+
+/* Dark Mode */
+body.dark-mode {
+    background-color: var(--dark-color);
+    color: var(--light-color);
+}
+
+body.dark-mode .header {
+    background-color: var(--dark-color);
+    color: var(--light-color);
+}
+
+body.dark-mode .header__actions .theme-toggle {
+    color: var(--light-color);
+}
+
+body.dark-mode .search-input {
+    background-color: #444;
+    color: var(--light-color);
+}
+
+body.dark-mode .hero__overlay {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+body.dark-mode .btn {
+    color: var(--white-color);
+}
+
+body.dark-mode .features {
+    background-color: var(--dark-color);
+    color: var(--light-color);
+}
+
+body.dark-mode .features .feature-item {
+    color: var(--light-color);
+}
+
+body.dark-mode .active-auctions {
+    background-color: var(--dark-color);
+    color: var(--light-color);
+}
+
+body.dark-mode .auction-card {
+    border-color: #555;
+    background-color: var(--dark-color);
+}
+
+body.dark-mode .auction-meta .auction-timer {
+    color: var(--light-color);
+}
+
+body.dark-mode .testimonials {
+    background-color: var(--dark-color);
+    color: var(--light-color);
+}
+
+body.dark-mode .footer {
+    background-color: #222;
 }

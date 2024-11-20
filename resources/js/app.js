@@ -1,8 +1,7 @@
-// resources/js/app.js
+import './bootstrap';
+import './custom';
 
-import './bootstrap'; // Existing imports
-
-// Import custom scripts
+// Initialize Alpine.js
 import Alpine from 'alpinejs';
 
 window.Alpine = Alpine;

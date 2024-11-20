@@ -10,8 +10,6 @@ body {
 
 /* Import Custom Styles */
 @import 'style.css';
-@import 'home.css';
-@import 'auctions.css';
 
 /* More CSS rules */
 .container {

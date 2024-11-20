@@ -85,6 +85,7 @@ return [
 
     'locale' => 'en',
 
+
     /*
     |--------------------------------------------------------------------------
     | Application Fallback Locale
@@ -97,6 +98,12 @@ return [
     */
 
     'fallback_locale' => 'en',
+
+    // modificação para conseguirmos ter 2 linguas (maybe)
+    'locales' => [
+        'en' => 'English',
+        'pt' => 'Portuguese',
+    ],
 
     /*
     |--------------------------------------------------------------------------
