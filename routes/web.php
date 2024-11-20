@@ -7,7 +7,8 @@ use App\Http\Controllers\AuctionController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\NotificationController;
-
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegisterController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -75,3 +76,24 @@ Route::middleware('auth')->group(function () {
 Route::get('/messages', function () {
     return view('messages');
 })->name('messages');
+
+/*
+// Rotas de Autenticação Personalizadas
+Route::middleware('guest')->group(function () {
+    // Formulário de Login
+    Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
+
+    // Processar Login
+    Route::post('login', [LoginController::class, 'login']);
+
+    // Formulário de Registro
+    Route::get('register', [RegisterController::class, 'showRegistrationForm'])->name('register');
+
+    // Processar Registro
+    Route::post('register', [RegisterController::class, 'register']);
+});
+
+// Processar Logout
+Route::post('logout', [LoginController::class, 'logout'])->middleware('auth')->name('logout');
+
+*/

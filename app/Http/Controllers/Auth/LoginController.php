@@ -21,11 +21,12 @@ class LoginController extends Controller
     use AuthenticatesUsers;
 
     // Function to return the field name for the username field.
+    /*
     protected function username()
     {
         return 'username';
     }
-
+*/
     /**
      * Where to redirect users after login.
      *

@@ -7,7 +7,9 @@ use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-
+use Illuminate\Http\Request;
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Support\Facades\Auth;
 class RegisterController extends Controller
 {
     /*
@@ -39,7 +41,34 @@ class RegisterController extends Controller
     {
         $this->middleware('guest');
     }
+    /**
+     * Show the registration form.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function showRegistrationForm()
+    {
+        return view('auth.register');
+    }
+    /**
+     * Handle an incoming registration request.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function register(Request $request)
+    {
+        // Validação dos dados
+        $this->validator($request->all())->validate();
 
+        // Criação do usuário
+        event(new Registered($user = $this->create($request->all())));
+
+        // Login automático do usuário recém-registrado
+        Auth::login($user);
+
+        // Redirecionar para a home page
+        return redirect()->route('home');
+    }
     /**
      * Get a validator for an incoming registration request.
      *
@@ -54,6 +83,8 @@ class RegisterController extends Controller
             'fullname' => ['required', 'string', 'max:100'],
             'nif' => ['required', 'string', 'max:20'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'is_admin' => ['sometimes', 'boolean'],
+            'is_enterprise' => ['sometimes', 'boolean'],
         ]);
     }
 

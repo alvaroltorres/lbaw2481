@@ -23,7 +23,7 @@ class LocaleMiddleware
         // Log the retrieved locale
         Log::info("LocaleMiddleware: Retrieved locale from session: {$locale}");
 
-        if (array_key_exists($locale, config('app.locales'))) {
+        if (array_key_exists($locale, config('app.available_locales'))) {
             App::setLocale($locale);
             Log::info("LocaleMiddleware: Application locale set to: {$locale}");
         } else {

@@ -1,26 +1,34 @@
+<!-- resources/views/layouts/app.blade.php -->
+
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <!-- Meta Tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <!-- Title -->
-    <title>{{ config('app.name', 'Laravel') }}</title>
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
-    <!-- Styles and Scripts -->
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <!-- Título -->
+    <title>{{ config('app.name', 'BidZenith') }}</title>
+
+    <!-- Incluir CSS e JS via Vite -->
+    @vite(['resources/css/style.css', 'resources/js/main.js'])
+
+    <!-- Outros links como favicon, etc. -->
 </head>
 <body class="font-sans antialiased">
-<!-- Navigation -->
-@include('layouts.navigation')
+<!-- Header já incluído via partial dentro do layout -->
+@include('partials.header')
 
-<!-- Page Content -->
+<!-- Conteúdo da página -->
 <main>
+    @yield('content')
 </main>
+
+<!-- Rodapé, se houver -->
+@include('partials.footer')
+<!-- Scripts adicionais, se necessário -->
 </body>
 </html>
