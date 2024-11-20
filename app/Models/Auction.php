@@ -59,11 +59,31 @@ class Auction extends Model
         'description',
         'starting_date',
         'ending_date',
+        'created_at',
+        'updated_at',
         'title',
         'location',
         'status',
-        // Add other fillable fields as necessary
+    ];
+    protected $casts = [
+        'starting_date' => 'datetime',
+        'ending_date' => 'datetime',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
     ];
 
-    // Define any relationships or additional methods here
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function bids()
+    {
+        return $this->hasMany(Bid::class, 'auction_id');
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class, 'category_id');
+    }
 }

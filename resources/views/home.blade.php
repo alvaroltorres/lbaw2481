@@ -76,21 +76,30 @@
         <div class="container">
             <h2 class="section-title">{{ __('Active Auctions') }}</h2>
             <div class="auction-grid">
-                <!-- Loop através dos leilões ativos -->
-                @foreach($activeAuctions as $auction)
-                    <article class="auction-card">
-                        <img src="{{ asset($auction->image) }}" alt="{{ $auction->title }}" class="auction-image">
-                        <div class="auction-details">
-                            <h3 class="auction-title">{{ $auction->title }}</h3>
-                            <p class="auction-description">{{ Str::limit($auction->description, 100) }}</p>
-                            <div class="auction-meta">
-                                <span class="auction-price">${{ number_format($auction->current_bid, 2) }}</span>
-                                <span class="auction-timer" id="timer-{{ $auction->id }}">{{ __('00:00:00') }}</span>
+                <!-- Verificar se há leilões ativos -->
+                @if($activeAuctions->count() > 0)
+                    @foreach($activeAuctions as $auction)
+                        <article class="auction-card">
+                            <!-- Exibir imagem do leilão -->
+                            @if($auction->image)
+                                <img src="{{ asset('images/auctions/' . $auction->image) }}" alt="{{ $auction->title }}" class="auction-image">
+                            @else
+                                <img src="{{ asset('images/auctions/default.png') }}" alt="{{ $auction->title }}" class="auction-image">
+                            @endif
+                            <div class="auction-details">
+                                <h3 class="auction-title">{{ $auction->title }}</h3>
+                                <p class="auction-description">{{ Str::limit($auction->description, 100) }}</p>
+                                <div class="auction-meta">
+                                    <span class="auction-price">${{ number_format($auction->current_price ?? $auction->starting_price, 2, ',', '.') }}</span>
+                                    <span class="auction-timer" data-end-time="{{ $auction->ending_date->toIso8601String() }}">{{ $auction->ending_date->diffForHumans() }}</span>
+                                </div>
+                                <a href="{{ route('auction.show', $auction->auction_id) }}" class="btn btn--secondary">{{ __('Participate') }}</a>
                             </div>
-                            <a href="{{ route('auction.show', $auction) }}" class="btn btn--secondary">{{ __('Participate') }}</a>
-                        </div>
-                    </article>
-                @endforeach
+                        </article>
+                    @endforeach
+                @else
+                    <p>{{ __('No active auctions at the moment.') }}</p>
+                @endif
             </div>
         </div>
     </section>
@@ -122,12 +131,30 @@
 
 <!-- Scripts -->
 <script>
-    const activeAuctions = @json($activeAuctions);
-
+    // Função para alternar o idioma (se ainda estiver utilizando esta abordagem)
     function changeLanguage(locale) {
         console.log("Changing language to:", locale); // Log the selected locale
         window.location.href = `/lang/${locale}`;
     }
+
+    // Contador regressivo para leilões
+    document.querySelectorAll('.auction-timer').forEach(function(timer) {
+        const endTime = new Date(timer.getAttribute('data-end-time'));
+        const interval = setInterval(function() {
+            const now = new Date();
+            const diff = endTime - now;
+            if (diff <= 0) {
+                timer.textContent = '{{ __('Auction ended') }}';
+                clearInterval(interval);
+                return;
+            }
+            const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+            const minutes = Math.floor((diff / (1000 * 60)) % 60);
+            const seconds = Math.floor((diff / 1000) % 60);
+            timer.textContent = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }, 1000);
+    });
 </script>
+
 </body>
 </html>
