@@ -13,8 +13,8 @@
     <!-- Título -->
     <title>{{ config('app.name', 'BidZenith') }}</title>
 
-    <!-- Incluir CSS e JS via Vite -->
-    @vite(['resources/css/style.css', 'resources/js/main.js'])
+    <link rel="stylesheet" href="{{asset("css/app.css")}}">
+    <script src="{{asset('js/main.js')}}" async></script>
 
     <!-- Outros links como favicon, etc. -->
 </head>

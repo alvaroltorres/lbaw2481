@@ -15,7 +15,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,300,0,0&icon_names=search" />
     <!-- CSS e JS Compilados pelo Vite -->
-    @vite(['resources/css/style.css', 'resources/js/main.js'])
+    <link rel="stylesheet" href="{{asset("css/app.css")}}">
+    <script src="{{asset('js/main.js')}}" async></script>
 
     <!-- Favicon -->
     <link rel="icon" href="{{ asset('favicon.ico') }}">
