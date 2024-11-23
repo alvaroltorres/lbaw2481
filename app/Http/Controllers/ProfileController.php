@@ -57,4 +57,22 @@ class ProfileController extends Controller
 
         return Redirect::to('/');
     }
+
+    /**
+     * Validate the profile update request.
+     */
+    public function authorize(): bool
+    {
+        return true;
+    }
+
+    public function rules(): array
+    {
+        return [
+            'username' => ['required', 'string', 'max:50', 'unique:users,username,' . $this->user()->id],
+            'email' => ['required', 'string', 'email', 'max:100', 'unique:users,email,' . $this->user()->id],
+            'fullname' => ['required', 'string', 'max:100'],
+            'nif' => ['required', 'string', 'max:20'],
+        ];
+    }
 }
