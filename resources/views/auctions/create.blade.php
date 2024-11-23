@@ -1,6 +1,16 @@
 @include('partials.header')
 
 <div class="container">
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
     <h2>Create Auction</h2>
 
     <form action="{{ route('auctions.store') }}" method="POST">
@@ -20,7 +30,7 @@
                 <!-- You can dynamically populate categories here -->
                 <option value="" disabled selected>Select a category</option>
                 @foreach($categories as $category)
-                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                    <option value="{{ $category->category_id }}">{{ $category->name }}</option>
                 @endforeach
             </select>
             @error('category_id')
@@ -87,8 +97,8 @@
         <div class="mb-3">
             <label for="status" class="form-label">Status</label>
             <select class="form-select" id="status" name="status" required>
-                <option value="active" {{ old('status') == 'active' ? 'selected' : '' }}>Active</option>
-                <option value="closed" {{ old('status') == 'closed' ? 'selected' : '' }}>Closed</option>
+                <option value="Active" {{ old('status') == 'Active' ? 'selected' : '' }}>Active</option>
+                <option value="Closed" {{ old('status') == 'Closed' ? 'selected' : '' }}>Closed</option>
             </select>
             @error('status')
             <div class="text-danger">{{ $message }}</div>

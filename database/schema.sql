@@ -149,7 +149,7 @@ CREATE TABLE Rating (
 );
 
 -- 14. Bid Table
-CREATE TABLE Bid (
+CREATE TABLE "Bid" (
                      bid_id SERIAL PRIMARY KEY,
                      auction_id INTEGER REFERENCES Auction(auction_id) ON DELETE CASCADE,
                      user_id INTEGER REFERENCES "User"(user_id) ON DELETE CASCADE,
@@ -175,7 +175,7 @@ CREATE TABLE Notification (
                               created_at TIMESTAMP NOT NULL DEFAULT NOW(),
                               type VARCHAR(50) NOT NULL,
                               auction_id INTEGER REFERENCES Auction(auction_id) ON DELETE CASCADE,
-                              bid_id INTEGER REFERENCES Bid(bid_id) ON DELETE CASCADE
+                              bid_id INTEGER REFERENCES "Bid"(bid_id) ON DELETE CASCADE
 );
 
 -- 17. Chat Table
