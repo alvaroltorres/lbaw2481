@@ -42,13 +42,13 @@
                     @endforeach
                 </select>
                 <!-- Exact match checkbox -->
-                <label for="exact_match" class="ml-2">
-                    <input type="checkbox" id="exact_match" name="exact_match" value="1">
-                    {{ __('Exact Match') }}
-                </label>
                 <button type="submit" class="search-button px-4 py-2 bg-accent-color text-white hover:bg-accent-color-dark focus:outline-none focus:ring-2 focus:ring-accent-color">
                     <span class="material-symbols-outlined" style="scale: 1.7; margin-top: 0.2rem">search</span>
                 </button>
+                <label for="exact_match" class="exact-match-button">
+                    <input type="checkbox" id="exact_match" name="exact_match" value="1">
+                    {{ __('Exact Match') }}
+                </label>
             </form>
         </div>
 

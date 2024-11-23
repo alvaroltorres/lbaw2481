@@ -17,6 +17,8 @@ body {
     font-family: 'Open Sans', sans-serif;
     color: var(--text-color);
     background-color: var(--white-color);
+    position:relative;
+    min-height: 100vh;
 }
 
 .container {
@@ -737,7 +739,7 @@ p {
     background-color: var(--primary-color);
     color: var(--white-color);
     padding: 1em 0;
-    position: relative;
+    position: absolute;
     left: 0;
     bottom: 0;
     width: 100%;
