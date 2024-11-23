@@ -6,7 +6,7 @@ SET search_path TO lbaw2481;
 -- ******************************
 
 -- Insert Parent Categories
-INSERT INTO Category (parent_id, name) VALUES
+INSERT INTO "Category" (parent_id, name) VALUES
                                            (NULL, 'Electronics'),
                                            (NULL, 'Art'),
                                            (NULL, 'Fashion'),

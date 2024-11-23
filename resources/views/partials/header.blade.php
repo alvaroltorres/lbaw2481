@@ -61,17 +61,21 @@
             <!-- notificações -->
             <a href="{{ route('notifications.index') }}" class="action-link relative" aria-label="{{ __('Notificações') }}">
                 <i class="fas fa-bell"></i>
-                @if(auth()->check() && auth()->user()->unreadNotifications->count() > 0)
+                <!--
+                @i(auth()->check() && auth()->user()->unreadNotifications->count() > 0)
                     <span class="notification-count absolute top-0 right-0 inline-flex items-center justify-center px-1 py-0.5 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full">
-                        {{ auth()->user()->unreadNotifications->count() }}
+                        { auth()->user()->unreadNotifications->count() }}
                     </span>
-                @endif
+                @endi-->
             </a>
 
             @auth
                 <!-- profile -->
                 <a href="{{ route('profile.show') }}" class="action-link" aria-label="{{ __('Perfil') }}">
                     <i class="fas fa-user"></i>
+                </a>
+                <a href="{{ route('auctions.create') }}" class="nav-link">
+                    {{ __('Criar leilão') }}
                 </a>
             @else
                 <!-- login/register -->

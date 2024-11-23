@@ -9,9 +9,9 @@ SET search_path TO lbaw2481;
 -- ******************************
 
 -- 1. Category Table
-CREATE TABLE Category (
+CREATE TABLE "Category" (
                           category_id SERIAL PRIMARY KEY,
-                          parent_id INTEGER REFERENCES Category(category_id) ON DELETE CASCADE,
+                          parent_id INTEGER REFERENCES "Category"(category_id) ON DELETE CASCADE,
                           name VARCHAR(255) UNIQUE NOT NULL
 );
 
@@ -90,7 +90,7 @@ CREATE TABLE PaymentMethod (
 CREATE TABLE Auction (
                          auction_id SERIAL PRIMARY KEY,
                          user_id INTEGER REFERENCES "User"(user_id) ON DELETE CASCADE,
-                         category_id INTEGER REFERENCES Category(category_id) ON DELETE CASCADE,
+                         category_id INTEGER REFERENCES "Category"(category_id) ON DELETE CASCADE,
                          starting_price DECIMAL(10, 2) NOT NULL CHECK (starting_price >= 0),
                          reserve_price DECIMAL(10, 2),
                          current_price DECIMAL(10, 2) CHECK (current_price >= 0),

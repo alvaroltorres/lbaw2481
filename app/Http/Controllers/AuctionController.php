@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Auction;
+use App\Models\Category;
 use Illuminate\Http\Request;
+use App\Http\Requests\AuctionRequest;
+use Illuminate\Support\Facades\Auth;
 
 class AuctionController extends Controller
 {
@@ -20,15 +23,31 @@ class AuctionController extends Controller
      */
     public function create()
     {
-        //
+        $categories = Category::all();
+
+        // Pass the categories to the view
+        return view('auctions.create', compact('categories'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(AuctionRequest $request)
     {
-        //
+        {
+            $validated = $request->validated();
+
+            $auction = new Auction($validated);
+            $auction->user_id = Auth::id();  // Assign the logged-in user's ID
+            $auction->current_price = $request->starting_price;  // Set current price equal to the starting price
+            $auction->save();
+
+
+            return redirect()
+                ->route('auctions.show', [$auction])
+                ->with('success', 'Auction is submitted!'
+                );
+        }
     }
 
     /**

@@ -39,5 +39,7 @@
     });
 </script>
 
+<script src="{{ asset('js/auctions.js') }}"></script>
+
 </body>
 </html>
