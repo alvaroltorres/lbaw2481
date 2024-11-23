@@ -4,12 +4,6 @@
 <!-- Incluir o Header -->
 @include('partials.header')
 
-<!-- Exibir Locale Atual para Debug -->
-<div class="container mt-4">
-    <p>Current Locale: {{ App::getLocale() }}</p>
-    <p>{{ __('Test String') }}</p>
-</div>
-
 <!-- Conteúdo Principal -->
 <main>
     <!-- Seção Hero -->

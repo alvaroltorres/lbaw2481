@@ -15,7 +15,7 @@ class AuctionController extends Controller
      */
     public function index()
     {
-        $activeauctions = Auction::where('status', 'Open')->get();
+        $activeauctions = Auction::where('status', 'Active')->get();
         return view('auctions.index', compact('activeauctions'));
     }
     /**
