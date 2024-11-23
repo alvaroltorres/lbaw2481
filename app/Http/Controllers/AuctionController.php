@@ -123,11 +123,12 @@ class AuctionController extends Controller
      */
     public function biddingHistory(Auction $auction)
     {
-        // Retrieve all bids for the auction, ordered by time descending
+        // Retrieve all bids for the auction, ordered by 'created_at' descending
         $bids = $auction->bids()->orderBy('time', 'desc')->get();
 
         return view('auctions.bidding_history', compact('auction', 'bids'));
     }
+
 
     /**
      * Display auctions followed by the authenticated user.

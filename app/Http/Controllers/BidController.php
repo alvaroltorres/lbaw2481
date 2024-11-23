@@ -3,39 +3,50 @@
 namespace App\Http\Controllers;
 
 use App\Models\Auction;
-use Illuminate\Http\Request;
 use App\Models\Bid;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 
 class BidController extends Controller
 {
-    public function store(Request $request)
+    public function store(Request $request, Auction $auction)
     {
         // Validate the price input
         $validated = $request->validate([
             'price' => 'required|numeric|min:0.01',
-            'auction_id' => 'required|exists:auction,auction_id'
         ]);
 
-        $auction = Auction::findOrFail($request->auction_id);
-
+        // Check if the bid amount is valid
         if ($validated['price'] < $auction->current_price + $auction->minimum_bid_increment) {
             throw ValidationException::withMessages([
-                'price' => 'The bid price must be higher than the current auction price plus minimum bid increment of ' .
+                'price' => 'The bid price must be at least ' .
                     ($auction->current_price + $auction->minimum_bid_increment),
             ]);
         }
 
-
         // Create the bid with the correct auction_id and user_id
-        Bid::create([
-            'auction_id' => $request->auction_id,  // Access auction_id from the Auction model
-            'user_id' => Auth::id(), // Get the authenticated user's ID
+        $bid = Bid::create([
+            'auction_id' => $auction->auction_id,
+            'user_id' => Auth::id(),
             'price' => $validated['price'],
         ]);
 
+        // Update the current price of the auction
+        $auction->current_price = $bid->price;
+        $auction->save();
+
+        // Add debugging information
+        Log::info('New bid placed', [
+            'bid_id' => $bid->bid_id,
+            'auction_id' => $auction->auction_id,
+            'user_id' => Auth::id(),
+            'price' => $bid->price,
+        ]);
+
         // Redirect to the auction page after placing the bid
-        return redirect()->route('auctions.show', ['auction' => $request->auction_id]);
+        return redirect()->route('auctions.show', $auction)
+            ->with('success', 'Your bid has been placed successfully.');
     }
 }

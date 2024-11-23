@@ -9,15 +9,15 @@ class Bid extends Model
 {
     use HasFactory;
 
-    protected $table = 'bid';
+    protected $table = 'Bid'; // Use the exact table name, case-sensitive and quoted in your database
 
     protected $primaryKey = 'bid_id';
 
     public $timestamps = true;
 
-    const CREATED_AT = 'time';
+    const CREATED_AT = 'time'; // Map 'time' column to 'created_at'
 
-    const UPDATED_AT = null;
+    const UPDATED_AT = null; // No 'updated_at' column in the table
 
     protected $fillable = ['auction_id', 'user_id', 'price'];
 
