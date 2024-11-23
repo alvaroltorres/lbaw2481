@@ -37,8 +37,8 @@
                 <input type="text" name="query" placeholder="{{ __('Buscar...') }}" class="search-input flex-grow px-4 py-2 border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary-color dark:bg-gray-700 dark:text-white">
                 <select name="category" class="search-select px-4 py-2 border-t border-b border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary-color dark:bg-gray-700 dark:text-white">
                     <option value="">{{ __('Todas as Categorias') }}</option>
-                    @foreach(config('categories') as $slug => $name)
-                        <option value="{{ $slug }}">{{ $name }}</option>
+                    @foreach(App\Models\Category::all() as $category)
+                        <option value="{{ $category->category_id }}">{{ $category->name }}</option>
                     @endforeach
                 </select>
                 <!-- Exact match checkbox -->
