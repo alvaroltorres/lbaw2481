@@ -78,6 +78,10 @@ Route::get('/messages', function () {
     return view('messages');
 })->name('messages');
 
+
+require __DIR__.'/admin.php';
+
+
 /*
 // Rotas de Autenticação Personalizadas
 Route::middleware('guest')->group(function () {
