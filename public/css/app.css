@@ -37,7 +37,7 @@ body {
 .header {
     background-color: var(--white-color);
     border-bottom: 1px solid #eaeaea;
-    padding: 0.75rem 0;
+    padding: 1.5rem 0;
 }
 
 .header__container {
@@ -97,6 +97,10 @@ body {
 
 .nav-item:hover svg {
     transform: rotate(180deg);
+}
+
+.profile-div {
+    margin: 2rem 1rem;
 }
 
 .dropdown-menu {
@@ -383,6 +387,11 @@ body {
     background-color: var(--primary-color-dark);
 }
 
+.exact-match-button{
+    position:absolute;
+    padding-top: 4em;
+}
+
 /* Responsive Styles */
 @media (max-width: 1024px) {
     .nav {
@@ -623,6 +632,10 @@ p {
     padding: 4rem 0;
 }
 
+.my-auctions{
+    padding: 2rem 0;
+}
+
 .auction-grid {
     display: flex;
     flex-wrap: wrap;
@@ -724,7 +737,7 @@ p {
     background-color: var(--primary-color);
     color: var(--white-color);
     padding: 1em 0;
-    position: fixed;
+    position: relative;
     left: 0;
     bottom: 0;
     width: 100%;
