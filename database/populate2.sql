@@ -11,16 +11,13 @@ INSERT INTO Category (parent_id, name) VALUES
                                            (NULL, 'Art'),
                                            (NULL, 'Fashion'),
                                            (NULL, 'Home & Garden'),
-                                           (NULL, 'Vehicles');
-
--- Insert Subcategories
-INSERT INTO Category (parent_id, name) VALUES
+                                           (NULL, 'Vehicles'),
                                            (1, 'Mobile Phones'),
                                            (1, 'Laptops'),
                                            (2, 'Paintings'),
                                            (2, 'Sculptures'),
                                            (3, 'Men s Clothing'),
-(3, 'Women s Clothing'),
+                                           (3, 'Women s Clothing'),
                                            (4, 'Furniture'),
                                            (4, 'Kitchen Appliances'),
                                            (5, 'Cars'),
@@ -31,11 +28,12 @@ INSERT INTO Category (parent_id, name) VALUES
 -- ******************************
 
 -- Insert Users
+-- ALL PASSWORDS ARE 1234
 INSERT INTO "User" (is_enterprise, is_admin, two_factor_enabled, username, email, password_hash, fullname, nif) VALUES
-                                                                                                                    (FALSE, TRUE, FALSE, 'adminuser', 'admin@bidzenith.com', '$2y$10$e0NR1GZl4b8i8Q5V/8rI..K1kXgZKQw9YfID.RcFzWJqU4DqkxlOu', 'Alice Admin', '123456789'),
-                                                                                                                    (FALSE, FALSE, TRUE, 'johndoe', 'john.doe@example.com', '$2y$10$Oa1l4b8i8Q5V/e0NR1GZl4b8i8Q5V/8rI..K1kXgZKQw9YfID.RcFz', 'John Doe', '987654321'),
-                                                                                                                    (FALSE, FALSE, TRUE, 'janedoe', 'jane.doe@example.com', '$2y$10$XgZl4b8i8Q5V/8rI..K1kXgZl4b8i8Q5V/e0NR1GZl4b8i8Q5V/8rI.', 'Jane Doe', '192837465'),
-                                                                                                                    (TRUE, FALSE, FALSE, 'enterprise1', 'contact@enterprise1.com', '$2y$10$V/8rI..K1kXgZl4b8i8Q5V/e0NR1GZl4b8i8Q5V/e0NR1GZl4b8i8Q5V/e0NR1GZ', 'Enterprise One Ltd.', '564738291');
+                                                                                                                    (FALSE, TRUE, FALSE, 'adminuser', 'admin@bidzenith.com', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W', 'Alice Admin', '123456789'),
+                                                                                                                    (FALSE, FALSE, TRUE, 'johndoe', 'john.doe@example.com', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W', 'John Doe', '987654321'),
+                                                                                                                    (FALSE, FALSE, TRUE, 'janedoe', 'jane.doe@example.com', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W', 'Jane Doe', '192837465'),
+                                                                                                                    (TRUE, FALSE, FALSE, 'enterprise1', 'contact@enterprise1.com', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W', 'Enterprise One Ltd.', '564738291');
 
 -- ******************************
 -- 3. UserSettings Table
@@ -83,8 +81,8 @@ INSERT INTO Address (user_id, street, city, state_district, postal_code, country
 
 INSERT INTO PaymentMethod (user_id, is_enterprise, expiry_date, card_number, ccv, fullname, nif) VALUES
                                                                                                      (1, FALSE, '2025-12-31', '4111111111111111', '123', 'Alice Admin', '123456789'),
-                                                                                                     (2, FALSE, '2024-06-30', '4222222222222', '456', 'John Doe', '987654321'),
-                                                                                                     (3, FALSE, '2023-09-15', '4333333333333333', '789', 'Jane Doe', '192837465'),
+                                                                                                     (2, FALSE, '2025-06-30', '4222222222222', '456', 'John Doe', '987654321'),
+                                                                                                     (3, FALSE, '2025-09-15', '4333333333333333', '789', 'Jane Doe', '192837465'),
                                                                                                      (4, TRUE, '2026-01-01', '4444444444444448', '321', 'Enterprise One Ltd.', '564738291');
 
 -- ******************************
@@ -141,9 +139,9 @@ INSERT INTO Rating (rated_user_id, rater_user_id, transaction_id, score, comment
 -- ******************************
 
 INSERT INTO Bid (auction_id, user_id, price) VALUES
-                                                 (1, 2, 150.00),
-                                                 (1, 3, 160.00),
-                                                 (2, 3, 300.00),
+                                                 (1, 3, 150.00),
+                                                 (1, 4, 160.00),
+                                                 (2, 4, 300.00),
                                                  (5, 2, 450.00);
 
 -- ******************************
@@ -163,7 +161,7 @@ INSERT INTO Watchlist (user_id, auction_id) VALUES
 INSERT INTO Notification (user_id, content, type, auction_id, bid_id) VALUES
                                                                           (2, 'Your bid has been outbid on Smartphone Auction.', 'Bid', 1, 3),
                                                                           (3, 'Congratulations! You won the Handbag Auction.', 'Win', 2, 4),
-                                                                          (2, 'Payment pending for Kitchen Appliances Auction.', 'Payment', 5, 5);
+                                                                          (2, 'Payment pending for Kitchen Appliances Auction.', 'Payment', 5, 2);
 
 -- ******************************
 -- 16. Chat Table

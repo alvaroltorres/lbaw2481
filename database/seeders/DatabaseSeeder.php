@@ -13,7 +13,13 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $path = base_path('database/thingy-seed.sql');
+        $path = base_path('database/schema.sql');
+        $sql = file_get_contents($path);
+        DB::unprepared($sql);
+        $path = base_path('database/triggers.sql');
+        $sql = file_get_contents($path);
+        DB::unprepared($sql);
+        $path = base_path('database/populate2.sql');
         $sql = file_get_contents($path);
         DB::unprepared($sql);
         $this->command->info('Database seeded!');

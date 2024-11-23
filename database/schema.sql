@@ -1,5 +1,6 @@
 
 -- Set the search path to the new schema
+DROP SCHEMA IF EXISTS lbaw2481 CASCADE;
 CREATE SCHEMA lbaw2481;
 SET search_path TO lbaw2481;
 
