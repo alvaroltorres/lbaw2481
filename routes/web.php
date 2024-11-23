@@ -9,6 +9,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\BidController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -51,6 +52,9 @@ Route::get('/search', [HomeController::class, 'search'])->name('search');
 
 // auctions
 Route::resource('auctions', AuctionController::class);
+
+// bids
+Route::resource('bids', BidController::class);
 
 // auctions followed by the authenticated user
 Route::get('/auction/followed', [AuctionController::class, 'followed'])->middleware('auth')->name('auction.followed');

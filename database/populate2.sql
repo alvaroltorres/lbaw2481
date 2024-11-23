@@ -138,7 +138,7 @@ INSERT INTO Rating (rated_user_id, rater_user_id, transaction_id, score, comment
 -- 13. Bid Table
 -- ******************************
 
-INSERT INTO Bid (auction_id, user_id, price) VALUES
+INSERT INTO "Bid" (auction_id, user_id, price) VALUES
                                                  (1, 3, 150.00),
                                                  (1, 4, 160.00),
                                                  (2, 4, 300.00),

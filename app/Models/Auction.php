@@ -21,7 +21,7 @@ class Auction extends Model
      *
      * @var string
      */
-    protected $primaryKey = 'auction_id'; // Specify the primary key if different from 'id'
+    protected $primaryKey = 'auction_id';
 
     /**
      * Indicates if the IDs are auto-incrementing.
