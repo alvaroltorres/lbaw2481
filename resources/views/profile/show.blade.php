@@ -15,6 +15,11 @@
             </div>
         </div>
         <a href="{{ route('profile.edit') }}" class="btn btn-primary mt-3">{{ __('Editar Perfil') }}</a>
+        <!-- Logout Button -->
+        <form method="POST" action="{{ route('logout') }}" class="mt-3">
+            @csrf
+            <button type="submit" class="btn btn-danger">{{ __('Logout') }}</button>
+        </form>
     </div>
     @if ($myauctions->count() > 0)
     <section class="my-auctions">
