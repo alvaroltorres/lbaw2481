@@ -31,11 +31,15 @@ class HomeController extends Controller
         $auctions = Auction::query();
 
         if ($exactMatch) {
-            $auctions->where('title', $query)
+            $auctions->where(function ($q) use ($query) {
+                $q->where('title', $query)
                 ->orWhere('description', $query);
+            });
         } else {
-            $auctions->where('title', 'LIKE', "%{$query}%")
+            $auctions->where(function ($q) use ($query) {
+                $q->where('title', 'LIKE', "%{$query}%")
                 ->orWhere('description', 'LIKE', "%{$query}%");
+            });
         }
 
         if ($category) {
