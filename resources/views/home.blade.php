@@ -73,6 +73,33 @@
                     <p>{{ __('No active auctions at the moment.') }}</p>
                 @endif
             </div>
+            <h2 class="section-title">{{ __('Upcoming Auctions') }}</h2>
+            <div class="auction-grid">
+                <!-- Verificar se há leilões ativos -->
+                @if($upcomingAuctions->count() > 0)
+                    @foreach($upcomingAuctions as $futureauction)
+                        <article class="auction-card">
+                            <!-- Exibir imagem do leilão -->
+                            @if($futureauction->image)
+                                <img src="{{ asset('images/auctions/' . $futureauction->image) }}" alt="{{ $futureauction->title }}" class="auction-image">
+                            @else
+                                <img src="{{ asset('images/auctions/default.png') }}" alt="{{ $futureauction->title }}" class="auction-image">
+                            @endif
+                            <div class="auction-details">
+                                <h3 class="auction-title">{{ $futureauction->title }}</h3>
+                                <p class="auction-description">{{ Str::limit($futureauction->description, 100) }}</p>
+                                <div class="auction-meta">
+                                    <span class="auction-price">${{ number_format($futureauction->current_price ?? $futureauction->starting_price, 2, ',', '.') }}</span>
+                                    <span class="auction-timer" data-end-time="{{ $futureauction->ending_date->toIso8601String() }}">{{ $futureauction->ending_date->diffForHumans() }}</span>
+                                </div>
+                                <a href="{{ route('auctions.show', $futureauction) }}" class="btn btn--secondary">{{ __('Participate') }}</a>
+                            </div>
+                        </article>
+                    @endforeach
+                @else
+                    <p>{{ __('No upcoming auctions.') }}</p>
+                @endif
+            </div>
         </div>
     </section>
 
