@@ -22,7 +22,28 @@ class HomeController extends Controller
         return view('home', compact('activeAuctions', 'upcomingAuctions'));
     }
 
-    public function search() {
-        return redirect()->back();
+    public function search(Request $request)
+    {
+        $query = $request->input('query');
+        $exactMatch = $request->input('exact_match', false);
+        $category = $request->input('category');
+
+        $auctions = Auction::query();
+
+        if ($exactMatch) {
+            $auctions->where('title', $query)
+                ->orWhere('description', $query);
+        } else {
+            $auctions->where('title', 'LIKE', "%{$query}%")
+                ->orWhere('description', 'LIKE', "%{$query}%");
+        }
+
+        if ($category) {
+            $auctions->where('category_id', $category);
+        }
+
+        $auctions = $auctions->get();
+
+        return view('auctions.search-results', compact('auctions', 'query', 'exactMatch', 'category'));
     }
 }
