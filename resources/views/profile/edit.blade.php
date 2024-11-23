@@ -1,59 +1,75 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Profile') }}
-        </h2>
-    </x-slot>
+@extends('layouts.app')
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
-            <!-- View Profile Information -->
-            <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
-                <div class="max-w-xl">
-                    <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100">
-                        {{ __('Profile Information') }}
-                    </h3>
-                    <form>
-                        <div class="form-group">
-                            <label for="username">Username</label>
-                            <input type="text" class="form-control" id="username" value="{{ $user->username }}" readonly>
-                        </div>
-                        <div class="form-group">
-                            <label for="email">Email</label>
-                            <input type="email" class="form-control" id="email" value="{{ $user->email }}" readonly>
-                        </div>
-                        <div class="form-group">
-                            <label for="fullname">Full Name</label>
-                            <input type="text" class="form-control" id="fullname" value="{{ $user->fullname }}" readonly>
-                        </div>
-                        <div class="form-group">
-                            <label for="nif">NIF</label>
-                            <input type="text" class="form-control" id="nif" value="{{ $user->nif }}" readonly>
-                        </div>
-                    </form>
-                </div>
+@section('content')
+    <div class="container">
+        <h1>{{ __('Editar Perfil') }}</h1>
+
+        @if (session('status') === 'profile-updated')
+            <div class="alert alert-success">
+                {{ __('Perfil atualizado com sucesso.') }}
+            </div>
+        @endif
+
+        <form method="POST" action="{{ route('profile.update') }}">
+            @csrf
+            @method('PATCH')
+
+            <!-- Username -->
+            <div class="form-group">
+                <label for="username">{{ __('Nome de Usuário') }}</label>
+                <input id="username" type="text" class="form-control @error('username') is-invalid @enderror" name="username" value="{{ old('username', $user->username) }}" required autofocus>
+
+                @error('username')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+                @enderror
             </div>
 
-            <!-- Update Profile Information -->
-            <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
-                <div class="max-w-xl">
-                    @include('profile.partials.update-profile-information-form')
-                </div>
+            <!-- Full Name -->
+            <div class="form-group">
+                <label for="fullname">{{ __('Nome Completo') }}</label>
+                <input id="fullname" type="text" class="form-control @error('fullname') is-invalid @enderror" name="fullname" value="{{ old('fullname', $user->fullname) }}" required>
+
+                @error('fullname')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+                @enderror
             </div>
 
-            <!-- Update Password -->
-            <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
-                <div class="max-w-xl">
-                    @include('profile.partials.update-password-form')
-                </div>
+            <!-- Email -->
+            <div class="form-group">
+                <label for="email">{{ __('Email') }}</label>
+                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email', $user->email) }}" required>
+
+                @error('email')
+                <span class="invalid-feedback" role="alert">
+            <strong>{{ $message }}</strong>
+        </span>
+                @enderror
             </div>
 
-            <!-- Delete User Account -->
-            <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
-                <div class="max-w-xl">
-                    @include('profile.partials.delete-user-form')
-                </div>
+
+            <!-- NIF -->
+            <div class="form-group">
+                <label for="nif">{{ __('NIF') }}</label>
+                <input id="nif" type="text" class="form-control @error('nif') is-invalid @enderror" name="nif" value="{{ old('nif', $user->nif) }}" required>
+
+                @error('nif')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+                @enderror
             </div>
-        </div>
+
+            <!-- Outros Campos (se necessário) -->
+
+            <div class="form-group mt-3">
+                <button type="submit" class="btn btn-primary">
+                    {{ __('Salvar Alterações') }}
+                </button>
+            </div>
+        </form>
     </div>
-</x-app-layout>
+@endsection

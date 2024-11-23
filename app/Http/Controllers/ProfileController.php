@@ -23,7 +23,7 @@ class ProfileController extends Controller
 
     public function show(Request $request): View
     {
-        return view('profile.edit', [
+        return view('profile.show', [
             'user' => $request->user(),
         ]);
     }
@@ -33,17 +33,17 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-        $request->user()->fill($request->validated());
+        $user = $request->user();
+        $user->fill($request->validated());
 
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
+        if ($user->isDirty('email')) {
+            $user->email_verified_at = null;
         }
 
-        $request->user()->save();
+        $user->save();
 
-        return Redirect::route('profile.edit')->with('status', 'profile-updated');
+        return Redirect::route('profile.show')->with('status', 'profile-updated');
     }
-
     /**
      * Delete the user's account.
      */
@@ -68,10 +68,6 @@ class ProfileController extends Controller
     /**
      * Validate the profile update request.
      */
-    public function authorize(): bool
-    {
-        return true;
-    }
 
     public function rules(): array
     {
@@ -81,5 +77,13 @@ class ProfileController extends Controller
             'fullname' => ['required', 'string', 'max:100'],
             'nif' => ['required', 'string', 'max:20'],
         ];
+    }
+
+    public function settings(Request $request): View
+    {
+        // Implemente conforme necessário
+        return view('profile.settings', [
+            'user' => $request->user(),
+        ]);
     }
 }
