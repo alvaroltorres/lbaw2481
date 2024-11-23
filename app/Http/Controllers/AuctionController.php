@@ -66,13 +66,24 @@ class AuctionController extends Controller
     public function search(Request $request)
     {
         $query = $request->input('query');
-        $auctions = Auction::where('title', 'LIKE', "%{$query}%")
-            ->orWhere('description', 'LIKE', "%{$query}%")
-            ->orWhereHas('category', function ($q) use ($query) {
-                $q->where('name', 'LIKE', "%{$query}%");
-            })
-            ->get();
+        $exactMatch = $request->input('exact_match', false);
 
-        return view('auctions.search-results', compact('auctions', 'query'));
+        if ($exactMatch) {
+            $auctions = Auction::where('title', $query)
+                ->orWhere('description', $query)
+                ->orWhereHas('category', function ($q) use ($query) {
+                    $q->where('name', $query);
+                })
+                ->get();
+        } else {
+            $auctions = Auction::where('title', 'LIKE', "%{$query}%")
+                ->orWhere('description', 'LIKE', "%{$query}%")
+                ->orWhereHas('category', function ($q) use ($query) {
+                    $q->where('name', 'LIKE', "%{$query}%");
+                })
+                ->get();
+        }
+
+        return view('auctions.search-results', compact('auctions', 'query', 'exactMatch'));
     }
 }
