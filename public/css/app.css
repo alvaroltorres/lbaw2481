@@ -21,6 +21,10 @@ body {
     min-height: 100vh;
 }
 
+main {
+    padding-bottom: 7rem;
+}
+
 .container {
     width: 90%;
     max-width: 1200px;
