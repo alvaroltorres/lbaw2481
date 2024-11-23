@@ -67,30 +67,35 @@ class AdminUserController extends Controller
     public function update(Request $request, $id)
     {
         $validated = $request->validate([
-            'username' => 'required|max:50|unique:User,username,'.$id.',user_id',
-            'email' => 'required|email|max:100|unique:User,email,'.$id.',user_id',
             'fullname' => 'required|max:100',
-            'nif' => 'required|max:100',
-            'password_hash' => 'required|min:8|confirmed',
+            'email' => 'required|email|max:100|unique:User,email,' . $id . ',user_id',
+            'username' => 'required|max:50|unique:User,username,' . $id . ',user_id',
             'is_admin' => 'required|boolean',
             'is_enterprise' => 'required|boolean',
+            'nif' => 'required|max:20',
         ]);
 
-        // Atualizar o utilizador.
+        // Encontrar e atualizar o utilizador.
         $user = User::findOrFail($id);
         $user->update($validated);
 
         return redirect()->route('admin.users.index')->with('success', 'Utilizador atualizado com sucesso.');
     }
 
+
     /**
      * Apagar um utilizador da base de dados.
      */
     public function destroy($id)
     {
+        // Apagar registos relacionados na tabela BlockedUser
+        \DB::table('blockeduser')->where('blocked_user_id', $id)->orWhere('admin_id', $id)->delete();
+
+        // Agora podes apagar o utilizador
         $user = User::findOrFail($id);
         $user->delete();
 
         return redirect()->route('admin.users.index')->with('success', 'Utilizador apagado com sucesso.');
     }
+
 }
