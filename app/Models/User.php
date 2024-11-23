@@ -64,4 +64,13 @@ class User extends Authenticatable
     {
         return $this->password_hash;
     }
+
+    /**
+     * Get the bids placed by the user.
+     */
+    public function bids()
+    {
+        return $this->hasMany(Bid::class, 'user_id', 'user_id');
+    }
+
 }

@@ -5,7 +5,7 @@
         <div class="container">
             <h1>Explore Auctions</h1>
             <div class="auction-grid">
-                @foreach($activeauctions as $auction)
+                @foreach($activeAuctions as $auction)
                     <div class="auction-card">
                         <img src="{{ asset('images/auctions/' . $auction->image) }}" alt="{{ $auction->title }}">
                         <h2>{{ $auction->title }}</h2>

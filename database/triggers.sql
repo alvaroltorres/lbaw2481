@@ -19,7 +19,7 @@ END;
 $$ LANGUAGE plpgsql;
 
 CREATE TRIGGER prevent_self_bid_trigger
-    BEFORE INSERT ON Bid
+    BEFORE INSERT ON "Bid"
     FOR EACH ROW EXECUTE FUNCTION prevent_self_bid();
 
 -- 2. Update Auction Current Price After Bid
@@ -35,7 +35,7 @@ END;
 $$ LANGUAGE plpgsql;
 
 CREATE TRIGGER update_auction_current_price_trigger
-    AFTER INSERT ON Bid
+    AFTER INSERT ON "Bid"
     FOR EACH ROW EXECUTE FUNCTION update_auction_current_price();
 
 -- 3. Notify Seller of New Bid
@@ -60,7 +60,7 @@ END;
 $$ LANGUAGE plpgsql;
 
 CREATE TRIGGER notify_seller_new_bid_trigger
-    AFTER INSERT ON Bid
+    AFTER INSERT ON "Bid"
     FOR EACH ROW EXECUTE FUNCTION notify_seller_new_bid();
 
 -- 4. Validate Payment Method Expiry Date
