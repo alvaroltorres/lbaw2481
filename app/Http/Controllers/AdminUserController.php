@@ -97,7 +97,7 @@ class AdminUserController extends Controller
     public function show($id)
     {
         $user = User::with('auctions')->findOrFail($id);
-        return view('admin.users.show', compact('user'));
+        return view('user.show', compact('user'));
     }
 
 

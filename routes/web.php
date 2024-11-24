@@ -94,9 +94,9 @@ Route::delete('/admin/user/{user}', [AdminUserController::class, 'destroy'])->na
 
 Route::patch('/admin/user/{user}', [AdminUserController::class, 'update'])->name('admin.users.update');
 
-Route::get('/admin/user/{user}', [AdminUserController::class, 'show'])->name('admin.users.show');
+Route::get('/user/{user}', [AdminUserController::class, 'show'])->name('user.show');
 
-Route::get('/admin/users/{user}', [AdminUserController::class, 'show'])->name('admin.users.show');
+Route::get('/user/{user}', [AdminUserController::class, 'show'])->name('user.show');
 
 
 require __DIR__.'/admin.php';
