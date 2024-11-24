@@ -85,7 +85,7 @@ Route::get('/messages', function () {
     return view('messages');
 })->name('messages');
 
-
+Route::middleware('admin')->group(function () {
 Route::get('/admin/user', [AdminUserController::class, 'index'])->name('admin.users.index');
 
 Route::get('/admin/user/{user}/edit', [AdminUserController::class, 'edit'])->name('admin.users.edit');
@@ -95,3 +95,4 @@ Route::delete('/admin/user/{user}', [AdminUserController::class, 'destroy'])->na
 Route::patch('/admin/user/{user}', [AdminUserController::class, 'update'])->name('admin.users.update');
 
 Route::get('/admin/user/{user}', [AdminUserController::class, 'show'])->name('admin.users.show');
+});
