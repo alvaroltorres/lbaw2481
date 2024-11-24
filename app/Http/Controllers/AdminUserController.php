@@ -43,7 +43,7 @@ class AdminUserController extends Controller
             'username' => $validated['username'],
             'email' => $validated['email'],
             'fullname' => $validated['fullname'],
-            'nif' => $validated['nif'],
+            'nif' => $validated['nif'] ?? null,
             'password_hash' => bcrypt($validated['password']),
             'is_admin' => $validated['is_admin'],
             'is_enterprise' => $validated['is_enterprise'],
@@ -70,15 +70,24 @@ class AdminUserController extends Controller
             'username' => 'required|max:50|unique:User,username,'.$id.',user_id',
             'email' => 'required|email|max:100|unique:User,email,'.$id.',user_id',
             'fullname' => 'required|max:100',
-            'nif' => 'required|max:100',
-            'password_hash' => 'required|min:8|confirmed',
+            'nif' => 'nullable|max:100',
+            'password' => 'nullable|min:8|confirmed',
             'is_admin' => 'required|boolean',
             'is_enterprise' => 'required|boolean',
         ]);
 
         // Atualizar o utilizador.
         $user = User::findOrFail($id);
-        $user->update($validated);
+        $user->username = $validated['username'];
+        $user->email = $validated['email'];
+        $user->fullname = $validated['fullname'];
+        $user->nif = $validated['nif'] ?? $user->nif;
+        if (!empty($validated['password'])) {
+            $user->password_hash = bcrypt($validated['password']);
+        }
+        $user->is_admin = $validated['is_admin'];
+        $user->is_enterprise = $validated['is_enterprise'];
+        $user->save();
 
         return redirect()->route('admin.users.index')->with('success', 'Utilizador atualizado com sucesso.');
     }
@@ -86,11 +95,27 @@ class AdminUserController extends Controller
     /**
      * Apagar um utilizador da base de dados.
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
         $user = User::findOrFail($id);
-        $user->delete();
 
-        return redirect()->route('admin.users.index')->with('success', 'Utilizador apagado com sucesso.');
+        // Autorização (se necessário)
+        // $this->authorize('delete', $user);
+
+        try {
+            $user->delete();
+
+            if ($request->expectsJson()) {
+                return response()->json(['success' => true, 'message' => 'Utilizador apagado com sucesso.']);
+            }
+
+            return redirect()->route('admin.users.index')->with('success', 'Utilizador apagado com sucesso.');
+        } catch (\Exception $e) {
+            if ($request->expectsJson()) {
+                return response()->json(['success' => false, 'message' => 'Falha ao apagar o utilizador.'], 500);
+            }
+
+            return redirect()->route('admin.users.index')->with('error', 'Falha ao apagar o utilizador.');
+        }
     }
 }

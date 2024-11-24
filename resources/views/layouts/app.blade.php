@@ -25,6 +25,9 @@
 <!-- Conteúdo da página -->
 <main>
     @yield('content')
+
+    @yield('scripts')
+
 </main>
 
 <!-- Rodapé, se houver -->
