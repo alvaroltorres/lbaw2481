@@ -93,6 +93,14 @@ class AdminUserController extends Controller
         return redirect()->route('admin.users.index')->with('success', 'Utilizador atualizado com sucesso.');
     }
 
+
+    public function show($id)
+    {
+        $user = User::with('auctions')->findOrFail($id);
+        return view('admin.users.show', compact('user'));
+    }
+
+
     /**
      * Apagar um utilizador da base de dados.
      */

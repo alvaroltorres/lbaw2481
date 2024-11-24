@@ -96,5 +96,8 @@ Route::patch('/admin/user/{user}', [AdminUserController::class, 'update'])->name
 
 Route::get('/admin/user/{user}', [AdminUserController::class, 'show'])->name('admin.users.show');
 
+Route::get('/admin/users/{user}', [AdminUserController::class, 'show'])->name('admin.users.show');
+
+
 require __DIR__.'/admin.php';
 
