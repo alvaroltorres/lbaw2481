@@ -1,13 +1,13 @@
 @extends('layouts.app')
 
 @section('content')
-    <h1>Lista de Utilizadores</h1>
+    <h1>{{ __('User List') }}</h1>
     <table>
         <thead>
         <tr>
-            <th>Nome</th>
-            <th>Email</th>
-            <th>Ações</th>
+            <th>{{ __('Name') }}</th>
+            <th>{{ __('Email') }}</th>
+            <th>{{ __('Actions') }}</th>
         </tr>
         </thead>
         <tbody>
@@ -16,11 +16,11 @@
                 <td>{{ $user->fullname }}</td>
                 <td>{{ $user->email }}</td>
                 <td>
-                    <a href="{{ route('admin.users.edit', $user->user_id) }}">Editar</a>
-                    <form action="{{ route('admin.users.destroy', $user->user_id) }}" method="POST">
+                    <a href="{{ route('admin.users.edit', $user->user_id) }}">{{ __('Edit') }}</a>
+                    <form action="{{ route('admin.users.destroy', $user->user_id) }}" method="POST" style="display:inline;">
                         @csrf
                         @method('DELETE')
-                        <button type="submit">Apagar</button>
+                        <button type="submit">{{ __('Delete') }}</button>
                     </form>
                 </td>
             </tr>
