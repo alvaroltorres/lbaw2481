@@ -1,9 +1,10 @@
 @include('partials.header')
+
 <main>
     <div class="container">
-        <h1>About Us</h1>
-        <p>Information about your company or website.</p>
+        <h1>{{ __('About Us') }}</h1>
+        <p>{{ __('Information about your company or website.') }}</p>
     </div>
 </main>
-@include('partials.footer')
 
+@include('partials.footer')

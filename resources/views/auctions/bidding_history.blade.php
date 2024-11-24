@@ -2,17 +2,17 @@
 
 @section('content')
     <div class="container">
-        <h1>Bidding History for {{ $auction->title }}</h1>
+        <h1>{{ __('Bidding History for') }} {{ $auction->title }}</h1>
 
         @if($bids->isEmpty())
-            <p>No bids have been placed on this auction yet.</p>
+            <p>{{ __('No bids have been placed on this auction yet.') }}</p>
         @else
             <table class="table">
                 <thead>
                 <tr>
-                    <th>Bidder</th>
-                    <th>Bid Amount</th>
-                    <th>Bid Time</th>
+                    <th>{{ __('Bidder') }}</th>
+                    <th>{{ __('Bid Amount') }}</th>
+                    <th>{{ __('Bid Time') }}</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -28,6 +28,6 @@
         @endif
 
         <!-- Back to Auction Button -->
-        <a href="{{ route('auctions.show', $auction) }}" class="btn btn-secondary">Back to Auction</a>
+        <a href="{{ route('auctions.show', $auction) }}" class="btn btn-secondary">{{ __('Back to Auction') }}</a>
     </div>
 @endsection
