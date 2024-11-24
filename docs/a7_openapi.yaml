@@ -42,6 +42,7 @@ paths:
               properties:
                 email:
                   type: string
+                  format: email
                 password:
                   type: string
               required:
@@ -88,6 +89,7 @@ paths:
                   type: string
                 email:
                   type: string
+                  format: email
                 password:
                   type: string
               required:
@@ -107,11 +109,27 @@ paths:
                 failure:
                   value: '/register'
 
+  /logout:
+    post:
+      operationId: R107
+      summary: 'R107: Logout Action'
+      description: 'Log out the authenticated user. Access: USR'
+      tags:
+        - 'M01: Authentication and Individual Profile'
+      responses:
+        '302':
+          description: 'Redirect to home page after logout.'
+          headers:
+            Location:
+              schema:
+                type: string
+              example: '/home'
+
   /profile:
     get:
       operationId: R105
       summary: 'R105: View User Profile'
-      description: 'Display the user profile details. Access: AUTH'
+      description: 'Display the authenticated user\'s profile details. Access: USR'
       tags:
         - 'M01: Authentication and Individual Profile'
       responses:
@@ -141,10 +159,10 @@ paths:
                     - 'Antique Vase'
                     - 'Vintage Clock'
 
-    put:
+    patch:
       operationId: R106
-      summary: 'R106: Edit User Profile'
-      description: 'Allow user to update their profile information. Access: AUTH'
+      summary: 'R106: Update User Profile'
+      description: 'Allow user to update their profile information. Access: USR'
       tags:
         - 'M01: Authentication and Individual Profile'
       requestBody:
@@ -158,6 +176,9 @@ paths:
                   type: string
                 email:
                   type: string
+                  format: email
+                password:
+                  type: string
               required:
                 - username
                 - email
@@ -167,128 +188,201 @@ paths:
         '400':
           description: 'Invalid input or update failed.'
 
+    delete:
+      operationId: R108
+      summary: 'R108: Delete User Profile'
+      description: 'Allow user to delete their profile. Access: USR'
+      tags:
+        - 'M01: Authentication and Individual Profile'
+      responses:
+        '200':
+          description: 'Profile deleted successfully.'
+        '400':
+          description: 'Deletion failed.'
+
+  /profile/settings:
+    get:
+      operationId: R109
+      summary: 'R109: View User Settings'
+      description: 'Display user settings page. Access: USR'
+      tags:
+        - 'M01: Authentication and Individual Profile'
+      responses:
+        '200':
+          description: 'OK. Display user settings.'
+
   /auctions:
     get:
       operationId: R201
-      summary: 'R201: View Active Auctions'
-      description: 'List active auctions available for browsing. Access: PUB'
+      summary: 'R201: List Auctions'
+      description: 'List active auctions. Access: PUB'
       tags:
         - 'M02: Auctions'
+      parameters:
+        - in: query
+          name: search
+          schema:
+            type: string
+          description: 'Search term'
+        - in: query
+          name: category
+          schema:
+            type: string
+          description: 'Category filter'
+        - in: query
+          name: price_min
+          schema:
+            type: number
+          description: 'Minimum price filter'
+        - in: query
+          name: price_max
+          schema:
+            type: number
+          description: 'Maximum price filter'
       responses:
         '200':
-          description: 'OK. Return list of active auctions.'
+          description: 'OK. List of auctions.'
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  type: object
-                  properties:
-                    id:
-                      type: string
-                    title:
-                      type: string
-                    startingBid:
-                      type: number
-                    category:
-                      type: string
-                example:
-                  - id: '1'
-                    title: 'Antique Vase'
-                    startingBid: 100.00
-                    category: 'Antiques'
+                  $ref: '#/components/schemas/Auction'
+
+    post:
+      operationId: R203
+      summary: 'R203: Create Auction'
+      description: 'Create a new auction. Access: USR'
+      tags:
+        - 'M02: Auctions'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuctionInput'
+      responses:
+        '201':
+          description: 'Auction created successfully.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Auction'
+        '400':
+          description: 'Invalid input or creation failed.'
 
   /auctions/{id}:
     get:
       operationId: R202
       summary: 'R202: View Auction Details'
-      description: 'Display details of a specific auction. Access: PUB'
+      description: 'Get details of a specific auction. Access: PUB'
       tags:
         - 'M02: Auctions'
       parameters:
         - in: path
           name: id
           schema:
-            type: string
+            type: integer
           required: true
+          description: 'Auction ID'
       responses:
         '200':
-          description: 'OK. Display auction details.'
+          description: 'OK. Auction details.'
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  id:
-                    type: string
-                  title:
-                    type: string
-                  description:
-                    type: string
-                  startingBid:
-                    type: number
-                  currentBid:
-                    type: number
-                  endTime:
-                    type: string
-                    format: date-time
-                example:
-                  id: '1'
-                  title: 'Antique Vase'
-                  description: 'A beautiful 19th-century vase.'
-                  startingBid: 100.00
-                  currentBid: 150.00
-                  endTime: '2024-12-01T15:00:00Z'
+                $ref: '#/components/schemas/Auction'
 
-  /auctions/create:
-    post:
-      operationId: R203
-      summary: 'R203: Create Auction'
-      description: 'Allow a seller to create a new auction. Access: AUTH'
+    patch:
+      operationId: R204
+      summary: 'R204: Update Auction'
+      description: 'Update an auction. Access: OWN'
       tags:
         - 'M02: Auctions'
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: 'Auction ID'
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                title:
-                  type: string
-                description:
-                  type: string
-                startingBid:
-                  type: number
-                images:
-                  type: array
-                  items:
-                    type: string
-                  description: 'URLs of images'
-                category:
-                  type: string
-                endTime:
-                  type: string
-                  format: date-time
-              required:
-                - title
-                - description
-                - startingBid
-                - category
-                - endTime
+              $ref: '#/components/schemas/AuctionInput'
       responses:
-        '201':
-          description: 'Auction created successfully.'
+        '200':
+          description: 'Auction updated successfully.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Auction'
         '400':
-          description: 'Invalid input or creation failed.'
+          description: 'Invalid input or update failed.'
+        '403':
+          description: 'Forbidden. User does not own the auction.'
 
-  /bids:
+    delete:
+      operationId: R205
+      summary: 'R205: Delete Auction'
+      description: 'Delete an auction. Access: OWN'
+      tags:
+        - 'M02: Auctions'
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: 'Auction ID'
+      responses:
+        '200':
+          description: 'Auction deleted successfully.'
+        '403':
+          description: 'Forbidden. User does not own the auction.'
+        '404':
+          description: 'Auction not found.'
+
+  /auctions/{id}/bidding-history:
+    get:
+      operationId: R206
+      summary: 'R206: View Auction Bidding History'
+      description: 'Get the bidding history for a specific auction. Access: USR'
+      tags:
+        - 'M03: Bidding and Following Auctions'
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: 'Auction ID'
+      responses:
+        '200':
+          description: 'OK. Bidding history.'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Bid'
+
+  /auctions/{id}/bids:
     post:
       operationId: R301
       summary: 'R301: Place Bid on Auction'
-      description: 'Place a bid on an active auction. Access: AUTH'
+      description: 'Place a bid on an auction. Access: USR'
       tags:
         - 'M03: Bidding and Following Auctions'
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: 'Auction ID'
       requestBody:
         required: true
         content:
@@ -296,12 +390,9 @@ paths:
             schema:
               type: object
               properties:
-                auctionId:
-                  type: string
                 bidAmount:
                   type: number
               required:
-                - auctionId
                 - bidAmount
       responses:
         '200':
@@ -310,3 +401,404 @@ paths:
           description: 'Invalid bid amount or bid failed.'
         '404':
           description: 'Auction not found.'
+
+  /auction/followed:
+    get:
+      operationId: R302
+      summary: 'R302: View Followed Auctions'
+      description: 'List auctions followed by the authenticated user. Access: USR'
+      tags:
+        - 'M03: Bidding and Following Auctions'
+      responses:
+        '200':
+          description: 'OK. List of followed auctions.'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Auction'
+
+  /categories/{categoryId}:
+    get:
+      operationId: R207
+      summary: 'R207: View Auctions by Category'
+      description: 'List auctions in a specific category. Access: PUB'
+      tags:
+        - 'M02: Auctions'
+      parameters:
+        - in: path
+          name: categoryId
+          schema:
+            type: integer
+          required: true
+          description: 'Category ID'
+      responses:
+        '200':
+          description: 'OK. List of auctions in the category.'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Auction'
+
+  /search:
+    get:
+      operationId: R208
+      summary: 'R208: Search Auctions'
+      description: 'Search auctions based on query parameters. Access: PUB'
+      tags:
+        - 'M02: Auctions'
+      parameters:
+        - in: query
+          name: q
+          schema:
+            type: string
+          description: 'Search query'
+        - in: query
+          name: category
+          schema:
+            type: string
+          description: 'Category filter'
+        - in: query
+          name: price_min
+          schema:
+            type: number
+          description: 'Minimum price filter'
+        - in: query
+          name: price_max
+          schema:
+            type: number
+          description: 'Maximum price filter'
+      responses:
+        '200':
+          description: 'OK. Search results.'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Auction'
+
+  /notifications:
+    get:
+      operationId: R401
+      summary: 'R401: List Notifications'
+      description: 'Get a list of notifications for the authenticated user. Access: USR'
+      tags:
+        - 'M04: Notifications'
+      responses:
+        '200':
+          description: 'OK. List of notifications.'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Notification'
+
+  /notifications/{id}:
+    get:
+      operationId: R402
+      summary: 'R402: View Notification'
+      description: 'Get details of a specific notification. Access: USR'
+      tags:
+        - 'M04: Notifications'
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: 'Notification ID'
+      responses:
+        '200':
+          description: 'OK. Notification details.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Notification'
+
+  /admin/user:
+    get:
+      operationId: R501
+      summary: 'R501: List Users'
+      description: 'List all user accounts. Access: ADM'
+      tags:
+        - 'M05: User Administration and Static Pages'
+      responses:
+        '200':
+          description: 'OK. List of users.'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+
+  /admin/user/{userId}:
+    get:
+      operationId: R502
+      summary: 'R502: View User'
+      description: 'Get details of a specific user account. Access: ADM'
+      tags:
+        - 'M05: User Administration and Static Pages'
+      parameters:
+        - in: path
+          name: userId
+          schema:
+            type: integer
+          required: true
+          description: 'User ID'
+      responses:
+        '200':
+          description: 'OK. User details.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+
+    patch:
+      operationId: R503
+      summary: 'R503: Update User'
+      description: 'Update a user account. Access: ADM'
+      tags:
+        - 'M05: User Administration and Static Pages'
+      parameters:
+        - in: path
+          name: userId
+          schema:
+            type: integer
+          required: true
+          description: 'User ID'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserInput'
+      responses:
+        '200':
+          description: 'User updated successfully.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+
+    delete:
+      operationId: R504
+      summary: 'R504: Delete User'
+      description: 'Delete a user account. Access: ADM'
+      tags:
+        - 'M05: User Administration and Static Pages'
+      parameters:
+        - in: path
+          name: userId
+          schema:
+            type: integer
+          required: true
+          description: 'User ID'
+      responses:
+        '200':
+          description: 'User deleted successfully.'
+
+  /admin/user/{userId}/edit:
+    get:
+      operationId: R505
+      summary: 'R505: Edit User Form'
+      description: 'Display form to edit a user account. Access: ADM'
+      tags:
+        - 'M05: User Administration and Static Pages'
+      parameters:
+        - in: path
+          name: userId
+          schema:
+            type: integer
+          required: true
+          description: 'User ID'
+      responses:
+        '200':
+          description: 'OK. Display edit user form.'
+
+  /about:
+    get:
+      operationId: R601
+      summary: 'R601: About Page'
+      description: 'Display the About page. Access: PUB'
+      tags:
+        - 'M05: User Administration and Static Pages'
+      responses:
+        '200':
+          description: 'OK. Display About page.'
+
+  /contact:
+    get:
+      operationId: R602
+      summary: 'R602: Contact Page'
+      description: 'Display the Contact page. Access: PUB'
+      tags:
+        - 'M05: User Administration and Static Pages'
+      responses:
+        '200':
+          description: 'OK. Display Contact page.'
+
+  /messages:
+    get:
+      operationId: R701
+      summary: 'R701: Messages Page'
+      description: 'Display the user messages page. Access: USR'
+      tags:
+        - 'M05: User Administration and Static Pages'
+      responses:
+        '200':
+          description: 'OK. Display messages page.'
+
+  /lang/{locale}:
+    get:
+      operationId: R801
+      summary: 'R801: Switch Language'
+      description: 'Switch the application language. Access: PUB'
+      tags:
+        - 'M05: User Administration and Static Pages'
+      parameters:
+        - in: path
+          name: locale
+          schema:
+            type: string
+          required: true
+          description: 'Locale code (e.g., en, pt)'
+      responses:
+        '302':
+          description: 'Redirect to previous page with language changed.'
+
+components:
+  schemas:
+    Auction:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        description:
+          type: string
+        startingBid:
+          type: number
+        currentBid:
+          type: number
+        endTime:
+          type: string
+          format: date-time
+        images:
+          type: array
+          items:
+            type: string
+        category:
+          type: string
+        ownerId:
+          type: integer
+      required:
+        - id
+        - title
+        - startingBid
+        - endTime
+        - ownerId
+
+    AuctionInput:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        startingBid:
+          type: number
+        images:
+          type: array
+          items:
+            type: string
+        category:
+          type: string
+        endTime:
+          type: string
+          format: date-time
+      required:
+        - title
+        - description
+        - startingBid
+        - category
+        - endTime
+
+    Bid:
+      type: object
+      properties:
+        id:
+          type: integer
+        auctionId:
+          type: integer
+        userId:
+          type: integer
+        bidAmount:
+          type: number
+        bidTime:
+          type: string
+          format: date-time
+      required:
+        - id
+        - auctionId
+        - userId
+        - bidAmount
+        - bidTime
+
+    Notification:
+      type: object
+      properties:
+        id:
+          type: integer
+        userId:
+          type: integer
+        message:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        read:
+          type: boolean
+      required:
+        - id
+        - userId
+        - message
+        - createdAt
+        - read
+
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+        username:
+          type: string
+        email:
+          type: string
+        joinedDate:
+          type: string
+          format: date
+      required:
+        - id
+        - username
+        - email
+        - joinedDate
+
+    UserInput:
+      type: object
+      properties:
+        username:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+      required:
+        - username
+        - email
