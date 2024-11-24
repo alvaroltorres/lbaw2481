@@ -51,6 +51,7 @@ Route::get('/search', [HomeController::class, 'search'])->name('search');
 // Auctions
 Route::resource('auctions', AuctionController::class);
 
+
 // Bids - store route for placing bids on auctions
 Route::post('/auctions/{auction}/bids', [BidController::class, 'store'])->name('bids.store');
 
