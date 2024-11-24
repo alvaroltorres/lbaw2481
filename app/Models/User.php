@@ -2,11 +2,14 @@
 
 namespace App\Models;
 
+// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Sanctum\HasApiTokens;
+
+// Added to define Eloquent relationships.
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class User extends Authenticatable
@@ -14,10 +17,11 @@ class User extends Authenticatable
     use HasApiTokens, HasFactory, Notifiable;
 
     protected $table = 'User';
+
     protected $primaryKey = 'user_id';
 
-    // Don't add created_at and updated_at timestamps in the database.
-    public $timestamps = false;
+    // Don't add create and update timestamps in database.
+    public $timestamps  = false;
 
     /**
      * The attributes that are mass assignable.
@@ -55,20 +59,18 @@ class User extends Authenticatable
         'is_enterprise' => 'boolean',
         'two_factor_enabled' => 'boolean',
         'email_verified_at' => 'datetime',
-        'password_hash' => 'hashed', // Utilize a funcionalidade do Laravel para hashing seguro.
     ];
 
+
     /**
-     * Get the cards for the user.
+     * Get the cards for a user.
      */
     public function cards(): HasMany
     {
         return $this->hasMany(Card::class);
     }
 
-    /**
-     * Column used for password authentication.
-     */
+    // Column used for password.
     public function getAuthPassword()
     {
         return $this->password_hash;
@@ -84,10 +86,15 @@ class User extends Authenticatable
 
     /**
      * Set the user's password.
-     * Automatically hash the password when it's set.
      */
     public function setPasswordAttribute($password)
     {
         $this->attributes['password_hash'] = Hash::make($password);
     }
+
+    public function isAdmin()
+    {
+        return $this->is_admin;
+    }
+
 }

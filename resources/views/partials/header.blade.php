@@ -34,9 +34,9 @@
         <!-- search bar -->
         <div class="search-bar flex items-center ml-6 flex-grow">
             <form action="{{route('search')}}" method="GET" class="search-bar-form">
-                <input type="text" name="query" placeholder="{{ __('Buscar...') }}" class="search-input flex-grow px-4 py-2 border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary-color dark:bg-gray-700 dark:text-white">
+                <input type="text" name="query" placeholder="{{ __('Search...') }}" class="search-input flex-grow px-4 py-2 border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary-color dark:bg-gray-700 dark:text-white">
                 <select name="category" class="search-select px-4 py-2 border-t border-b border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary-color dark:bg-gray-700 dark:text-white">
-                    <option value="">{{ __('Todas as Categorias') }}</option>
+                    <option value="">{{ __('All Categories') }}</option>
                     @foreach(App\Models\Category::all() as $category)
                         <option value="{{ $category->category_id }}">{{ $category->name }}</option>
                     @endforeach
@@ -75,7 +75,7 @@
                     <i class="fas fa-user"></i>
                 </a>
                 <a href="{{ route('auctions.create') }}" class="nav-link">
-                    {{ __('Criar leilão') }}
+                    {{ __('Create Auction') }}
                 </a>
             @else
                 <!-- login/register -->
