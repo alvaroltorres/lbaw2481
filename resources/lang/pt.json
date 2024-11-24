@@ -76,5 +76,12 @@
   "View Auction": "Ver Leilão",
   "Information about your company or website.": "Informação sobre a sua empresa ou website.",
   "Contact Us": "Contacto",
-  "Contact information or a contact form.": "Informação de contacto ou um formulário de contacto."
+  "Contact information or a contact form.": "Informação de contacto ou um formulário de contacto.",
+  "Bidding History for": "Histórico de Lances para",
+  "No bidding history found.": "Nenhum histórico de lances encontrado.",
+  "Bidder": "Licitante",
+  "Bid Amount": "Quantia do Lance",
+  "Bid Time": "Data do Lance",
+  "Bid": "Lance",
+  "Back to Auction": "Voltar ao Leilão"
 }
