@@ -11,9 +11,8 @@ servers:
 tags:
   - name: 'M01: Authentication and Individual Profile'
   - name: 'M02: Auctions'
-  - name: 'M03: Bidding and Following Auctions'
-  - name: 'M04: Notifications'
-  - name: 'M05: User Administration and Static Pages'
+  - name: 'M03: Bidding on Auctions'
+  - name: 'M04: User Administration and Static Pages'
 
 paths:
   /login:
@@ -200,17 +199,6 @@ paths:
         '400':
           description: 'Deletion failed.'
 
-  /profile/settings:
-    get:
-      operationId: R109
-      summary: 'R109: View User Settings'
-      description: 'Display user settings page. Access: USR'
-      tags:
-        - 'M01: Authentication and Individual Profile'
-      responses:
-        '200':
-          description: 'OK. Display user settings.'
-
   /auctions:
     get:
       operationId: R201
@@ -351,7 +339,7 @@ paths:
       summary: 'R206: View Auction Bidding History'
       description: 'Get the bidding history for a specific auction. Access: USR'
       tags:
-        - 'M03: Bidding and Following Auctions'
+        - 'M03: Bidding on Auctions'
       parameters:
         - in: path
           name: id
@@ -375,7 +363,7 @@ paths:
       summary: 'R301: Place Bid on Auction'
       description: 'Place a bid on an auction. Access: USR'
       tags:
-        - 'M03: Bidding and Following Auctions'
+        - 'M03: Bidding on Auctions'
       parameters:
         - in: path
           name: id
@@ -401,23 +389,6 @@ paths:
           description: 'Invalid bid amount or bid failed.'
         '404':
           description: 'Auction not found.'
-
-  /auction/followed:
-    get:
-      operationId: R302
-      summary: 'R302: View Followed Auctions'
-      description: 'List auctions followed by the authenticated user. Access: USR'
-      tags:
-        - 'M03: Bidding and Following Auctions'
-      responses:
-        '200':
-          description: 'OK. List of followed auctions.'
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Auction'
 
   /categories/{categoryId}:
     get:
@@ -481,52 +452,13 @@ paths:
                 items:
                   $ref: '#/components/schemas/Auction'
 
-  /notifications:
-    get:
-      operationId: R401
-      summary: 'R401: List Notifications'
-      description: 'Get a list of notifications for the authenticated user. Access: USR'
-      tags:
-        - 'M04: Notifications'
-      responses:
-        '200':
-          description: 'OK. List of notifications.'
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Notification'
-
-  /notifications/{id}:
-    get:
-      operationId: R402
-      summary: 'R402: View Notification'
-      description: 'Get details of a specific notification. Access: USR'
-      tags:
-        - 'M04: Notifications'
-      parameters:
-        - in: path
-          name: id
-          schema:
-            type: integer
-          required: true
-          description: 'Notification ID'
-      responses:
-        '200':
-          description: 'OK. Notification details.'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Notification'
-
   /admin/user:
     get:
-      operationId: R501
-      summary: 'R501: List Users'
+      operationId: R401
+      summary: 'R401: List Users'
       description: 'List all user accounts. Access: ADM'
       tags:
-        - 'M05: User Administration and Static Pages'
+        - 'M04: User Administration and Static Pages'
       responses:
         '200':
           description: 'OK. List of users.'
@@ -539,11 +471,11 @@ paths:
 
   /admin/user/{userId}:
     get:
-      operationId: R502
-      summary: 'R502: View User'
+      operationId: R402
+      summary: 'R402: View User'
       description: 'Get details of a specific user account. Access: ADM'
       tags:
-        - 'M05: User Administration and Static Pages'
+        - 'M04: User Administration and Static Pages'
       parameters:
         - in: path
           name: userId
@@ -560,11 +492,11 @@ paths:
                 $ref: '#/components/schemas/User'
 
     patch:
-      operationId: R503
-      summary: 'R503: Update User'
+      operationId: R403
+      summary: 'R403: Update User'
       description: 'Update a user account. Access: ADM'
       tags:
-        - 'M05: User Administration and Static Pages'
+        - 'M04: User Administration and Static Pages'
       parameters:
         - in: path
           name: userId
@@ -587,11 +519,11 @@ paths:
                 $ref: '#/components/schemas/User'
 
     delete:
-      operationId: R504
-      summary: 'R504: Delete User'
+      operationId: R404
+      summary: 'R404: Delete User'
       description: 'Delete a user account. Access: ADM'
       tags:
-        - 'M05: User Administration and Static Pages'
+        - 'M04: User Administration and Static Pages'
       parameters:
         - in: path
           name: userId
@@ -605,11 +537,11 @@ paths:
 
   /admin/user/{userId}/edit:
     get:
-      operationId: R505
-      summary: 'R505: Edit User Form'
+      operationId: R405
+      summary: 'R405: Edit User Form'
       description: 'Display form to edit a user account. Access: ADM'
       tags:
-        - 'M05: User Administration and Static Pages'
+        - 'M04: User Administration and Static Pages'
       parameters:
         - in: path
           name: userId
@@ -623,44 +555,33 @@ paths:
 
   /about:
     get:
-      operationId: R601
-      summary: 'R601: About Page'
+      operationId: R501
+      summary: 'R501: About Page'
       description: 'Display the About page. Access: PUB'
       tags:
-        - 'M05: User Administration and Static Pages'
+        - 'M04: User Administration and Static Pages'
       responses:
         '200':
           description: 'OK. Display About page.'
 
   /contact:
     get:
-      operationId: R602
-      summary: 'R602: Contact Page'
+      operationId: R502
+      summary: 'R502: Contact Page'
       description: 'Display the Contact page. Access: PUB'
       tags:
-        - 'M05: User Administration and Static Pages'
+        - 'M04: User Administration and Static Pages'
       responses:
         '200':
           description: 'OK. Display Contact page.'
 
-  /messages:
-    get:
-      operationId: R701
-      summary: 'R701: Messages Page'
-      description: 'Display the user messages page. Access: USR'
-      tags:
-        - 'M05: User Administration and Static Pages'
-      responses:
-        '200':
-          description: 'OK. Display messages page.'
-
   /lang/{locale}:
     get:
-      operationId: R801
-      summary: 'R801: Switch Language'
+      operationId: R701
+      summary: 'R701: Switch Language'
       description: 'Switch the application language. Access: PUB'
       tags:
-        - 'M05: User Administration and Static Pages'
+        - 'M04: User Administration and Static Pages'
       parameters:
         - in: path
           name: locale
@@ -750,28 +671,6 @@ components:
         - userId
         - bidAmount
         - bidTime
-
-    Notification:
-      type: object
-      properties:
-        id:
-          type: integer
-        userId:
-          type: integer
-        message:
-          type: string
-        createdAt:
-          type: string
-          format: date-time
-        read:
-          type: boolean
-      required:
-        - id
-        - userId
-        - message
-        - createdAt
-        - read
-
     User:
       type: object
       properties:
