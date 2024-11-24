@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\AuctionController;
 use App\Http\Controllers\BidController;
 use App\Http\Controllers\CategoryController;
@@ -83,3 +84,14 @@ Route::middleware('auth')->group(function () {
 Route::get('/messages', function () {
     return view('messages');
 })->name('messages');
+
+
+Route::get('/admin/user', [AdminUserController::class, 'index'])->name('admin.users.index');
+
+Route::get('/admin/user/{user}/edit', [AdminUserController::class, 'edit'])->name('admin.users.edit');
+
+Route::delete('/admin/user/{user}', [AdminUserController::class, 'destroy'])->name('admin.users.destroy');
+
+Route::patch('/admin/user/{user}', [AdminUserController::class, 'update'])->name('admin.users.update');
+
+Route::get('/admin/user/{user}', [AdminUserController::class, 'show'])->name('admin.users.show');

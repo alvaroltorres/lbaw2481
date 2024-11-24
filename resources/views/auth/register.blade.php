@@ -11,7 +11,6 @@
                         <form method="POST" action="{{ route('register') }}">
                             @csrf
 
-                            <!-- Campo de Username -->
                             <div class="row mb-3">
                                 <label for="username" class="col-md-4 col-form-label text-md-end">{{ __('Username') }}</label>
 
@@ -29,7 +28,6 @@
                                 </div>
                             </div>
 
-                            <!-- Campo de Email -->
                             <div class="row mb-3">
                                 <label for="email" class="col-md-4 col-form-label text-md-end">{{ __('Email Address') }}</label>
 
@@ -47,7 +45,6 @@
                                 </div>
                             </div>
 
-                            <!-- Campo de Fullname -->
                             <div class="row mb-3">
                                 <label for="fullname" class="col-md-4 col-form-label text-md-end">{{ __('Full Name') }}</label>
 
@@ -65,7 +62,6 @@
                                 </div>
                             </div>
 
-                            <!-- Campo de NIF -->
                             <div class="row mb-3">
                                 <label for="nif" class="col-md-4 col-form-label text-md-end">{{ __('NIF') }}</label>
 
@@ -83,7 +79,6 @@
                                 </div>
                             </div>
 
-                            <!-- Campo de Senha -->
                             <div class="row mb-3">
                                 <label for="password" class="col-md-4 col-form-label text-md-end">{{ __('Password') }}</label>
 
@@ -100,7 +95,6 @@
                                 </div>
                             </div>
 
-                            <!-- Campo de Confirmação de Senha -->
                             <div class="row mb-3">
                                 <label for="password-confirm" class="col-md-4 col-form-label text-md-end">{{ __('Confirm Password') }}</label>
 
@@ -111,7 +105,6 @@
                                 </div>
                             </div>
 
-                            <!-- Botão de Registro -->
                             <div class="row mb-0">
                                 <div class="col-md-6 offset-md-4">
                                     <button type="submit" class="btn btn-primary">

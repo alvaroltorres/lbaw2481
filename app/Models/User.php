@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Hash;
 use Laravel\Sanctum\HasApiTokens;
 
 // Added to define Eloquent relationships.
@@ -28,7 +29,14 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'username', 'email', 'fullname', 'nif', 'password_hash', 'is_admin', 'is_enterprise'
+        'username',
+        'fullname',
+        'nif',
+        'email',
+        'password_hash',
+        'is_admin',
+        'is_enterprise',
+        'two_factor_enabled',
     ];
 
     /**
@@ -47,9 +55,12 @@ class User extends Authenticatable
      * @var array<string, string>
      */
     protected $casts = [
+        'is_admin' => 'boolean',
+        'is_enterprise' => 'boolean',
+        'two_factor_enabled' => 'boolean',
         'email_verified_at' => 'datetime',
-        'password_hash' => 'hashed',
     ];
+
 
     /**
      * Get the cards for a user.
@@ -71,6 +82,14 @@ class User extends Authenticatable
     public function bids()
     {
         return $this->hasMany(Bid::class, 'user_id', 'user_id');
+    }
+
+    /**
+     * Set the user's password.
+     */
+    public function setPasswordAttribute($password)
+    {
+        $this->attributes['password_hash'] = Hash::make($password);
     }
 
 }
