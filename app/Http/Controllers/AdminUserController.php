@@ -34,6 +34,7 @@ class AdminUserController extends Controller
             'email' => 'required|email|unique:User|max:100',
             'fullname' => 'required|max:100',
             'password' => 'required|min:8|confirmed',
+            'nif' => 'nullable|max:100',
             'is_admin' => 'required|boolean',
             'is_enterprise' => 'required|boolean',
         ]);
@@ -43,7 +44,7 @@ class AdminUserController extends Controller
             'username' => $validated['username'],
             'email' => $validated['email'],
             'fullname' => $validated['fullname'],
-            'nif' => $validated['nif'] ?? null,
+            'nif' => $validated['nif'],
             'password_hash' => bcrypt($validated['password']),
             'is_admin' => $validated['is_admin'],
             'is_enterprise' => $validated['is_enterprise'],
@@ -67,8 +68,8 @@ class AdminUserController extends Controller
     public function update(Request $request, $id)
     {
         $validated = $request->validate([
-            'username' => 'required|max:50|unique:User,username,'.$id.',user_id',
-            'email' => 'required|email|max:100|unique:User,email,'.$id.',user_id',
+            'username' => 'required|max:50|unique:User,username,' . $id . ',user_id',
+            'email' => 'required|email|max:100|unique:User,email,' . $id . ',user_id',
             'fullname' => 'required|max:100',
             'nif' => 'nullable|max:100',
             'password' => 'nullable|min:8|confirmed',
@@ -92,6 +93,14 @@ class AdminUserController extends Controller
         return redirect()->route('admin.users.index')->with('success', 'Utilizador atualizado com sucesso.');
     }
 
+
+    public function show($id)
+    {
+        $user = User::with('auctions')->findOrFail($id);
+        return view('admin.users.show', compact('user'));
+    }
+
+
     /**
      * Apagar um utilizador da base de dados.
      */
@@ -99,8 +108,8 @@ class AdminUserController extends Controller
     {
         $user = User::findOrFail($id);
 
-        // Autorização (se necessário)
-        // $this->authorize('delete', $user);
+        // Apagar registos relacionados na tabela BlockedUser
+        \DB::table('blockeduser')->where('blocked_user_id', $id)->orWhere('admin_id', $id)->delete();
 
         try {
             $user->delete();

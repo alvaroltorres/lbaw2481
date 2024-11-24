@@ -82,6 +82,13 @@ class Auction extends Model
         return $this->hasMany(Bid::class, 'auction_id', 'auction_id');
     }
 
+    // App\Models\Auction.php
+
+    public function seller()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'user_id');
+    }
+
 
     public function category()
     {
