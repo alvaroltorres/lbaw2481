@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Route;
 
 // página dos admins
 
-Route::middleware(['auth', 'is_admin'])->prefix('admin')->group(function () {
+Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('/users', [AdminUserController::class, 'index'])->name('admin.users.index');
     Route::get('/users/create', [AdminUserController::class, 'create'])->name('admin.users.create');
     Route::post('/users', [AdminUserController::class, 'store'])->name('admin.users.store');
