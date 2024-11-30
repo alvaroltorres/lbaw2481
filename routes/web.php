@@ -74,11 +74,23 @@ Route::get('/contact', function () {
     return view('contact');
 })->name('contact');
 
-// Notifications
 Route::middleware('auth')->group(function () {
-    Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
-    Route::get('/notifications/{id}', [NotificationController::class, 'show'])->name('notifications.show');
+    Route::get('/notifications/fetch', [NotificationController::class, 'fetchNewNotifications'])
+        ->name('notifications.fetch');
+
+    Route::get('/notifications/unread-count', [NotificationController::class, 'unreadCount'])
+        ->name('notifications.unreadCount');
+
+    Route::post('/notifications/mark-as-read/{id}', [NotificationController::class, 'markAsRead'])
+        ->name('notifications.markAsRead');
+
+    Route::get('/notifications/show/{id}', [NotificationController::class, 'show'])
+        ->name('notifications.show');
+
+    Route::get('/notifications', [NotificationController::class, 'index'])
+        ->name('notifications.index');
 });
+
 
 // Messages
 Route::get('/messages', function () {

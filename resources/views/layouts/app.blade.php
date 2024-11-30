@@ -1,5 +1,3 @@
-<!-- resources/views/layouts/app.blade.php -->
-
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
@@ -10,28 +8,37 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <!-- Título -->
+    <!-- titulo -->
     <title>{{ config('app.name', 'BidZenith') }}</title>
 
-    <link rel="stylesheet" href="{{asset("css/app.css")}}">
-    <script src="{{asset('js/main.js')}}" async></script>
+    <!-- css -->
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 
-    <!-- Outros links como favicon, etc. -->
 </head>
 <body class="font-sans antialiased">
-<!-- Header já incluído via partial dentro do layout -->
+<!-- header já incluído  -->
 @include('partials.header')
 
-<!-- Conteúdo da página -->
+<!-- conteudo da pagina -->
 <main>
     @yield('content')
-
-    @yield('scripts')
-
 </main>
 
-<!-- Rodapé, se houver -->
 @include('partials.footer')
-<!-- Scripts adicionais, se necessário -->
+
+<!-- scripts -->
+<script src="{{ asset('js/main.js') }}"></script>
+<script>
+    window.translations = {
+        notification: {
+            newBid: @json(__('A new bid of €:amount has been placed on your auction: :auction by :bidder.')),
+            viewDetails: @json(__('View Details')),
+            errorFetching: @json(__('Error fetching notifications')),
+            errorMarkingRead: @json(__('Error marking notification as read'))
+        }
+    };
+</script>
+
+@yield('scripts')
 </body>
 </html>

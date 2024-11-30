@@ -58,16 +58,16 @@
             <a href="{{ route('messages') }}" class="action-link" aria-label="{{ __('Mensagens') }}">
                 <i class="fas fa-comments"></i>
             </a>
-            <!-- notificações -->
+            <!-- Notificações -->
             <a href="{{ route('notifications.index') }}" class="action-link relative" aria-label="{{ __('Notificações') }}">
                 <i class="fas fa-bell"></i>
-                <!--
-                @i(auth()->check() && auth()->user()->unreadNotifications->count() > 0)
-                    <span class="notification-count absolute top-0 right-0 inline-flex items-center justify-center px-1 py-0.5 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full">
-                        { auth()->user()->unreadNotifications->count() }}
-                    </span>
-                @endi-->
+                <span id="notification-count" class="notification-count absolute top-0 right-0 inline-flex items-center justify-center px-1 py-0.5 text-xs font-bold leading-none text-white bg-red-600 rounded-full"
+                      style="{{ auth()->check() && auth()->user()->unreadNotifications->count() > 0 ? '' : 'display: none;' }}">
+        {{ auth()->check() ? auth()->user()->unreadNotifications->count() : 0 }}
+    </span>
             </a>
+
+
 
             @auth
                 <!-- profile -->
@@ -103,3 +103,11 @@
         </div>
     </div>
 </header>
+
+<!-- Scripts -->
+<script src="{{ asset('js/main.js') }}"></script>
+<script src="{{ asset('js/notifications.js') }}"></script>
+
+@yield('scripts')
+</body>
+</html>

@@ -1,10 +1,6 @@
-<!-- resources/views/home.blade.php -->
+@extends('layouts.app')
 
-<!-- Incluir o Header -->
-@include('partials.header')
-
-<!-- Conteúdo Principal -->
-<main>
+@section('content')
     <!-- Seção Hero -->
     <section class="hero" id="hero">
         <div class="hero__overlay"></div>
@@ -79,7 +75,7 @@
             </div>
             <h2 class="section-title">{{ __('Upcoming Auctions') }}</h2>
             <div class="auction-grid">
-                <!-- Verificar se há leilões ativos -->
+                <!-- Verificar se há leilões futuros -->
                 @if($upcomingAuctions->count() > 0)
                     @foreach($upcomingAuctions as $futureauction)
                         <article class="auction-card">
@@ -127,7 +123,4 @@
             </div>
         </div>
     </section>
-</main>
-
-<!-- Incluir o Footer -->
-@include('partials.footer')
+@endsection

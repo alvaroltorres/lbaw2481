@@ -2,10 +2,34 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\DatabaseNotification;
+use App\Models\Bid;
+use App\Models\Auction;
+use App\Models\User;
 
-class Notification extends Model
+class Notification extends DatabaseNotification
 {
-    use HasFactory;
+    public function getBidAttribute()
+    {
+        if (isset($this->data['bid_id'])) {
+            return Bid::find($this->data['bid_id']);
+        }
+        return null;
+    }
+
+    public function getAuctionAttribute()
+    {
+        if (isset($this->data['auction_id'])) {
+            return Auction::find($this->data['auction_id']);
+        }
+        return null;
+    }
+
+    public function getBidderAttribute()
+    {
+        if (isset($this->data['bidder_id'])) {
+            return User::find($this->data['bidder_id']);
+        }
+        return null;
+    }
 }

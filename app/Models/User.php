@@ -105,4 +105,17 @@ class User extends Authenticatable
         return $this->is_admin;
     }
 
+
+    public function notifications()
+    {
+        return $this->morphMany(Notification::class, 'notifiable')
+            ->orderBy('created_at', 'desc');
+    }
+
+    public function unreadNotifications()
+    {
+        return $this->morphMany(Notification::class, 'notifiable')
+            ->whereNull('read_at');
+    }
+
 }

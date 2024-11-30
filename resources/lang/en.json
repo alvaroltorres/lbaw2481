@@ -101,5 +101,13 @@
   "No": "No",
   "Created Auctions": "Created Auctions",
   "View Seller": "View Seller",
-  "This user has no active auctions.": "This user has no active auctions."
+  "This user has no active auctions.": "This user has no active auctions.",
+  "A new bid of €:amount has been placed on your auction: :auction by :bidder.": "A new bid of €:amount has been placed on your auction: :auction by :bidder.",
+  "View Details": "View Details",
+  "Error fetching notifications": "Error fetching notifications",
+  "Error marking notification as read": "Error marking notification as read",
+  "My Notifications": "My Notifications",
+  "New notification": "New notification",
+  "Notification Details": "Notification Details",
+  "Auction": "Auction"
 }

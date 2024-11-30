@@ -82,7 +82,6 @@
   "Bid Amount": "Quantia do Lance",
   "Bid Time": "Data do Lance",
   "Back to Auction": "Voltar ao Leilão",
-
   "Category:": "Categoria:",
   "All": "Todas",
   "Minimum Price:": "Preço Mínimo:",
@@ -102,5 +101,13 @@
   "No": "Não",
   "Created Auctions": "Leilões Criados",
   "View Seller": "Ver Vendedor",
-  "This user has no active auctions.": "Este utilizador não tem leilões ativos."
+  "This user has no active auctions.": "Este utilizador não tem leilões ativos.",
+  "A new bid of €:amount has been placed on your auction: :auction by :bidder.": "Uma nova oferta de €:amount foi feita no seu leilão: :auction por :bidder.",
+  "View Details": "Ver detalhes",
+  "Error fetching notifications": "Erro ao procurar notificações",
+  "Error marking notification as read": "Erro ao marcar notificação como lida",
+  "My Notifications": "As Minhas Notificações",
+  "New notification": "Nova notificação",
+  "Notification Details": "Detalhes da Notificação",
+  "Auction": "Leilão"
 }
