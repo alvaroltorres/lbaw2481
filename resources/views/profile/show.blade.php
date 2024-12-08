@@ -3,6 +3,9 @@
 @section('content')
     <div class="profile-div">
         <h1>{{ __('User Profile') }}</h1>
+        <div class="profile-picture-container">
+            <img src="{{ route('profile.picture', ['user_id' => $user->user_id]) }}" alt="Profile Picture" class="profile-picture">
+        </div>
         <div class="card">
             <div class="card-header">
                 {{ $user->username }}

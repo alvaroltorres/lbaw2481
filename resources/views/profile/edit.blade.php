@@ -10,6 +10,19 @@
             </div>
         @endif
 
+        <div class="profile-picture-container">
+            <img src="{{ route('profile.picture', ['user_id' => $user->user_id]) }}" alt="Profile Picture" class="profile-picture">
+        </div>
+
+        <!-- Profile Picture Upload Form -->
+        <form action="{{ route('profile.picture.store') }}" method="POST" enctype="multipart/form-data">
+            @csrf
+            <div class="form-group">
+                <label for="profile_picture">{{ __('Upload Profile Picture:') }}</label>
+                <input type="file" name="profile_picture" id="profile_picture" accept="image/*" required>
+            </div>
+            <button type="submit" class="btn btn-primary">{{ __('Upload') }}</button>
+
         <form method="POST" action="{{ route('profile.update') }}">
             @csrf
             @method('PATCH')

@@ -4,11 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Models\Auction;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
+use App\Models\ProfilePicture;
+use Symfony\Component\Mime\Part\File;
 
 class ProfileController extends Controller
 {
@@ -81,6 +85,45 @@ class ProfileController extends Controller
             'nif' => ['required', 'string', 'max:20'],
         ];
     }
+
+    public function showProfilePicture($userId)
+    {
+        // Define the path to the user's profile picture
+        $imagePath = public_path('images/users/' . $userId . '.jpg');
+
+        // Check if the image exists in the public folder
+        if (file_exists($imagePath)) {
+            // If the image exists, return it as a response
+            return response()->file($imagePath);
+        }
+
+        // If the image doesn't exist, return a default image
+        return response()->file(public_path('images/users/default.jpg'));
+    }
+
+
+    public function storeProfilePicture(Request $request)
+    {
+        // Validate that the uploaded file is an image
+        $request->validate([
+            'profile_picture' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        $user = Auth::id(); // Get the logged-in user
+
+        // Get the uploaded file
+        $image = $request->file('profile_picture');
+
+        // Create a unique file name using the user ID and save it as a .jpg or .png
+        $imageName = $user . '.jpg';
+
+        // Store the image in the public/images/users directory
+        $image->move(public_path('images/users'), $imageName);
+
+        return back()->with('status', 'Profile picture updated successfully!');
+    }
+
+
 
     public function settings(Request $request): View
     {

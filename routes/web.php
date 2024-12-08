@@ -35,10 +35,15 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::patch('/profile-picture/', [ProfileController::class, 'storeProfilePicture'])->name('profile.picture.store');
+    Route::get('/profile-picture/{user_id}', [ProfileController::class, 'showProfilePicture'])->name('profile.picture');
+
 
     // Profile settings
     Route::get('/profile/settings', [ProfileController::class, 'settings'])->name('profile.settings');
 });
+
+
 
 // Authentication routes
 require __DIR__.'/auth.php';

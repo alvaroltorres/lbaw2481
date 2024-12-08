@@ -26,6 +26,13 @@ main {
     min-height: 95vh
 }
 
+.profile-picture-container img{
+    width: 5em;
+    height: 5em;
+    border-radius: 20%;
+}
+
+
 .container {
     width: 90%;
     max-width: 1200px;
