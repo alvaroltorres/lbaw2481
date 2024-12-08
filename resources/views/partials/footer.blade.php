@@ -8,6 +8,11 @@
             <li><a href="#" aria-label="{{ __('Twitter') }}"><i class="fab fa-twitter" aria-hidden="true"></i></a></li>
             <li><a href="#" aria-label="{{ __('Instagram') }}"><i class="fab fa-instagram" aria-hidden="true"></i></a></li>
         </ul>
+        <ul class="footer-links">
+            <li><a href="{{ route('about') }}">{{ __('About Us') }}</a></li>
+            <li><a href="{{ route('contact') }}">{{ __('Contact Us') }}</a></li>
+            <li><a href="{{ route('features') }}">{{ __('Features') }}</a></li>
+        </ul>
     </div>
 </footer>
 
