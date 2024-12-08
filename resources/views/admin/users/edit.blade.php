@@ -19,13 +19,13 @@
         @method('PATCH')
 
         <label for="fullname">Nome Completo:</label>
-        <input type="text" name="fullname" id="fullname" value="{{ old('fullname', $user->fullname) }}" required>
+        <input type="text" name="fullname" id="fullname" value="{{ old('fullname', $user->fullname) }}" required placeholder="Digite o nome completo">
 
         <label for="email">Email:</label>
-        <input type="email" name="email" id="email" value="{{ old('email', $user->email) }}" required>
+        <input type="email" name="email" id="email" value="{{ old('email', $user->email) }}" required placeholder="Digite o endereço de email">
 
         <label for="username">Username:</label>
-        <input type="text" name="username" id="username" value="{{ old('username', $user->username) }}" required>
+        <input type="text" name="username" id="username" value="{{ old('username', $user->username) }}" required placeholder="Digite o nome de usuário">
 
         <label for="is_admin">É administrador?</label>
         <select name="is_admin" id="is_admin" required>
@@ -40,7 +40,7 @@
         </select>
 
         <label for="nif">NIF:</label>
-        <input type="text" name="nif" id="nif" value="{{ old('nif', $user->nif) }}" required>
+        <input type="text" name="nif" id="nif" value="{{ old('nif', $user->nif) }}" required placeholder="Digite o NIF">
 
         <button type="submit">Salvar Alterações</button>
     </form>

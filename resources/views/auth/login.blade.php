@@ -23,7 +23,8 @@
                                     <input id="email" type="email"
                                            class="custom-input @error('email') is-invalid @enderror"
                                            name="email" value="{{ old('email') }}" required
-                                           autocomplete="email" autofocus>
+                                           autocomplete="email" autofocus
+                                           placeholder="Enter your email address">
 
                                     @error('email')
                                     <span class="invalid-feedback" role="alert">
@@ -40,7 +41,8 @@
                                 <div class="col-md-8">
                                     <input id="password" type="password"
                                            class="custom-input @error('password') is-invalid @enderror"
-                                           name="password" required autocomplete="current-password">
+                                           name="password" required autocomplete="current-password"
+                                           placeholder="Enter your password">
 
                                     @error('password')
                                     <span class="invalid-feedback" role="alert">

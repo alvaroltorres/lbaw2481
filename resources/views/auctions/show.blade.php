@@ -35,7 +35,7 @@
                         @csrf
                         <div class="form-group">
                             <label for="price">{{ __('Bid Price') }}:</label>
-                            <input type="number" name="price" id="price" class="form-control" step="0.01" required>
+                            <input type="number" name="price" id="price" class="form-control" step="0.01" required placeholder="Enter price">
                             @error('price')
                             <div class="text-danger">{{ __($message) }}</div>
                             @enderror

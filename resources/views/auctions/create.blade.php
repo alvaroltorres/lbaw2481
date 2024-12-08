@@ -18,7 +18,7 @@
 
         <div class="mb-3">
             <label for="title" class="form-label">{{ __('Title') }}</label>
-            <input type="text" class="form-control" id="title" name="title" value="{{ old('title') }}" required>
+            <input type="text" class="form-control" id="title" name="title" value="{{ old('title') }}" required placeholder="Enter auction title">
             @error('title')
             <div class="text-danger">{{ __($message) }}</div>
             @enderror
@@ -27,7 +27,6 @@
         <div class="mb-3">
             <label for="category_id" class="form-label">{{ __('Category') }}</label>
             <select class="form-select" id="category_id" name="category_id" required>
-                <!-- You can dynamically populate categories here -->
                 <option value="" disabled selected>{{ __('Select a category') }}</option>
                 @foreach($categories as $category)
                     <option value="{{ $category->category_id }}">{{ __($category->name) }}</option>
@@ -40,7 +39,7 @@
 
         <div class="mb-3">
             <label for="starting_price" class="form-label">{{ __('Starting Price') }}</label>
-            <input type="number" step="0.01" class="form-control" id="starting_price" name="starting_price" value="{{ old('starting_price') }}" required>
+            <input type="number" step="0.01" class="form-control" id="starting_price" name="starting_price" value="{{ old('starting_price') }}" required placeholder="Enter starting price">
             @error('starting_price')
             <div class="text-danger">{{ __($message) }}</div>
             @enderror
@@ -48,7 +47,7 @@
 
         <div class="mb-3">
             <label for="reserve_price" class="form-label">{{ __('Reserve Price') }}</label>
-            <input type="number" step="0.01" class="form-control" id="reserve_price" name="reserve_price" value="{{ old('reserve_price') }}" required>
+            <input type="number" step="0.01" class="form-control" id="reserve_price" name="reserve_price" value="{{ old('reserve_price') }}" required placeholder="Enter reserve price">
             @error('reserve_price')
             <div class="text-danger">{{ __($message) }}</div>
             @enderror
@@ -56,7 +55,7 @@
 
         <div class="mb-3">
             <label for="minimum_bid_increment" class="form-label">{{ __('Minimum Bid Increment') }}</label>
-            <input type="number" step="0.01" class="form-control" id="minimum_bid_increment" name="minimum_bid_increment" value="{{ old('minimum_bid_increment') }}" required>
+            <input type="number" step="0.01" class="form-control" id="minimum_bid_increment" name="minimum_bid_increment" value="{{ old('minimum_bid_increment') }}" required placeholder="Enter minimum bid increment">
             @error('minimum_bid_increment')
             <div class="text-danger">{{ __($message) }}</div>
             @enderror
@@ -64,7 +63,7 @@
 
         <div class="mb-3">
             <label for="starting_date" class="form-label">{{ __('Starting Date') }}</label>
-            <input type="datetime-local" class="form-control" id="starting_date" name="starting_date" value="{{ old('starting_date') }}" required>
+            <input type="datetime-local" class="form-control" id="starting_date" name="starting_date" value="{{ old('starting_date') }}" required placeholder="Select starting date and time">
             @error('starting_date')
             <div class="text-danger">{{ __($message) }}</div>
             @enderror
@@ -72,7 +71,7 @@
 
         <div class="mb-3">
             <label for="ending_date" class="form-label">{{ __('Ending Date') }}</label>
-            <input type="datetime-local" class="form-control" id="ending_date" name="ending_date" value="{{ old('ending_date') }}" required>
+            <input type="datetime-local" class="form-control" id="ending_date" name="ending_date" value="{{ old('ending_date') }}" required placeholder="Select ending date and time">
             @error('ending_date')
             <div class="text-danger">{{ __($message) }}</div>
             @enderror
@@ -80,7 +79,7 @@
 
         <div class="mb-3">
             <label for="location" class="form-label">{{ __('Location') }}</label>
-            <input type="text" class="form-control" id="location" name="location" value="{{ old('location') }}" required>
+            <input type="text" class="form-control" id="location" name="location" value="{{ old('location') }}" required placeholder="Enter location">
             @error('location')
             <div class="text-danger">{{ __($message) }}</div>
             @enderror
@@ -88,7 +87,7 @@
 
         <div class="mb-3">
             <label for="description" class="form-label">{{ __('Description') }}</label>
-            <textarea class="form-control" id="description" name="description" rows="4" required>{{ old('description') }}</textarea>
+            <textarea class="form-control" id="description" name="description" rows="4" required placeholder="Enter auction description">{{ old('description') }}</textarea>
             @error('description')
             <div class="text-danger">{{ __($message) }}</div>
             @enderror

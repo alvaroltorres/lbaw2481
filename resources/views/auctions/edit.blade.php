@@ -20,15 +20,15 @@
 
         <!-- Nome Completo -->
         <label for="fullname">{{ __('Full Name') }}:</label>
-        <input type="text" name="fullname" id="fullname" value="{{ old('fullname', $user->fullname) }}" required>
+        <input type="text" name="fullname" id="fullname" value="{{ old('fullname', $user->fullname) }}" required placeholder="Enter full name">
 
         <!-- Email -->
         <label for="email">{{ __('Email') }}:</label>
-        <input type="email" name="email" id="email" value="{{ old('email', $user->email) }}" required>
+        <input type="email" name="email" id="email" value="{{ old('email', $user->email) }}" required placeholder="Enter email address">
 
         <!-- Username -->
         <label for="username">{{ __('Username') }}:</label>
-        <input type="text" name="username" id="username" value="{{ old('username', $user->username) }}" required>
+        <input type="text" name="username" id="username" value="{{ old('username', $user->username) }}" required placeholder="Enter username">
 
         <!-- É administrador -->
         <label for="is_admin">{{ __('Is Admin?') }}</label>
@@ -46,7 +46,7 @@
 
         <!-- NIF -->
         <label for="nif">{{ __('NIF') }}:</label>
-        <input type="text" name="nif" id="nif" value="{{ old('nif', $user->nif) }}" required>
+        <input type="text" name="nif" id="nif" value="{{ old('nif', $user->nif) }}" required placeholder="Enter NIF">
 
         <!-- Botão de salvar -->
         <button type="submit">{{ __('Save Changes') }}</button>

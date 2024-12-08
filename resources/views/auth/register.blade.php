@@ -18,7 +18,8 @@
                                     <input id="username" type="text"
                                            class="form-control @error('username') is-invalid @enderror"
                                            name="username" value="{{ old('username') }}" required
-                                           autocomplete="username" autofocus>
+                                           autocomplete="username" autofocus
+                                           placeholder="Enter your username">
 
                                     @error('username')
                                     <span class="invalid-feedback" role="alert">
@@ -35,7 +36,8 @@
                                     <input id="email" type="email"
                                            class="form-control @error('email') is-invalid @enderror"
                                            name="email" value="{{ old('email') }}" required
-                                           autocomplete="email">
+                                           autocomplete="email"
+                                           placeholder="Enter your email address">
 
                                     @error('email')
                                     <span class="invalid-feedback" role="alert">
@@ -52,7 +54,8 @@
                                     <input id="fullname" type="text"
                                            class="form-control @error('fullname') is-invalid @enderror"
                                            name="fullname" value="{{ old('fullname') }}" required
-                                           autocomplete="fullname">
+                                           autocomplete="fullname"
+                                           placeholder="Enter your full name">
 
                                     @error('fullname')
                                     <span class="invalid-feedback" role="alert">
@@ -69,7 +72,8 @@
                                     <input id="nif" type="text"
                                            class="form-control @error('nif') is-invalid @enderror"
                                            name="nif" value="{{ old('nif') }}" required
-                                           autocomplete="nif">
+                                           autocomplete="nif"
+                                           placeholder="Enter your NIF">
 
                                     @error('nif')
                                     <span class="invalid-feedback" role="alert">
@@ -85,7 +89,8 @@
                                 <div class="col-md-6">
                                     <input id="password" type="password"
                                            class="form-control @error('password') is-invalid @enderror"
-                                           name="password" required autocomplete="new-password">
+                                           name="password" required autocomplete="new-password"
+                                           placeholder="Enter your password">
 
                                     @error('password')
                                     <span class="invalid-feedback" role="alert">
@@ -101,7 +106,8 @@
                                 <div class="col-md-6">
                                     <input id="password-confirm" type="password"
                                            class="form-control"
-                                           name="password_confirmation" required autocomplete="new-password">
+                                           name="password_confirmation" required autocomplete="new-password"
+                                           placeholder="Confirm your password">
                                 </div>
                             </div>
 

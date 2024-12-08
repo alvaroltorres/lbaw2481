@@ -27,11 +27,11 @@
                 </div>
                 <div>
                     <label for="min_price">{{ __('Minimum Price:') }}</label>
-                    <input type="number" name="min_price" id="min_price" value="{{ request('min_price') }}">
+                    <input type="number" name="min_price" id="min_price" value="{{ request('min_price') }}" placeholder="Enter minimum price">
                 </div>
                 <div>
                     <label for="max_price">{{ __('Maximum Price:') }}</label>
-                    <input type="number" name="max_price" id="max_price" value="{{ request('max_price') }}">
+                    <input type="number" name="max_price" id="max_price" value="{{ request('max_price') }}" placeholder="Enter maximum price">
                 </div>
                 <div>
                     <label for="status">{{ __('Status:') }}</label>
