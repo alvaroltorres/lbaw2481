@@ -23,6 +23,7 @@ body {
 
 main {
     padding-bottom: 7rem;
+    min-height: 95vh
 }
 
 .container {
@@ -374,6 +375,7 @@ main {
     font-size: 1rem;
     transition: background-color var(--transition);
     cursor: pointer;
+    margin-bottom: 2rem;
 }
 
 .btn--primary {

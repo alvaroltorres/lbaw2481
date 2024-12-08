@@ -29,33 +29,35 @@ class NewPasswordController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
+        // Validate incoming request data
         $request->validate([
             'token' => ['required'],
             'email' => ['required', 'email'],
-            'password_hash' => ['required', 'confirmed', Rules\Password::defaults()],
+            'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
-        // Here we will attempt to reset the user's password. If it is successful we
-        // will update the password on an actual user model and persist it to the
-        // database. Otherwise we will parse the error and return the response.
+        // Attempt to reset the user's password
         $status = Password::reset(
-            $request->only('email', 'password_hash', 'password_confirmation', 'token'),
+            $request->only('email', 'password', 'password_confirmation', 'token'),
             function ($user) use ($request) {
+                // Update the user's password_hash field (since you're using password_hash instead of password)
                 $user->forceFill([
-                    'password_hash' => Hash::make($request->password),
-                    'remember_token' => Str::random(60),
+                    'password_hash' => Hash::make($request->password),  // Make sure to hash the password and store it in password_hash column
                 ])->save();
 
+                // Trigger password reset event
                 event(new PasswordReset($user));
             }
         );
 
-        // If the password was successfully reset, we will redirect the user back to
-        // the application's home authenticated view. If there is an error we can
-        // redirect them back to where they came from with their error message.
-        return $status == Password::PASSWORD_RESET
-                    ? redirect()->route('login')->with('status', __($status))
-                    : back()->withInput($request->only('email'))
-                            ->withErrors(['email' => __($status)]);
+        // If the password was successfully reset
+        if ($status == Password::PASSWORD_RESET) {
+            return redirect()->route('login')->with('status', 'Your password has been successfully reset.');
+        } else {
+            // If there's an error, return to the previous page with errors
+            return back()
+                ->withInput($request->only('email'))  // Keep the email field in the form
+                ->withErrors(['email' => 'There was an error resetting your password. Please try again.']);
+        }
     }
 }
