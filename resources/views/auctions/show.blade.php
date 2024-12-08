@@ -42,6 +42,11 @@
                         </div>
                         <button type="submit" class="btn btn-primary">{{ __('Place Bid') }}</button>
                     </form>
+                    <form action="{{ route('auction.follow', ['auction_id' => $auction->auction_id]) }}" method="POST">
+                        @csrf
+                        <button type="submit" class="btn btn-primary">Follow Auction</button>
+                    </form>
+
                 @endif
             @endauth
         </div>

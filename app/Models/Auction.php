@@ -14,7 +14,7 @@ class Auction extends Model
      *
      * @var string
      */
-    protected $table = 'auction'; // Specify the exact table name
+    protected $table = 'Auction'; // Specify the exact table name
 
     /**
      * The primary key associated with the table.

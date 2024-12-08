@@ -11,7 +11,7 @@ SET search_path TO lbaw2481;
 CREATE OR REPLACE FUNCTION prevent_self_bid()
 RETURNS TRIGGER AS $$
 BEGIN
-    IF NEW.user_id = (SELECT user_id FROM Auction WHERE auction_id = NEW.auction_id) THEN
+    IF NEW.user_id = (SELECT user_id FROM "Auction" WHERE auction_id = NEW.auction_id) THEN
         RAISE EXCEPTION 'User cannot bid on their own auction.';
 END IF;
 RETURN NEW;
@@ -26,7 +26,7 @@ CREATE TRIGGER prevent_self_bid_trigger
 CREATE OR REPLACE FUNCTION update_auction_current_price()
 RETURNS TRIGGER AS $$
 BEGIN
-UPDATE Auction
+UPDATE "Auction"
 SET current_price = NEW.price,
     updated_at = NOW()
 WHERE auction_id = NEW.auction_id;
@@ -45,7 +45,7 @@ DECLARE
 v_seller_id INTEGER;
     v_auction_title VARCHAR(255);
 BEGIN
-SELECT user_id, title INTO v_seller_id, v_auction_title FROM Auction WHERE auction_id = NEW.auction_id;
+SELECT user_id, title INTO v_seller_id, v_auction_title FROM "Auction" WHERE auction_id = NEW.auction_id;
 
 INSERT INTO Notification (user_id, content, type, auction_id, bid_id)
 VALUES (
@@ -89,7 +89,7 @@ END;
 $$ LANGUAGE plpgsql;
 
 CREATE TRIGGER update_auction_status_history_trigger
-    AFTER UPDATE OF status ON Auction
+    AFTER UPDATE OF status ON "Auction"
     FOR EACH ROW EXECUTE FUNCTION update_auction_status_history();
 
 -- Add other triggers and functions as needed

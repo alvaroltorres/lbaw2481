@@ -85,6 +85,10 @@ Route::get('/features', function () {
 })->name('features');
 
 Route::middleware('auth')->group(function () {
+    Route::get('/followed-auctions', [AuctionController::class, 'followedAuctions'])->name('auctions.followed');
+
+    Route::post('/auction/{auction_id}/follow', [AuctionController::class, 'followAuction'])->name('auction.follow')->middleware('auth');
+
     Route::get('/notifications/fetch', [NotificationController::class, 'fetchNewNotifications'])
         ->name('notifications.fetch');
 

@@ -118,4 +118,9 @@ class User extends Authenticatable
             ->whereNull('read_at');
     }
 
+    public function followedAuctions()
+    {
+        return $this->belongsToMany(Auction::class, 'follow_auctions', 'user_id', 'auction_id');
+    }
+
 }

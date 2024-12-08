@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\AuctionRequest;
 use App\Models\Auction;
 use App\Models\Category;
+use App\Models\FollowAuction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -128,6 +129,41 @@ class AuctionController extends Controller
         } else {
             return redirect()->route('auctions.edit', $auction)->with('error', 'An error occurred while updating the auction. Please try again.');
         }
+    }
+
+    public function followAuction(Request $request, $auction_id)
+    {
+        // Get the currently authenticated user's ID
+        $user_id = Auth::id();
+
+        // Check if the user is already following this auction
+        $isFollowing = FollowAuction::where('user_id', $user_id)
+            ->where('auction_id', $auction_id)
+            ->exists();
+
+        // If not already following, create a new follow entry
+        if (!$isFollowing) {
+            FollowAuction::create([
+                'user_id' => $user_id,
+                'auction_id' => $auction_id,
+            ]);
+
+            return back()->with('status', 'Auction followed successfully.');
+        } else {
+            return back()->with('status', 'You are already following this auction.');
+        }
+    }
+
+    public function followedAuctions()
+    {
+        // Get the logged-in user
+        $user = Auth::user();
+
+        // Fetch the auctions the user is following
+        $auctions = $user->followedAuctions()->get();
+
+        // Pass the auctions to the view
+        return view('auctions.followed', compact('auctions'));
     }
 
     public function destroy(Auction $auction)

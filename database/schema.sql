@@ -87,7 +87,7 @@ CREATE TABLE PaymentMethod (
 );
 
 -- 9. Auction Table
-CREATE TABLE Auction (
+CREATE TABLE "Auction" (
                          auction_id SERIAL PRIMARY KEY,
                          user_id INTEGER REFERENCES "User"(user_id) ON DELETE CASCADE,
                          category_id INTEGER REFERENCES "Category"(category_id) ON DELETE CASCADE,
@@ -108,7 +108,7 @@ CREATE TABLE Auction (
 -- 10. Auction Status History Table
 CREATE TABLE AuctionStatusHistory (
                                       auction_status_history_id SERIAL PRIMARY KEY,
-                                      auction_id INTEGER REFERENCES Auction(auction_id) ON DELETE CASCADE,
+                                      auction_id INTEGER REFERENCES "Auction"(auction_id) ON DELETE CASCADE,
                                       status VARCHAR(50) NOT NULL,
                                       changed_at TIMESTAMP NOT NULL DEFAULT NOW()
 );
@@ -117,7 +117,7 @@ CREATE TABLE AuctionStatusHistory (
 CREATE TABLE Transaction (
                              transaction_id SERIAL PRIMARY KEY,
                              buyer_id INTEGER REFERENCES "User"(user_id) ON DELETE CASCADE,
-                             auction_id INTEGER REFERENCES Auction(auction_id) ON DELETE CASCADE,
+                             auction_id INTEGER REFERENCES "Auction"(auction_id) ON DELETE CASCADE,
                              payment_method_id INTEGER REFERENCES PaymentMethod(payment_method_id) ON DELETE SET NULL,
                              value DECIMAL(10, 2) NOT NULL,
                              created_at TIMESTAMP NOT NULL DEFAULT NOW(),
@@ -151,7 +151,7 @@ CREATE TABLE Rating (
 -- 14. Bid Table
 CREATE TABLE "Bid" (
                      bid_id SERIAL PRIMARY KEY,
-                     auction_id INTEGER REFERENCES Auction(auction_id) ON DELETE CASCADE,
+                     auction_id INTEGER REFERENCES "Auction"(auction_id) ON DELETE CASCADE,
                      user_id INTEGER REFERENCES "User"(user_id) ON DELETE CASCADE,
                      price DECIMAL(10, 2) NOT NULL CHECK (price > 0),
                      time TIMESTAMP NOT NULL DEFAULT NOW()
@@ -161,7 +161,7 @@ CREATE TABLE "Bid" (
 CREATE TABLE Watchlist (
                            watchlist_id SERIAL PRIMARY KEY,
                            user_id INTEGER REFERENCES "User"(user_id) ON DELETE CASCADE,
-                           auction_id INTEGER REFERENCES Auction(auction_id) ON DELETE CASCADE,
+                           auction_id INTEGER REFERENCES "Auction"(auction_id) ON DELETE CASCADE,
                            added_at TIMESTAMP NOT NULL DEFAULT NOW(),
                            UNIQUE (user_id, auction_id)
 );
@@ -174,7 +174,7 @@ CREATE TABLE Notification (
                               is_read BOOLEAN NOT NULL DEFAULT FALSE,
                               created_at TIMESTAMP NOT NULL DEFAULT NOW(),
                               type VARCHAR(50) NOT NULL,
-                              auction_id INTEGER REFERENCES Auction(auction_id) ON DELETE CASCADE,
+                              auction_id INTEGER REFERENCES "Auction"(auction_id) ON DELETE CASCADE,
                               bid_id INTEGER REFERENCES "Bid"(bid_id) ON DELETE CASCADE
 );
 
@@ -201,7 +201,7 @@ CREATE TABLE Message (
                          sender_id INTEGER REFERENCES "User"(user_id) ON DELETE CASCADE,
                          text TEXT NOT NULL,
                          time TIMESTAMP NOT NULL DEFAULT NOW(),
-                         auction_id INTEGER REFERENCES Auction(auction_id) ON DELETE CASCADE
+                         auction_id INTEGER REFERENCES "Auction"(auction_id) ON DELETE CASCADE
 );
 
 -- 20. Report Table
@@ -209,7 +209,7 @@ CREATE TABLE Report (
                         report_id SERIAL PRIMARY KEY,
                         reported_user_id INTEGER REFERENCES "User"(user_id) ON DELETE CASCADE,
                         reporter_user_id INTEGER REFERENCES "User"(user_id) ON DELETE CASCADE,
-                        auction_id INTEGER REFERENCES Auction(auction_id),
+                        auction_id INTEGER REFERENCES "Auction"(auction_id),
                         content TEXT NOT NULL,
                         created_at TIMESTAMP NOT NULL DEFAULT NOW(),
                         status VARCHAR(50) NOT NULL DEFAULT 'Pending',

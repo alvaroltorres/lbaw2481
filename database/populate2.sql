@@ -89,7 +89,7 @@ INSERT INTO PaymentMethod (user_id, is_enterprise, expiry_date, card_number, ccv
 -- 8. Auction Table
 -- ******************************
 
-INSERT INTO Auction (user_id, category_id, starting_price, reserve_price, current_price, minimum_bid_increment, description, starting_date, ending_date, title, location, status) VALUES
+INSERT INTO "Auction" (user_id, category_id, starting_price, reserve_price, current_price, minimum_bid_increment, description, starting_date, ending_date, title, location, status) VALUES
                                                                                                                                                                                       (2, 1, 100.00, 500.00, 150.00, 10.00, 'Latest smartphone model.', NOW() - INTERVAL '1 hour', NOW() + INTERVAL '2 hours', 'Smartphone Auction', 'New York, NY', 'Active'),
                                                                                                                                                                                       (3, 3, 200.00, 800.00, 300.00, 20.00, 'Designer handbag collection.', NOW() - INTERVAL '2 hours', NOW() + INTERVAL '3 hours', 'Handbag Auction', 'Los Angeles, CA', 'Active'),
                                                                                                                                                                                       (2, 2, 500.00, 1500.00, 700.00, 50.00, 'Original painting by famous artist.', NOW() + INTERVAL '5 hours', NOW() + INTERVAL '10 hours', 'Painting Auction', 'Paris, France', 'Upcoming'),
@@ -214,9 +214,3 @@ INSERT INTO Orders (transaction_id) VALUES
                                         (1),
                                         (2),
                                         (3);
-
--- ******************************
--- Triggers
--- ******************************
-
--- Ensure triggers are included
