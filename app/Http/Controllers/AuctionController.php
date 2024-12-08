@@ -70,7 +70,17 @@ class AuctionController extends Controller
 
     public function store(AuctionRequest $request)
     {
-        $validated = $request->validated();
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'category_id' => 'required|exists:categories,category_id',
+            'starting_price' => 'required|numeric|min:0',
+            'reserve_price' => 'required|numeric|min:0',
+            //'minimum_bid_increment' => 'required|numeric|min:0',
+            'starting_date' => 'required|date',
+            'ending_date' => 'required|date|after:starting_date',
+            'location' => 'required|string|max:255',
+            'description' => 'required|string',
+        ]);
 
         $auction = new Auction($validated);
         $auction->user_id = Auth::id();
@@ -101,7 +111,17 @@ class AuctionController extends Controller
             return redirect()->route('auctions.show', $auction)->with('error', 'You do not have permission to edit this auction.');
         }
 
-        $validated = $request->validated();
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'category_id' => 'required|exists:categories,category_id',
+            'starting_price' => 'required|numeric|min:0',
+            'reserve_price' => 'required|numeric|min:0',
+            //'minimum_bid_increment' => 'required|numeric|min:0',
+            'starting_date' => 'required|date',
+            'ending_date' => 'required|date|after:starting_date',
+            'location' => 'required|string|max:255',
+            'description' => 'required|string',
+        ]);
 
         if ($auction->update($validated)) {
             return redirect()->route('auctions.show', $auction)->with('success', 'Auction updated successfully!');
