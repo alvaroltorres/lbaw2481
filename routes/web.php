@@ -74,6 +74,11 @@ Route::get('/contact', function () {
     return view('contact');
 })->name('contact');
 
+// Main Features
+Route::get('/features', function () {
+    return view('features');
+})->name('features');
+
 Route::middleware('auth')->group(function () {
     Route::get('/notifications/fetch', [NotificationController::class, 'fetchNewNotifications'])
         ->name('notifications.fetch');
