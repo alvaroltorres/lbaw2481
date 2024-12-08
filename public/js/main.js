@@ -1,6 +1,16 @@
 // resources/js/main.js
 
 document.addEventListener('DOMContentLoaded', () => {
+
+    const deleteButton = document.getElementById("deleteButton");
+    const hiddenPasswordInput = document.getElementById("hiddenPasswordInput");
+
+    // Show password input when the delete button is clicked
+    deleteButton.addEventListener("click", function() {
+        hiddenPasswordInput.style.display = "block"; // Show the password form
+    });
+
+
     // Toggle do Modo Escuro
     const themeToggleBtn = document.getElementById('theme-toggle');
 

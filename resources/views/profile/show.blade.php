@@ -16,6 +16,24 @@
         </div>
         <a href="{{ route('profile.edit') }}" class="btn btn-primary mt-3">{{ __('Edit Profile') }}</a>
         <!-- Logout Button -->
+        <form method="POST" action="{{ route('profile.destroy') }}">
+            @csrf
+            @method('DELETE')
+
+            <!-- Current Password -->
+            <div class="mb-4" id="hiddenPasswordInput" style="display: none">
+                <label for="password" class="block text-sm font-medium text-gray-700">{{ __('Current Password') }}</label>
+                <input id="password" type="password" name="password" required placeholder="Enter your password">
+            </div>
+
+            <!-- Submit Button -->
+            <div>
+                <button type="submit" id="deleteButton" class="btn btn-danger" style="background-color: red">
+                    {{ __('Delete Account') }}
+                </button>
+            </div>
+        </form>
+
         <form method="POST" action="{{ route('logout') }}" class="mt-3">
             @csrf
             <button type="submit" class="btn btn-danger">{{ __('Logout') }}</button>
