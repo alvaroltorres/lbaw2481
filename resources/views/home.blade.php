@@ -5,9 +5,13 @@
     <section class="hero" id="hero">
         <div class="hero__overlay"></div>
         <div class="container hero__content">
+            <h1 class="tooltip" data-tooltip="{{ __('This is the hero section where you can highlight important information.') }}">
+                {{ __('Welcome to BidZenith') }}
+            </h1>
             <h1>{{ __('Discover the Most Sought-After Auctions') }}</h1>
             <p>{{ __('Join exclusive auctions with an interactive and secure experience.') }}</p>
             <a href="{{ route('auctions.index') }}" class="btn btn--primary">{{ __('Explore Auctions') }}</a>
+            <button type="button" class="help-button" data-modal="heroHelpModal">{{ __('Help') }}</button>
 
             <!-- Botão para Admins -->
             @if(Auth::check() && Auth::user()->is_admin)
@@ -18,6 +22,10 @@
 
     <!-- Seção de Recursos -->
     <section class="features" id="features">
+        <h2 class="tooltip" data-tooltip="{{ __('Here you can find the main features of our platform.') }}">
+            {{ __('Features') }}
+        </h2>
+        <button type="button" class="help-button" data-modal="featuresHelpModal">{{ __('Help') }}</button>
         <div class="container">
             <h2 class="section-title">{{ __('Experience the Future of Online Auctions') }}</h2>
             <div class="features__grid">
@@ -45,6 +53,10 @@
 
     <!-- Seção de Leilões Ativos -->
     <section class="active-auctions" id="active-auctions">
+        <h2 class="tooltip" data-tooltip="{{ __('View all active auctions here.') }}">
+            {{ __('Active Auctions') }}
+        </h2>
+        <button type="button" class="help-button" data-modal="activeAuctionsHelpModal">{{ __('Help') }}</button>
         <div class="container">
             <h2 class="section-title">{{ __('Active Auctions') }}</h2>
             <div class="auction-grid">
@@ -105,6 +117,10 @@
 
     <!-- Seção de Depoimentos -->
     <section class="testimonials" id="testimonials">
+        <h2 class="tooltip" data-tooltip="{{ __('Read testimonials from our satisfied users.') }}">
+            {{ __('Testimonials') }}
+        </h2>
+        <button type="button" class="help-button" data-modal="testimonialsHelpModal">{{ __('Help') }}</button>
         <div class="container">
             <h2 class="section-title">{{ __('What Our Users Say') }}</h2>
             <div class="testimonials__grid">
@@ -123,4 +139,75 @@
             </div>
         </div>
     </section>
+
+    <!-- Help Modals -->
+    <!-- Hero Help Modal -->
+    <div id="heroHelpModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" data-modal="heroHelpModal">&times;</span>
+            <h2>{{ __('Hero Section Help') }}</h2>
+            <p>{{ __('This is the hero section where you can highlight important information.') }}</p>
+        </div>
+    </div>
+
+    <!-- Features Help Modal -->
+    <div id="featuresHelpModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" data-modal="featuresHelpModal">&times;</span>
+            <h2>{{ __('Features Help') }}</h2>
+            <p>{{ __('Here you can find the main features of our platform.') }}</p>
+        </div>
+    </div>
+
+    <!-- Active Auctions Help Modal -->
+    <div id="activeAuctionsHelpModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" data-modal="activeAuctionsHelpModal">&times;</span>
+            <h2>{{ __('Active Auctions Help') }}</h2>
+            <p>{{ __('View all active auctions here.') }}</p>
+        </div>
+    </div>
+
+    <!-- Testimonials Help Modal -->
+    <div id="testimonialsHelpModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" data-modal="testimonialsHelpModal">&times;</span>
+            <h2>{{ __('Testimonials Help') }}</h2>
+            <p>{{ __('Read testimonials from our satisfied users.') }}</p>
+        </div>
+    </div>
+@endsection
+
+@section('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var helpButtons = document.querySelectorAll('.help-button');
+        var closeButtons = document.querySelectorAll('.close-button');
+
+        helpButtons.forEach(function (button) {
+            button.addEventListener('click', function () {
+                var modalId = button.getAttribute('data-modal');
+                var modal = document.getElementById(modalId);
+                modal.style.display = 'block';
+            });
+        });
+
+        closeButtons.forEach(function (button) {
+            button.addEventListener('click', function () {
+                var modalId = button.getAttribute('data-modal');
+                var modal = document.getElementById(modalId);
+                modal.style.display = 'none';
+            });
+        });
+
+        window.addEventListener('click', function (event) {
+            var modals = document.querySelectorAll('.modal');
+            modals.forEach(function (modal) {
+                if (event.target == modal) {
+                    modal.style.display = 'none';
+                }
+            });
+        });
+    });
+</script>
 @endsection
