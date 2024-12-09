@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Auction;
 use Carbon\Carbon;
+use App\Models\Category;
 
 class HomeController extends Controller
 {
@@ -27,6 +28,10 @@ class HomeController extends Controller
         $query = $request->input('query');
         $exactMatch = $request->input('exact_match', false);
         $category = $request->input('category');
+        $minPrice = $request->input('min_price');
+        $maxPrice = $request->input('max_price');
+        $status = $request->input('status');
+        $sortBy = $request->input('sort_by');
 
         $auctions = Auction::query();
 
@@ -46,8 +51,31 @@ class HomeController extends Controller
             $auctions->where('category_id', $category);
         }
 
-        $auctions = $auctions->get();
+        if ($minPrice) {
+            $auctions->where('current_price', '>=', $minPrice);
+        }
 
-        return view('auctions.search-results', compact('auctions', 'query', 'exactMatch', 'category'));
+        if ($maxPrice) {
+            $auctions->where('current_price', '<=', $maxPrice);
+        }
+
+        if ($status) {
+            $auctions->where('status', $status);
+        }
+
+        if ($sortBy) {
+            if ($sortBy == 'recent') {
+                $auctions->orderBy('created_at', 'desc');
+            } elseif ($sortBy == 'price_asc') {
+                $auctions->orderBy('current_price', 'asc');
+            } elseif ($sortBy == 'price_desc') {
+                $auctions->orderBy('current_price', 'desc');
+            }
+        }
+
+        $auctions = $auctions->get();
+        $categories = Category::all();
+
+        return view('auctions.search-results', compact('auctions', 'query', 'exactMatch', 'category', 'minPrice', 'maxPrice', 'status', 'sortBy', 'categories'));
     }
 }

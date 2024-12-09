@@ -8,28 +8,6 @@
             <!-- Filters -->
             <form action="{{ route('auctions.index') }}" method="GET" class="filters-form">
                 <div>
-                    <label for="query">{{ __('Search:') }}</label>
-                    <input type="text" name="query" id="query" value="{{ request('query') }}" placeholder="Enter search term">
-                </div>
-                <div>
-                    <label for="category">{{ __('Category:') }}</label>
-                    <select name="category" id="category">
-                        <option value="">{{ __('All') }}</option>
-                        @foreach($categories as $category)
-                            <option value="{{ $category->category_id }}" {{ request('category') == $category->category_id ? 'selected' : '' }}>
-                                {{ $category->name }}
-                            </option>
-                            @if($category->subcategories)
-                                @foreach($category->subcategories as $subcategory)
-                                    <option value="{{ $subcategory->category_id }}" {{ request('category') == $subcategory->category_id ? 'selected' : '' }}>
-                                        -- {{ $subcategory->name }}
-                                    </option>
-                                @endforeach
-                            @endif
-                        @endforeach
-                    </select>
-                </div>
-                <div>
                     <label for="min_price">{{ __('Minimum Price:') }}</label>
                     <input type="number" name="min_price" id="min_price" value="{{ request('min_price') }}" placeholder="Enter minimum price">
                 </div>

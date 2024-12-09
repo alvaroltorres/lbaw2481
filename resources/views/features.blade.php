@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container">
-        <h1>{{ __('Features') }}</h1>
+        <h1>{{ __('Main Features') }}</h1>
         <section class="features-section">
             <h2>{{ __('General Functionalities') }}</h2>
             <ul>

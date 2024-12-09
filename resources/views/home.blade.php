@@ -135,15 +135,6 @@
     </section>
 
     <!-- Help Modals -->
-    <!-- Hero Help Modal -->
-    <div id="heroHelpModal" class="modal">
-        <div class="modal-content">
-            <span class="close-button" data-modal="heroHelpModal">&times;</span>
-            <h2>{{ __('Hero Section Help') }}</h2>
-            <p>{{ __('This is the hero section where you can highlight important information.') }}</p>
-        </div>
-    </div>
-
     <!-- Features Help Modal -->
     <div id="featuresHelpModal" class="modal">
         <div class="modal-content">
@@ -158,7 +149,7 @@
         <div class="modal-content">
             <span class="close-button" data-modal="activeAuctionsHelpModal">&times;</span>
             <h2>{{ __('Active Auctions Help') }}</h2>
-            <p>{{ __('View all active auctions here.') }}</p>
+            <p>{{ __('View all active auctions here. Just click and participate in an auction.') }}</p>
         </div>
     </div>
 

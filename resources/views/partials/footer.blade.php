@@ -11,7 +11,7 @@
         <ul class="social-links">
             <li><a href="{{ route('about') }}">{{ __('About Us') }}</a></li>
             <li><a href="{{ route('contact') }}">{{ __('Contact Us') }}</a></li>
-            <li><a href="{{ route('features') }}">{{ __('Features') }}</a></li>
+            <li><a href="{{ route('features') }}">{{ __('Main Features') }}</a></li>
         </ul>
     </div>
 </footer>
