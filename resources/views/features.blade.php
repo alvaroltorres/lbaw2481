@@ -36,7 +36,7 @@
                 <li><strong>{{ __('Notification for the auction winner:') }}</strong> {{ __('The auction winner is notified as soon as the auction ends.') }}</li>
             </ul>
 
-            <h2>{{ __('Low Priority Features (Innovative for Extra Points)') }}</h2>
+            <h2>{{ __('Other Features') }}</h2>
             <ul>
                 <li><strong>{{ __('Push notifications via email or app:') }}</strong> {{ __('Users can choose to receive push notifications via the app or email to stay updated on bids and auctions.') }}</li>
                 <li><strong>{{ __('Dark mode:') }}</strong> {{ __('Option to switch to dark mode, improving the experience in low-light environments.') }}</li>

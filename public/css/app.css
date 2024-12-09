@@ -37,6 +37,7 @@ main {
     width: 90%;
     max-width: 1200px;
     margin: 0 auto;
+    margin-top: 1rem;
 }
 
 .visually-hidden {
@@ -753,7 +754,7 @@ p {
     background-color: var(--primary-color);
     color: var(--white-color);
     padding: 1em 0;
-    position: absolute;
+    position: relative;
     left: 0;
     bottom: 0;
     width: 100%;
@@ -766,6 +767,7 @@ p {
     gap: 1rem;
     padding: 0;
     margin: 0;
+    margin-bottom: 1rem;
 }
 
 .social-links a {
