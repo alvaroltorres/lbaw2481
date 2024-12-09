@@ -18,6 +18,10 @@
             </div>
         </div>
         <a href="{{ route('profile.edit') }}" class="btn btn-primary mt-3">{{ __('Edit Profile') }}</a>
+        <form method="POST" action="{{ route('logout') }}" class="mt-3">
+            @csrf
+            <button type="submit" class="btn btn-danger">{{ __('Logout') }}</button>
+        </form>
         <!-- Logout Button -->
         <form method="POST" action="{{ route('profile.destroy') }}">
             @csrf
@@ -35,11 +39,6 @@
                     {{ __('Delete Account') }}
                 </button>
             </div>
-        </form>
-
-        <form method="POST" action="{{ route('logout') }}" class="mt-3">
-            @csrf
-            <button type="submit" class="btn btn-danger">{{ __('Logout') }}</button>
         </form>
     </div>
     @if ($myauctions->count() > 0)

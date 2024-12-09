@@ -8,7 +8,11 @@
             <h1>{{ __('Welcome to BidZenith') }}</h1>
             <h1>{{ __('Discover the Most Sought-After Auctions') }}</h1>
             <p>{{ __('Join exclusive auctions with an interactive and secure experience.') }}</p>
-            <a href="{{ route('auctions.index') }}" class="btn btn--primary">{{ __('Explore Auctions') }}</a>
+            @if(Auth::check())
+                <a href="{{ route('auctions.index') }}" class="btn btn--primary">{{ __('Explore Auctions') }}</a>
+            @else
+                <a href="{{ route('login') }}" class="btn btn--primary">{{ __('Explore Auctions') }}</a>
+            @endif
 
             <!-- Botão para Admins -->
             @if(Auth::check() && Auth::user()->is_admin)
