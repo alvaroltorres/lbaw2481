@@ -46,6 +46,15 @@
                         <option value="Completed" {{ request('status') == 'Completed' ? 'selected' : '' }}>{{ __('Completed') }}</option>
                     </select>
                 </div>
+                <div>
+                    <label for="sort_by">{{ __('Sort By:') }}</label>
+                    <select name="sort_by" id="sort_by">
+                        <option value="">{{ __('None') }}</option>
+                        <option value="recent" {{ request('sort_by') == 'recent' ? 'selected' : '' }}>{{ __('Recent') }}</option>
+                        <option value="price_asc" {{ request('sort_by') == 'price_asc' ? 'selected' : '' }}>{{ __('Price: Low to High') }}</option>
+                        <option value="price_desc" {{ request('sort_by') == 'price_desc' ? 'selected' : '' }}>{{ __('Price: High to Low') }}</option>
+                    </select>
+                </div>
                 <button type="submit" class="btn btn-secondary">{{ __('Apply Filters') }}</button>
             </form>
 

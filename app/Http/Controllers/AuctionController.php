@@ -41,6 +41,17 @@ class AuctionController extends Controller
             $query->where('status', $request->status);
         }
 
+        // Apply sorting filters
+        if ($request->has('sort_by')) {
+            if ($request->sort_by == 'recent') {
+                $query->orderBy('created_at', 'desc');
+            } elseif ($request->sort_by == 'price_asc') {
+                $query->orderBy('current_price', 'asc');
+            } elseif ($request->sort_by == 'price_desc') {
+                $query->orderBy('current_price', 'desc');
+            }
+        }
+
         $activeAuctions = $query->paginate(10);
 
         $categories = Category::all();
