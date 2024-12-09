@@ -59,10 +59,14 @@
                 <i class="fas fa-comments"></i>
             </a>
             <!-- APAGAR PARA FUNCIONAR -->
-             
+             <!-- Notificações -->
+            <a href="{{ route('notifications.index') }}" class="action-link relative" aria-label="{{ __('Notificações') }}">
+                <i class="fas fa-bell"></i>
+                <span id="notification-count" class="notification-count absolute top-0 right-0 inline-flex items-center justify-center px-1 py-0.5 text-xs font-bold leading-none text-white bg-red-600 rounded-full"
+                      style="{{ auth()->check() && auth()->user()->unreadNotifications->count() > 0 ? '' : 'display: none;' }}">
+        {{ auth()->check() ? auth()->user()->unreadNotifications->count() : 0 }}
+    </span>
             </a>
-
-
 
             @auth
                 <!-- profile -->
