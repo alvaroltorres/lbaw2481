@@ -58,7 +58,8 @@
             <a href="{{ route('messages') }}" class="action-link" aria-label="{{ __('Mensagens') }}">
                 <i class="fas fa-comments"></i>
             </a>
-            <!-- APAGUEI COISA NOTIFICATIONS -->
+            <!-- APAGAR PARA FUNCIONAR -->
+             
             </a>
 
 
