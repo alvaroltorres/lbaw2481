@@ -30,11 +30,11 @@ class AuctionController extends Controller
         }
 
         if ($request->has('min_price') && $request->min_price) {
-            $query->where('starting_price', '>=', $request->min_price);
+            $query->where('current_price', '>=', $request->min_price);
         }
 
         if ($request->has('max_price') && $request->max_price) {
-            $query->where('starting_price', '<=', $request->max_price);
+            $query->where('current_price', '<=', $request->max_price);
         }
 
         if ($request->has('status') && $request->status) {

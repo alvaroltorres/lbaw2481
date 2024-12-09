@@ -5,8 +5,12 @@
         <div class="container">
             <h1>{{ __('Explore Auctions') }}</h1>
 
-            <!-- Filtros -->
+            <!-- Filters -->
             <form action="{{ route('auctions.index') }}" method="GET" class="filters-form">
+                <div>
+                    <label for="query">{{ __('Search:') }}</label>
+                    <input type="text" name="query" id="query" value="{{ request('query') }}" placeholder="Enter search term">
+                </div>
                 <div>
                     <label for="category">{{ __('Category:') }}</label>
                     <select name="category" id="category">
@@ -45,7 +49,7 @@
                 <button type="submit" class="btn btn-secondary">{{ __('Apply Filters') }}</button>
             </form>
 
-            <!-- Lista de Leilões -->
+            <!-- Auction List -->
             <div class="auction-grid">
                 @forelse($activeAuctions as $auction)
                     <div class="auction-card">
