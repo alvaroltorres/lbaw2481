@@ -5,13 +5,10 @@
     <section class="hero" id="hero">
         <div class="hero__overlay"></div>
         <div class="container hero__content">
-            <h1 class="tooltip" data-tooltip="{{ __('This is the hero section where you can highlight important information.') }}">
-                {{ __('Welcome to BidZenith') }}
-            </h1>
+            <h1>{{ __('Welcome to BidZenith') }}</h1>
             <h1>{{ __('Discover the Most Sought-After Auctions') }}</h1>
             <p>{{ __('Join exclusive auctions with an interactive and secure experience.') }}</p>
             <a href="{{ route('auctions.index') }}" class="btn btn--primary">{{ __('Explore Auctions') }}</a>
-            <button type="button" class="help-button" data-modal="heroHelpModal">{{ __('Help') }}</button>
 
             <!-- Botão para Admins -->
             @if(Auth::check() && Auth::user()->is_admin)
@@ -22,12 +19,8 @@
 
     <!-- Seção de Recursos -->
     <section class="features" id="features">
-        <h2 class="tooltip" data-tooltip="{{ __('Here you can find the main features of our platform.') }}">
-            {{ __('Features') }}
-        </h2>
-        <button type="button" class="help-button" data-modal="featuresHelpModal">{{ __('Help') }}</button>
         <div class="container">
-            <h2 class="section-title">{{ __('Experience the Future of Online Auctions') }}</h2>
+            <h2 class="tooltip" data-tooltip="{{ __('Here you can find the main features of our platform.') }}">{{ __('Experience the Future of Online Auctions') }}</h2>
             <div class="features__grid">
                 <!-- Recurso 1 -->
                 <div class="feature-item">
@@ -49,16 +42,15 @@
                 </div>
             </div>
         </div>
+        <div class="help-button-container">
+            <button type="button" class="help-button" data-modal="featuresHelpModal">{{ __('Help') }}</button>
+        </div>
     </section>
 
     <!-- Seção de Leilões Ativos -->
     <section class="active-auctions" id="active-auctions">
-        <h2 class="tooltip" data-tooltip="{{ __('View all active auctions here.') }}">
-            {{ __('Active Auctions') }}
-        </h2>
-        <button type="button" class="help-button" data-modal="activeAuctionsHelpModal">{{ __('Help') }}</button>
         <div class="container">
-            <h2 class="section-title">{{ __('Active Auctions') }}</h2>
+            <h2 class="tooltip" data-tooltip="{{ __('View all active auctions here.') }}">{{ __('Active Auctions') }}</h2>
             <div class="auction-grid">
                 <!-- Verificar se há leilões ativos -->
                 @if($activeAuctions->count() > 0)
@@ -113,16 +105,15 @@
                 @endif
             </div>
         </div>
+        <div class="help-button-container">
+            <button type="button" class="help-button" data-modal="activeAuctionsHelpModal">{{ __('Help') }}</button>
+        </div>
     </section>
 
     <!-- Seção de Depoimentos -->
     <section class="testimonials" id="testimonials">
-        <h2 class="tooltip" data-tooltip="{{ __('Read testimonials from our satisfied users.') }}">
-            {{ __('Testimonials') }}
-        </h2>
-        <button type="button" class="help-button" data-modal="testimonialsHelpModal">{{ __('Help') }}</button>
         <div class="container">
-            <h2 class="section-title">{{ __('What Our Users Say') }}</h2>
+            <h2 class="tooltip" data-tooltip="{{ __('Read testimonials from our satisfied users.') }}">{{ __('What Our Users Say') }}</h2>
             <div class="testimonials__grid">
                 <div class="testimonial-item">
                     <p class="testimonial-text">"BidZenith has transformed my online auction experience. Intuitive and secure platform!"</p>
@@ -137,6 +128,9 @@
                     <h4 class="testimonial-author">- Michael Smith</h4>
                 </div>
             </div>
+        </div>
+        <div class="help-button-container">
+            <button type="button" class="help-button" data-modal="testimonialsHelpModal">{{ __('Help') }}</button>
         </div>
     </section>
 
