@@ -93,8 +93,13 @@ class ProfileController extends Controller
 
         // Check if the image exists in the public folder
         if (file_exists($imagePath)) {
-            // If the image exists, return it as a response
-            return response()->file($imagePath);
+            // Get the file modification time to force the browser to bypass the cache
+            $timestamp = filemtime($imagePath);
+
+            return response()->file($imagePath, [
+                'Cache-Control' => 'no-store, no-cache, must-revalidate, max-age=0',
+                'Content-Disposition' => 'inline; filename="' . $userId . '.jpg?v=' . $timestamp . '"',
+            ]);
         }
 
         // If the image doesn't exist, return a default image

@@ -17,6 +17,8 @@
         <!-- Profile Picture Upload Form -->
         <form action="{{ route('profile.picture.store') }}" method="POST" enctype="multipart/form-data" class="card mb-4">
             @csrf
+            @method('PATCH')
+
             <div class="card-body">
                 <div class="form-group">
                     <label for="profile_picture">{{ __('Upload Profile Picture:') }}</label>
