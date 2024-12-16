@@ -7,7 +7,7 @@
         <form action="{{ route('credits.add.post') }}" method="POST">
             @csrf
             <div class="form-group">
-                <label for="credits">{{ __('Amount to Add') }} (€)</label>
+                <label for="credits">{{ __('Amount to Add') }} ($)</label>
                 <input type="number" name="credits" id="credits" class="form-control" step="0.01" min="0.01" required>
             </div>
 

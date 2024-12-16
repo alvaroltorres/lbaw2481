@@ -74,8 +74,8 @@
                 </a>
                 <!-- Link to Add Credits page -->
                 <a href="{{ route('credits.add') }}" class="nav-link">
-                    {{ __('Credits : ') }}
-                    {{ Auth::user()->credits }}€
+                    {{ __('Credits: ') }}
+                    {{ Auth::user()->credits }}$
                 </a>
             @else
                 <!-- login/register -->
