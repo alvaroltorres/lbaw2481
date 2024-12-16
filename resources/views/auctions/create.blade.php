@@ -61,6 +61,7 @@
             @enderror
         </div>
 
+
         <div class="mb-3">
             <label for="starting_date" class="form-label">{{ __('Starting Date') }}</label>
             <input type="datetime-local" class="form-control @error('starting_date') is-invalid @enderror" id="starting_date" name="starting_date" value="{{ old('starting_date') }}" required placeholder="Select starting date and time">

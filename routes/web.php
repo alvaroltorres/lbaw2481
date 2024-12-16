@@ -64,8 +64,8 @@ Route::post('/auctions/{auction}/bids', [BidController::class, 'store'])->name('
 // Bidding history
 Route::get('/auctions/{auction}/bidding-history', [AuctionController::class, 'biddingHistory'])->name('auctions.biddingHistory');
 
-// Auctions followed by the authenticated user
-Route::get('/auction/followed', [AuctionController::class, 'followed'])->middleware('auth')->name('auctions.followed');
+Route::get('/profile/bidding-history', [AuctionController::class, 'biddingHistoryForUser'])->name('profile.biddingHistory');
+
 
 // Route to display the form to add credits
 Route::get('/credits/add', [CreditController::class, 'showAddCreditsForm'])->name('credits.add');

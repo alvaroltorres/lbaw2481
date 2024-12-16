@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\AuctionRequest;
 use App\Models\Auction;
+use App\Models\Bid;
 use App\Models\Category;
 use App\Models\FollowAuction;
 use Illuminate\Http\Request;
@@ -84,10 +85,11 @@ class AuctionController extends Controller
     {
         $validated = $request->validate([
             'title' => 'required|string|max:255',
-            'category_id' => 'required|exists:categories,category_id',
+            'category_id' => 'required|exists:Category,category_id',
             'starting_price' => 'required|numeric|min:0',
             'reserve_price' => 'required|numeric|min:0',
-            //'minimum_bid_increment' => 'required|numeric|min:0',
+            'minimum_bid_increment' => 'required|numeric|min:0',
+            'status' => 'required|in:Active,Upcoming',
             'starting_date' => 'required|date',
             'ending_date' => 'required|date|after:starting_date',
             'location' => 'required|string|max:255',
@@ -226,6 +228,21 @@ class AuctionController extends Controller
 
         return view('auctions.bidding_history', compact('auction', 'bids'));
     }
+
+    public function biddingHistoryForUser()
+    {
+        // Get the authenticated user
+        $user = Auth::user();
+
+        // Retrieve all auctions where the user has placed a bid
+        $auctions = Auction::whereHas('bids', function ($query) use ($user) {
+            $query->where('user_id', $user->user_id);
+        })->get();
+
+        // Pass the auctions to the view
+        return view('auctions.followed', compact('auctions'));
+    }
+
 
     public function followed()
     {
