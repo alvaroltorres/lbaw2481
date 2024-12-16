@@ -23,24 +23,27 @@
             <button type="submit" class="btn btn-danger">{{ __('Logout') }}</button>
         </form>
         <!-- Logout Button -->
-        <form method="POST" action="{{ route('profile.destroy') }}">
-            @csrf
-            @method('DELETE')
+    <a href="{{ route('profile.biddingHistory') }}" class="btn btn--primary">{{ __('View Bidding History') }}</a>
 
-            <!-- Current Password -->
-            <div class="mb-4" id="hiddenPasswordInput" style="display: none">
-                <label for="password" class="block text-sm font-medium text-gray-700">{{ __('Current Password') }}</label>
-                <input id="password" type="password" name="password" required placeholder="Enter your password">
-            </div>
+    <form method="POST" action="{{ route('profile.destroy') }}">
+        @csrf
+        @method('DELETE')
 
-            <!-- Submit Button -->
-            <div>
-                <button type="submit" id="deleteButton" class="btn btn-danger" style="background-color: red">
-                    {{ __('Delete Account') }}
-                </button>
-            </div>
-        </form>
-    </div>
+        <!-- Current Password -->
+        <div class="mb-4" id="hiddenPasswordInput" style="display: none">
+            <label for="password" class="block text-sm font-medium text-gray-700">{{ __('Current Password') }}</label>
+            <input id="password" type="password" name="password" required placeholder="Enter your password">
+        </div>
+
+        <!-- Submit Button -->
+        <div>
+            <button type="submit" id="deleteButton" class="btn btn-danger" style="background-color: red">
+                {{ __('Delete Account') }}
+            </button>
+        </div>
+    </form>
+</div>
+
     @if ($myauctions->count() > 0)
         <section class="my-auctions">
             <div class="container">

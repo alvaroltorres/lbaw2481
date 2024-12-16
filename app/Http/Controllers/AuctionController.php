@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\AuctionRequest;
 use App\Models\Auction;
+use App\Models\Bid;
 use App\Models\Category;
 use App\Models\FollowAuction;
 use Illuminate\Http\Request;
@@ -227,6 +228,21 @@ class AuctionController extends Controller
 
         return view('auctions.bidding_history', compact('auction', 'bids'));
     }
+
+    public function biddingHistoryForUser()
+    {
+        // Get the authenticated user
+        $user = Auth::user();
+
+        // Retrieve all auctions where the user has placed a bid
+        $auctions = Auction::whereHas('bids', function ($query) use ($user) {
+            $query->where('user_id', $user->user_id);
+        })->get();
+
+        // Pass the auctions to the view
+        return view('auctions.followed', compact('auctions'));
+    }
+
 
     public function followed()
     {
