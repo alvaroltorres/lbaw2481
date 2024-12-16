@@ -1,23 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Password Reset</title>
-</head>
-<body>
-<div class="container">
-    <h2>Reset Your Password</h2>
+@extends('layouts.app')
 
-    <!-- Check for success message -->
-    @if (session('status'))
-        <div class="alert alert-success">
-            {{ session('status') }}
-        </div>
-    @endif
+@section('content')
 
     <!-- Form to reset password -->
-    <form method="POST" action="{{ route('password.store') }}">
+    <form method="POST" class="form-reset-password" action="{{ route('password.store') }}">
         @csrf
 
         <!-- Hidden Token -->
@@ -55,9 +41,8 @@
 
         <!-- Submit Button -->
         <div class="form-group">
-            <button type="submit">Reset Password</button>
+            <button type="submit" class="btn">Reset Password</button>
         </div>
     </form>
-</div>
-</body>
-</html>
+
+@endsection

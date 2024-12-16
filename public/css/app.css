@@ -60,6 +60,17 @@ main {
     text-decoration: none;
 }
 
+.form-reset-password {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 3em;
+}
+
+.form-reset-password * {
+    width: 50%;
+}
+
 .logo-img {
     height: 100px;
     width: auto;
