@@ -161,7 +161,8 @@ main {
 .search-bar {
     flex-grow: 1;
     max-width: 400px;
-    margin-left: 2rem;
+    margin-left: 0;
+    margin-right: 5rem;
 }
 
 .search-form {

@@ -84,10 +84,11 @@ class AuctionController extends Controller
     {
         $validated = $request->validate([
             'title' => 'required|string|max:255',
-            'category_id' => 'required|exists:categories,category_id',
+            'category_id' => 'required|exists:Category,category_id',
             'starting_price' => 'required|numeric|min:0',
             'reserve_price' => 'required|numeric|min:0',
-            //'minimum_bid_increment' => 'required|numeric|min:0',
+            'minimum_bid_increment' => 'required|numeric|min:0',
+            'status' => 'required|in:Active,Upcoming',
             'starting_date' => 'required|date',
             'ending_date' => 'required|date|after:starting_date',
             'location' => 'required|string|max:255',
