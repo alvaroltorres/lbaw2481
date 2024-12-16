@@ -64,7 +64,7 @@ Route::post('/auctions/{auction}/bids', [BidController::class, 'store'])->name('
 Route::get('/auctions/{auction}/bidding-history', [AuctionController::class, 'biddingHistory'])->name('auctions.biddingHistory');
 
 // Auctions followed by the authenticated user
-Route::get('/auction/followed', [AuctionController::class, 'followed'])->middleware('auth')->name('auction.followed');
+Route::get('/auction/followed', [AuctionController::class, 'followed'])->middleware('auth')->name('auctions.followed');
 
 // Categories
 Route::get('/categories/{category}', [CategoryController::class, 'show'])->name('categories.show');

@@ -46,7 +46,7 @@
                         <form action="{{ route('auction.unfollow', ['auction_id' => $auction->auction_id]) }}" method="POST">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn-danger">{{ __('Unfollow Auction') }}</button>
+                            <button type="submit" class="btn btn-danger" style="background-color:red">{{ __('Unfollow Auction') }}</button>
                         </form>
                     @else
                         <form action="{{ route('auction.follow', ['auction_id' => $auction->auction_id]) }}" method="POST">

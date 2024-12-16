@@ -67,6 +67,11 @@ main {
     margin-top: 3em;
 }
 
+.followed_auctions h1 {
+    text-align: center;
+    margin-top: 0.5em;
+}
+
 .form-reset-password * {
     width: 50%;
 }
