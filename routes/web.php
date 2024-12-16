@@ -114,11 +114,18 @@ Route::middleware('auth')->group(function () {
         ->name('notifications.index');
 });
 
+use App\Http\Controllers\MessageController;
 
-// Messages
-Route::get('/messages', function () {
-    return view('messages');
-})->name('messages');
+Route::middleware('auth')->group(function() {
+    Route::get('/messages', [MessageController::class, 'index'])->name('messages.index');
+    Route::get('/messages/chat', [MessageController::class, 'loadChat'])->name('messages.loadChat');
+    Route::post('/messages/send', [MessageController::class, 'sendMessage'])->name('messages.send');
+    Route::post('/messages/start', [MessageController::class, 'startChat'])->name('messages.start');
+
+    // Rota para polling de novas mensagens
+    Route::get('/messages/poll', [MessageController::class, 'pollMessages'])->name('messages.poll');
+});
+
 
 Route::get('/user/{user}', [AdminUserController::class, 'show'])->name('user.show');
 

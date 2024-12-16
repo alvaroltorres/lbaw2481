@@ -55,7 +55,7 @@
         <!-- user actions -->
         <div class="user-actions flex items-center space-x-4">
             <!-- Símbolo de Chats -->
-            <a href="{{ route('messages') }}" class="action-link" aria-label="{{ __('Mensagens') }}">
+            <a href="{{ route('messages.index') }}" class="action-link" aria-label="{{ __('Mensagens') }}">
                 <i class="fas fa-comments"></i>
             </a>
             <!-- APAGAR PARA FUNCIONAR -->
