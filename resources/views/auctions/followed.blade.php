@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+    <div class="followed_auctions">
     <h1>Followed Auctions</h1>
 
     @if($auctions->isEmpty())
@@ -27,4 +28,5 @@
             @endforelse
         </div>
     @endif
+    </div>
 @endsection

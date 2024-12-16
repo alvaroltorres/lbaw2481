@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\AuctionRequest;
 use App\Models\Auction;
+use App\Models\Bid;
 use App\Models\Category;
 use App\Models\FollowAuction;
 use Illuminate\Http\Request;
@@ -84,10 +85,11 @@ class AuctionController extends Controller
     {
         $validated = $request->validate([
             'title' => 'required|string|max:255',
-            'category_id' => 'required|exists:categories,category_id',
+            'category_id' => 'required|exists:Category,category_id',
             'starting_price' => 'required|numeric|min:0',
             'reserve_price' => 'required|numeric|min:0',
-            //'minimum_bid_increment' => 'required|numeric|min:0',
+            'minimum_bid_increment' => 'required|numeric|min:0',
+            'status' => 'required|in:Active,Upcoming',
             'starting_date' => 'required|date',
             'ending_date' => 'required|date|after:starting_date',
             'location' => 'required|string|max:255',
@@ -104,8 +106,17 @@ class AuctionController extends Controller
 
     public function show(Auction $auction)
     {
-        return view('auctions.show', compact('auction'));
+
+        // In your code where you're checking the follow status, modify the query like this:
+
+        $isFollowed = FollowAuction::where('follow_auctions.user_id', Auth::id())  // Specify follow_auctions.user_id
+        ->where('follow_auctions.auction_id', $auction->auction_id)  // Specify follow_auctions.auction_id
+        ->exists();
+
+        return view('auctions.show', compact('auction', 'isFollowed'));
     }
+
+
 
     public function edit(Auction $auction)
     {
@@ -165,6 +176,29 @@ class AuctionController extends Controller
         }
     }
 
+    public function unfollowAuction(Request $request, $auction_id)
+    {
+        // Get the currently authenticated user's ID
+        $user_id = Auth::id();
+
+        // Check if the user is following this auction
+        $isFollowing = FollowAuction::where('user_id', $user_id)
+            ->where('auction_id', $auction_id)
+            ->exists();
+
+        // If the user is following, delete the follow entry
+        if ($isFollowing) {
+            FollowAuction::where('user_id', $user_id)
+                ->where('auction_id', $auction_id)
+                ->delete();
+
+            return back()->with('status', 'Auction unfollowed successfully.');
+        } else {
+            return back()->with('status', 'You are not following this auction.');
+        }
+    }
+
+
     public function followedAuctions()
     {
         // Get the logged-in user
@@ -194,6 +228,21 @@ class AuctionController extends Controller
 
         return view('auctions.bidding_history', compact('auction', 'bids'));
     }
+
+    public function biddingHistoryForUser()
+    {
+        // Get the authenticated user
+        $user = Auth::user();
+
+        // Retrieve all auctions where the user has placed a bid
+        $auctions = Auction::whereHas('bids', function ($query) use ($user) {
+            $query->where('user_id', $user->user_id);
+        })->get();
+
+        // Pass the auctions to the view
+        return view('auctions.followed', compact('auctions'));
+    }
+
 
     public function followed()
     {

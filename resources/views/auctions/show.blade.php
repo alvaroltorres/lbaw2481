@@ -21,7 +21,6 @@
 
             @auth
                 @if (auth()->user()->user_id === $auction->user_id)
-                    <!-- Edit and Delete Buttons for Auction Owner -->
                     <a href="{{ route('auctions.edit', $auction) }}" class="btn btn-primary">{{ __('Edit Auction') }}</a>
 
                     <form action="{{ route('auctions.destroy', $auction) }}" method="POST" style="display:inline-block;">
@@ -30,7 +29,6 @@
                         <button type="submit" class="btn btn-danger" onclick="return confirm('{{ __('Are you sure you want to delete this auction?') }}');">{{ __('Delete Auction') }}</button>
                     </form>
                 @else
-                    <!-- Bid Form for Other Users -->
                     <form action="{{ route('bids.store', $auction) }}" method="POST">
                         @csrf
                         <div class="form-group">
@@ -42,16 +40,32 @@
                         </div>
                         <button type="submit" class="btn btn-primary">{{ __('Place Bid') }}</button>
                     </form>
-                    <form action="{{ route('auction.follow', ['auction_id' => $auction->auction_id]) }}" method="POST">
+
+                    <!-- Formulário para iniciar o chat -->
+                    <form action="{{ route('messages.start') }}" method="POST" style="display:inline-block; margin-left:1em;">
                         @csrf
-                        <button type="submit" class="btn btn-primary">Follow Auction</button>
+                        <input type="hidden" name="auction_id" value="{{ $auction->auction_id }}">
+                        <button type="submit" class="btn btn-secondary">
+                            {{ __('Contactar Vendedor') }}
+                        </button>
                     </form>
 
+                    @if($isFollowed)
+                        <form action="{{ route('auction.unfollow', ['auction_id' => $auction->auction_id]) }}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger" style="background-color:red">{{ __('Unfollow Auction') }}</button>
+                        </form>
+                    @else
+                        <form action="{{ route('auction.follow', ['auction_id' => $auction->auction_id]) }}" method="POST">
+                            @csrf
+                            <button type="submit" class="btn btn-primary">{{ __('Follow Auction') }}</button>
+                        </form>
+                    @endif
                 @endif
             @endauth
         </div>
 
-        <!-- Link to Bidding History -->
         <a href="{{ route('auctions.biddingHistory', $auction) }}" class="btn btn-info mt-3">{{ __('View Bidding History') }}</a>
     </div>
 @endsection

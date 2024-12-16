@@ -55,12 +55,14 @@
         <!-- user actions -->
         <div class="user-actions flex items-center space-x-4">
             <!-- Símbolo de Chats -->
-            <a href="{{ route('messages') }}" class="action-link" aria-label="{{ __('Mensagens') }}">
+            <a href="{{ route('messages.index') }}" class="action-link" aria-label="{{ __('Mensagens') }}">
                 <i class="fas fa-comments"></i>
             </a>
             <!-- APAGAR PARA FUNCIONAR -->
              <!-- Notificações -->
-            
+            <a href="{{ route('notifications.index') }}" class="action-link" aria-label="{{ __('Notificações') }}">
+                <i class="fas fa-bell"></i>
+            </a>
 
             @auth
                 <!-- profile -->
@@ -69,6 +71,11 @@
                 </a>
                 <a href="{{ route('auctions.create') }}" class="nav-link">
                     {{ __('Create Auction') }}
+                </a>
+                <!-- Link to Add Credits page -->
+                <a href="{{ route('credits.add') }}" class="nav-link">
+                    {{ __('Credits : ') }}
+                    {{ Auth::user()->credits }}€
                 </a>
             @else
                 <!-- login/register -->

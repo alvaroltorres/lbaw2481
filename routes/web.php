@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\AuctionController;
 use App\Http\Controllers\BidController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CreditController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\NotificationController;
@@ -63,8 +64,14 @@ Route::post('/auctions/{auction}/bids', [BidController::class, 'store'])->name('
 // Bidding history
 Route::get('/auctions/{auction}/bidding-history', [AuctionController::class, 'biddingHistory'])->name('auctions.biddingHistory');
 
-// Auctions followed by the authenticated user
-Route::get('/auction/followed', [AuctionController::class, 'followed'])->middleware('auth')->name('auction.followed');
+Route::get('/profile/bidding-history', [AuctionController::class, 'biddingHistoryForUser'])->name('profile.biddingHistory');
+
+
+// Route to display the form to add credits
+Route::get('/credits/add', [CreditController::class, 'showAddCreditsForm'])->name('credits.add');
+
+// Route to process adding credits (POST)
+Route::post('/credits/add', [CreditController::class, 'addCredits'])->name('credits.add.post');
 
 // Categories
 Route::get('/categories/{category}', [CategoryController::class, 'show'])->name('categories.show');
@@ -87,7 +94,9 @@ Route::get('/features', function () {
 Route::middleware('auth')->group(function () {
     Route::get('/followed-auctions', [AuctionController::class, 'followedAuctions'])->name('auctions.followed');
 
-    Route::post('/auction/{auction_id}/follow', [AuctionController::class, 'followAuction'])->name('auction.follow')->middleware('auth');
+    Route::post('/auction/{auction_id}/follow', [AuctionController::class, 'followAuction'])->name('auction.follow');
+    Route::delete('/auction/{auction_id}/unfollow', [AuctionController::class, 'unfollowAuction'])->name('auction.unfollow');
+
 
     Route::get('/notifications/fetch', [NotificationController::class, 'fetchNewNotifications'])
         ->name('notifications.fetch');
@@ -105,11 +114,19 @@ Route::middleware('auth')->group(function () {
         ->name('notifications.index');
 });
 
+use App\Http\Controllers\MessageController;
 
-// Messages
-Route::get('/messages', function () {
-    return view('messages');
-})->name('messages');
+Route::middleware('auth')->group(function() {
+    Route::get('/messages', [MessageController::class, 'index'])->name('messages.index');
+    Route::get('/messages/chat', [MessageController::class, 'loadChat'])->name('messages.loadChat');
+    Route::post('/messages/send', [MessageController::class, 'sendMessage'])->name('messages.send');
+    Route::post('/messages/start', [MessageController::class, 'startChat'])->name('messages.start');
+
+    // Polling de novas mensagens
+    Route::get('/messages/poll', [MessageController::class, 'pollMessages'])->name('messages.poll');
+    // Polling de novos chats (leilões)
+    Route::get('/messages/poll-chats', [MessageController::class, 'pollChats'])->name('messages.pollChats');
+});
 
 Route::get('/user/{user}', [AdminUserController::class, 'show'])->name('user.show');
 

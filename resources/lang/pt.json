@@ -290,6 +290,8 @@
     "Upload": "Carregar",
     "Edit Profile": "Editar Perfil",
     "Tax ID": "NIF",
-    "Enter your tax ID": "Digite seu NIF"
-
+    "Enter your tax ID": "Digite seu NIF",
+  "Follow Auction": "Seguir leilão",
+  "Unfollow Auction": "Deixar de seguir leilão",
+  "View Followed Auctions" : "Ver leilões seguidos"
 }

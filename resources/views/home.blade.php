@@ -10,6 +10,8 @@
             <p>{{ __('Join exclusive auctions with an interactive and secure experience.') }}</p>
             @if(Auth::check())
                 <a href="{{ route('auctions.index') }}" class="btn btn--primary">{{ __('Explore Auctions') }}</a>
+                <br>
+                <a href="{{ route('auctions.followed') }}" class="btn btn--primary">{{ __('View Followed Auctions') }}</a>
             @else
                 <a href="{{ route('login') }}" class="btn btn--primary">{{ __('Explore Auctions') }}</a>
             @endif
