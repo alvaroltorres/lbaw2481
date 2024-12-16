@@ -18,7 +18,7 @@
 
         <div class="mb-3">
             <label for="title" class="form-label">{{ __('Title') }}</label>
-            <input type="text" class="form-control @error('title') is-invalid @enderror" id="title" name="title" value="{{ old('title') }}" required placeholder="Enter auction title">
+            <input type="text" class="form-control @error('title') is-invalid @enderror" id="title" name="title" value="{{ old('title') }}" required placeholder="{{ __('Enter auction title') }}">
             @error('title')
             <div class="invalid-feedback">{{ __($message) }}</div>
             @enderror
@@ -39,7 +39,7 @@
 
         <div class="mb-3">
             <label for="starting_price" class="form-label">{{ __('Starting Price') }}</label>
-            <input type="number" step="0.01" class="form-control @error('starting_price') is-invalid @enderror" id="starting_price" name="starting_price" value="{{ old('starting_price') }}" required placeholder="Enter starting price">
+            <input type="number" step="0.01" class="form-control @error('starting_price') is-invalid @enderror" id="starting_price" name="starting_price" value="{{ old('starting_price') }}" required placeholder="{{ __('Enter starting price') }}">
             @error('starting_price')
             <div class="invalid-feedback">{{ __($message) }}</div>
             @enderror
@@ -47,7 +47,7 @@
 
         <div class="mb-3">
             <label for="reserve_price" class="form-label">{{ __('Reserve Price') }}</label>
-            <input type="number" step="0.01" class="form-control @error('reserve_price') is-invalid @enderror" id="reserve_price" name="reserve_price" value="{{ old('reserve_price') }}" required placeholder="Enter reserve price">
+            <input type="number" step="0.01" class="form-control @error('reserve_price') is-invalid @enderror" id="reserve_price" name="reserve_price" value="{{ old('reserve_price') }}" required placeholder="{{ __('Enter reserve price') }}">
             @error('reserve_price')
             <div class="invalid-feedback">{{ __($message) }}</div>
             @enderror
@@ -55,7 +55,7 @@
 
         <div class="mb-3">
             <label for="minimum_bid_increment" class="form-label">{{ __('Minimum Bid Increment') }}</label>
-            <input type="number" step="0.01" class="form-control" id="minimum_bid_increment" name="minimum_bid_increment" value="{{ old('minimum_bid_increment') }}" required placeholder="Enter minimum bid increment">
+            <input type="number" step="0.01" class="form-control" id="minimum_bid_increment" name="minimum_bid_increment" value="{{ old('minimum_bid_increment') }}" required placeholder="{{ __('Enter minimum bid increment') }}">
             @error('minimum_bid_increment')
             <div class="text-danger">{{ __($message) }}</div>
             @enderror
@@ -63,7 +63,7 @@
 
         <div class="mb-3">
             <label for="starting_date" class="form-label">{{ __('Starting Date') }}</label>
-            <input type="datetime-local" class="form-control @error('starting_date') is-invalid @enderror" id="starting_date" name="starting_date" value="{{ old('starting_date') }}" required placeholder="Select starting date and time">
+            <input type="datetime-local" class="form-control @error('starting_date') is-invalid @enderror" id="starting_date" name="starting_date" value="{{ old('starting_date') }}" required placeholder="{{ __('Select starting date and time') }}">
             @error('starting_date')
             <div class="invalid-feedback">{{ __($message) }}</div>
             @enderror
@@ -71,7 +71,7 @@
 
         <div class="mb-3">
             <label for="ending_date" class="form-label">{{ __('Ending Date') }}</label>
-            <input type="datetime-local" class="form-control @error('ending_date') is-invalid @enderror" id="ending_date" name="ending_date" value="{{ old('ending_date') }}" required placeholder="Select ending date and time">
+            <input type="datetime-local" class="form-control @error('ending_date') is-invalid @enderror" id="ending_date" name="ending_date" value="{{ old('ending_date') }}" required placeholder="{{ __('Select ending date and time') }}">
             @error('ending_date')
             <div class="invalid-feedback">{{ __($message) }}</div>
             @enderror
@@ -79,7 +79,7 @@
 
         <div class="mb-3">
             <label for="location" class="form-label">{{ __('Location') }}</label>
-            <input type="text" class="form-control @error('location') is-invalid @enderror" id="location" name="location" value="{{ old('location') }}" required placeholder="Enter location">
+            <input type="text" class="form-control @error('location') is-invalid @enderror" id="location" name="location" value="{{ old('location') }}" required placeholder="{{ __('Enter location') }}">
             @error('location')
             <div class="invalid-feedback">{{ __($message) }}</div>
             @enderror
@@ -87,7 +87,7 @@
 
         <div class="mb-3">
             <label for="description" class="form-label">{{ __('Description') }}</label>
-            <textarea class="form-control @error('description') is-invalid @enderror" id="description" name="description" rows="4" required placeholder="Enter auction description">{{ old('description') }}</textarea>
+            <textarea class="form-control @error('description') is-invalid @enderror" id="description" name="description" rows="4" required placeholder="{{ __('Enter auction description') }}">{{ old('description') }}</textarea>
             @error('description')
             <div class="invalid-feedback">{{ __($message) }}</div>
             @enderror

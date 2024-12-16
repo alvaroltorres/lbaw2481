@@ -7,11 +7,11 @@
         <form action="{{ route('search') }}" method="GET" class="filters-form mb-4">
             <div>
                 <label for="min_price">{{ __('Minimum Price:') }}</label>
-                <input type="number" name="min_price" id="min_price" value="{{ request('min_price') }}" placeholder="Enter minimum price">
+                <input type="number" name="min_price" id="min_price" value="{{ request('min_price') }}" placeholder="{{ __('Enter minimum price') }}">
             </div>
             <div>
                 <label for="max_price">{{ __('Maximum Price:') }}</label>
-                <input type="number" name="max_price" id="max_price" value="{{ request('max_price') }}" placeholder="Enter maximum price">
+                <input type="number" name="max_price" id="max_price" value="{{ request('max_price') }}" placeholder="{{ __('Enter maximum price') }}">
             </div>
             <div>
                 <label for="status">{{ __('Status:') }}</label>
@@ -45,7 +45,7 @@
                         <h5 class="mb-1">{{ __($auction->title) }}</h5>
                         <p class="mb-1">{{ __($auction->description) }}</p>
                         <small>{{ __('Category') }}: {{ __($auction->category->name) }}</small><br>
-                        <small>{{ __('Current Price') }}: ${{ __($auction->current_price) }}</small>
+                        <small>{{ __('Current Price') }}: ${{ number_format($auction->current_price, 2) }}</small>
                     </a>
                 @endforeach
             </div>

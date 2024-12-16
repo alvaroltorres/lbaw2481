@@ -12,7 +12,7 @@
                     <!-- Username Field -->
                     <div class="form-group">
                         <label for="username">{{ __('Username') }}</label>
-                        <input id="username" type="text" class="form-control @error('username') is-invalid @enderror" name="username" value="{{ old('username') }}" required autocomplete="username" autofocus placeholder="Enter your username">
+                        <input id="username" type="text" class="form-control @error('username') is-invalid @enderror" name="username" value="{{ old('username') }}" required autocomplete="username" autofocus placeholder="{{ __('Enter your username') }}">
 
                         @error('username')
                         <span class="invalid-feedback" role="alert">
@@ -24,7 +24,7 @@
                     <!-- Email Field -->
                     <div class="form-group">
                         <label for="email">{{ __('Email Address') }}</label>
-                        <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" placeholder="Enter your email address">
+                        <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" placeholder="{{ __('Enter your email address') }}">
 
                         @error('email')
                         <span class="invalid-feedback" role="alert">
@@ -36,7 +36,7 @@
                     <!-- Full Name Field -->
                     <div class="form-group">
                         <label for="fullname">{{ __('Full Name') }}</label>
-                        <input id="fullname" type="text" class="form-control @error('fullname') is-invalid @enderror" name="fullname" value="{{ old('fullname') }}" required autocomplete="fullname" placeholder="Enter your full name">
+                        <input id="fullname" type="text" class="form-control @error('fullname') is-invalid @enderror" name="fullname" value="{{ old('fullname') }}" required autocomplete="fullname" placeholder="{{ __('Enter your full name') }}">
 
                         @error('fullname')
                         <span class="invalid-feedback" role="alert">
@@ -48,7 +48,7 @@
                     <!-- NIF Field -->
                     <div class="form-group">
                         <label for="nif">{{ __('NIF') }}</label>
-                        <input id="nif" type="text" class="form-control @error('nif') is-invalid @enderror" name="nif" value="{{ old('nif') }}" required autocomplete="nif" placeholder="Enter your NIF">
+                        <input id="nif" type="text" class="form-control @error('nif') is-invalid @enderror" name="nif" value="{{ old('nif') }}" required autocomplete="nif" placeholder="{{ __('Enter your NIF') }}">
 
                         @error('nif')
                         <span class="invalid-feedback" role="alert">
@@ -60,7 +60,7 @@
                     <!-- Password Field -->
                     <div class="form-group">
                         <label for="password">{{ __('Password') }}</label>
-                        <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password" placeholder="Enter your password">
+                        <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password" placeholder="{{ __('Enter your password') }}">
 
                         @error('password')
                         <span class="invalid-feedback" role="alert">
@@ -72,7 +72,7 @@
                     <!-- Confirm Password Field -->
                     <div class="form-group">
                         <label for="password-confirm">{{ __('Confirm Password') }}</label>
-                        <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password" placeholder="Confirm your password">
+                        <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password" placeholder="{{ __('Confirm your password') }}">
                     </div>
 
                     <!-- Register Button -->

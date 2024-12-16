@@ -9,11 +9,11 @@
             <form action="{{ route('auctions.index') }}" method="GET" class="filters-form">
                 <div>
                     <label for="min_price">{{ __('Minimum Price:') }}</label>
-                    <input type="number" name="min_price" id="min_price" value="{{ request('min_price') }}" placeholder="Enter minimum price">
+                    <input type="number" name="min_price" id="min_price" value="{{ request('min_price') }}" placeholder="{{ __('Enter minimum price') }}">
                 </div>
                 <div>
                     <label for="max_price">{{ __('Maximum Price:') }}</label>
-                    <input type="number" name="max_price" id="max_price" value="{{ request('max_price') }}" placeholder="Enter maximum price">
+                    <input type="number" name="max_price" id="max_price" value="{{ request('max_price') }}" placeholder="{{ __('Enter maximum price') }}">
                 </div>
                 <div>
                     <label for="status">{{ __('Status:') }}</label>
@@ -40,21 +40,21 @@
             <div class="auction-grid">
                 @forelse($activeAuctions as $auction)
                     <div class="auction-card">
-                        <img src="{{ asset('images/auctions/' . $auction->image) }}" alt="{{ $auction->title }}">
-                        <h2>{{ $auction->title }}</h2>
-                        <p>{{ Str::limit($auction->description, 100) }}</p>
+                        <img src="{{ asset('images/auctions/' . $auction->image) }}" alt="{{ __($auction->title) }}">
+                        <h2>{{ __($auction->title) }}</h2>
+                        <p>{{ __($auction->description) }}</p>
                         <p>{{ __('Current Bid') }}: ${{ number_format($auction->current_price, 2) }}</p>
                         <p>
                             <strong>{{ __('Seller:') }}</strong>
                             <a href="{{ route('user.show', $auction->seller->user_id) }}">
-                                {{ $auction->seller->fullname }}
+                                {{ __($auction->seller->fullname) }}
                             </a>
                         </p>
                         <a href="{{ route('auctions.show', $auction) }}" class="btn btn-primary">{{ __('View Auction') }}</a>
                         @if (auth()->user()->user_id !== $auction->user_id)
                             <form action="{{ route('auction.follow', ['auction_id' => $auction->auction_id]) }}" method="POST">
                                 @csrf
-                                <button type="submit" class="btn btn-primary">Follow Auction</button>
+                                <button type="submit" class="btn btn-primary">{{ __('Follow Auction') }}</button>
                             </form>
                         @endif
                     </div>

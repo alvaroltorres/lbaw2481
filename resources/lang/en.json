@@ -109,5 +109,77 @@
   "My Notifications": "My Notifications",
   "New notification": "New notification",
   "Notification Details": "Notification Details",
-  "Auction": "Auction"
+  "Auction": "Auction",
+  "BidZenith aims to revolutionize the online auction experience by offering a seamless, secure, and interactive platform that combines the excitement of bidding. We envision a dynamic marketplace where users from around the world can effortlessly discover and bid on exclusive, hard-to-find items. Through innovative features such as gamified points, personalized recommendations, and real-time interaction via live chat, we seek to make online auctions more engaging and fun. Our goal is to create a trusted, user-friendly platform that scales with demand, offering a reliable space where both buyers and sellers feel empowered. BidZenith is set to redefine the future of online auctions by delivering a rich, immersive, and secure experience.": "BidZenith aims to revolutionize the online auction experience by offering a seamless, secure, and interactive platform that combines the excitement of bidding. We envision a dynamic marketplace where users from around the world can effortlessly discover and bid on exclusive, hard-to-find items. Through innovative features such as gamified points, personalized recommendations, and real-time interaction via live chat, we seek to make online auctions more engaging and fun. Our goal is to create a trusted, user-friendly platform that scales with demand, offering a reliable space where both buyers and sellers feel empowered. BidZenith is set to redefine the future of online auctions by delivering a rich, immersive, and secure experience.",
+  "Mission": "Mission",
+  "Our primary mission is to transform the conventional auction and bidding experience into something more enjoyable, interactive, and reminiscent of an engaging game. We recognize that the traditional auction process can often be intimidating and impersonal, which can deter potential participants. To address this, we aim to infuse elements of gamification into our platform by implementing a comprehensive points and recommendations system. This system not only rewards active participation but also fosters a sense of achievement and loyalty among users. Additionally, by integrating live chat functionality into various auctions, we enhance real-time interaction, allowing bidders to communicate, strategize, and build a community within the platform.": "Our primary mission is to transform the conventional auction and bidding experience into something more enjoyable, interactive, and reminiscent of an engaging game. We recognize that the traditional auction process can often be intimidating and impersonal, which can deter potential participants. To address this, we aim to infuse elements of gamification into our platform by implementing a comprehensive points and recommendations system. This system not only rewards active participation but also fosters a sense of achievement and loyalty among users. Additionally, by integrating live chat functionality into various auctions, we enhance real-time interaction, allowing bidders to communicate, strategize, and build a community within the platform.",
+  "Goals & Objectives": "Goals & Objectives",
+  "The main objectives of BidZenith are to create a secure and user-friendly online auction platform that enables users to bid on and purchase unique and exclusive items from around the world with ease. BidZenith aims to enhance the auction experience by offering a variety of auction types, real-time bidding capabilities, and advanced search functionalities, thereby fostering greater user engagement and trust. Additionally, the platform is designed to ensure scalability and reliability to accommodate a growing user base, while providing administrators with comprehensive tools to manage users, oversee auctions, and maintain system integrity.": "The main objectives of BidZenith are to create a secure and user-friendly online auction platform that enables users to bid on and purchase unique and exclusive items from around the world with ease. BidZenith aims to enhance the auction experience by offering a variety of auction types, real-time bidding capabilities, and advanced search functionalities, thereby fostering greater user engagement and trust. Additionally, the platform is designed to ensure scalability and reliability to accommodate a growing user base, while providing administrators with comprehensive tools to manage users, oversee auctions, and maintain system integrity.",
+  "Get in Touch": "Get in Touch",
+  "For Information": "For Information",
+  "For General Inquiries": "For General Inquiries",
+  "For Help": "For Help",
+  "We would love to hear from you! Please reach out to us using the following contact information:": "We would love to hear from you! Please reach out to us using the following contact information:",
+  "Main Features": "Main Features",
+  "General Functionalities": "General Functionalities",
+  "View active auctions:": "View active auctions:",
+  "Allows users to view active auctions with relevant information such as the title, description, starting price, and remaining time.": "Allows users to view active auctions with relevant information such as the title, description, starting price, and remaining time.",
+  "Access user profiles:": "Access user profiles:",
+  "Users can access other users' profiles to view their feedback and bidding history.": "Users can access other users' profiles to view their feedback and bidding history.",
+
+  "Browse auctions by category:": "Browse auctions by category:",
+  "Allows browsing auctions by predefined categories (e.g., technology, art, fashion).": "Allows browsing auctions by predefined categories (e.g., technology, art, fashion).",
+
+  "Search auctions:": "Search auctions:",
+  "Users can search auctions based on simple and advanced criteria, including title, category, price range, and end date.": "Users can search auctions based on simple and advanced criteria, including title, category, price range, and end date.",
+
+  "Create auctions:": "Create auctions:",
+  "Authenticated sellers can create new auctions by providing a title, description, starting price, images, category, and auction duration.": "Authenticated sellers can create new auctions by providing a title, description, starting price, images, category, and auction duration.",
+
+  "Follow auctions:": "Follow auctions:",
+  "Authenticated users can follow auctions of interest to receive updates and notifications.": "Authenticated users can follow auctions of interest to receive updates and notifications.",
+
+  "View followed auctions:": "View followed auctions:",
+  "Access to a list of followed auctions to easily monitor them.": "Access to a list of followed auctions to easily monitor them.",
+
+  "View bidding history:": "View bidding history:",
+  "Users can view the complete history of bids made on each auction.": "Users can view the complete history of bids made on each auction.",
+
+  "Manage created auctions:": "Manage created auctions:",
+  "Sellers can edit or cancel auctions as long as they haven’t received bids yet.": "Sellers can edit or cancel auctions as long as they haven’t received bids yet.",
+
+  "Place bids on active auctions:": "Place bids on active auctions:",
+  "Authenticated buyers can place bids on active auctions, with automatic bid increments when necessary.": "Authenticated buyers can place bids on active auctions, with automatic bid increments when necessary.",
+
+  "View bidding history in an auction:": "View bidding history in an auction:",
+  "Allows users to view all bids placed in an auction, including date, amount, and user.": "Allows users to view all bids placed in an auction, including date, amount, and user.",
+
+  "Extend auction time:": "Extend auction time:",
+  "If a bid is placed within the last 15 minutes, the auction time is automatically extended to ensure competitiveness.": "If a bid is placed within the last 15 minutes, the auction time is automatically extended to ensure competitiveness.",
+
+  "Notification of new bids on owned or followed auctions:": "Notification of new bids on owned or followed auctions:",
+  "Users receive notifications whenever a new bid is placed on an auction they own or follow.": "Users receive notifications whenever a new bid is placed on an auction they own or follow.",
+
+  "Notifications about won, lost, or canceled auctions:": "Notifications about won, lost, or canceled auctions:",
+  "Notifications are sent to users informing them if they won or lost an auction, or if an auction was canceled.": "Notifications are sent to users informing them if they won or lost an auction, or if an auction was canceled.",
+
+  "Auction end notifications:": "Auction end notifications:",
+  "Users receive notifications when an auction they are involved in ends.": "Users receive notifications when an auction they are involved in ends.",
+
+  "Notification for the auction winner:": "Notification for the auction winner:",
+  "The auction winner is notified as soon as the auction ends.": "The auction winner is notified as soon as the auction ends.",
+
+  "Push notifications via email or app:": "Push notifications via email or app:",
+  "Users can choose to receive push notifications via the app or email to stay updated on bids and auctions.": "Users can choose to receive push notifications via the app or email to stay updated on bids and auctions.",
+
+  "Dark mode:": "Dark mode:",
+  "Option to switch to dark mode, improving the experience in low-light environments.": "Option to switch to dark mode, improving the experience in low-light environments.",
+
+  "Multilingual support (Portuguese and English):": "Multilingual support (Portuguese and English):",
+  "The platform offers support for multiple languages, including Portuguese and English.": "The platform offers support for multiple languages, including Portuguese and English.",
+  "Functionalities for Authenticated Users": "Functionalities for Authenticated Users",
+  "Bidding Functionalities": "Bidding Functionalities",
+  "Other Features": "Other Features",
+  "Exact Match": "Exact Match",
+  "Welcome to BidZenith": "Welcome to BidZenith"
 }
