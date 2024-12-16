@@ -38,7 +38,7 @@
                 <select name="category" class="search-select px-4 py-2 border-t border-b border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary-color dark:bg-gray-700 dark:text-white">
                     <option value="">{{ __('All Categories') }}</option>
                     @foreach(App\Models\Category::all() as $category)
-                        <option value="{{ $category->category_id }}">{{ $category->name }}</option>
+                        <option value="{{ $category->category_id }}">{{ __($category->name) }}</option>
                     @endforeach
                 </select>
                 <!-- Exact match checkbox -->
