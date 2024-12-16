@@ -104,8 +104,17 @@ class AuctionController extends Controller
 
     public function show(Auction $auction)
     {
-        return view('auctions.show', compact('auction'));
+
+        // In your code where you're checking the follow status, modify the query like this:
+
+        $isFollowed = FollowAuction::where('follow_auctions.user_id', Auth::id())  // Specify follow_auctions.user_id
+        ->where('follow_auctions.auction_id', $auction->auction_id)  // Specify follow_auctions.auction_id
+        ->exists();
+
+        return view('auctions.show', compact('auction', 'isFollowed'));
     }
+
+
 
     public function edit(Auction $auction)
     {
@@ -164,6 +173,29 @@ class AuctionController extends Controller
             return back()->with('status', 'You are already following this auction.');
         }
     }
+
+    public function unfollowAuction(Request $request, $auction_id)
+    {
+        // Get the currently authenticated user's ID
+        $user_id = Auth::id();
+
+        // Check if the user is following this auction
+        $isFollowing = FollowAuction::where('user_id', $user_id)
+            ->where('auction_id', $auction_id)
+            ->exists();
+
+        // If the user is following, delete the follow entry
+        if ($isFollowing) {
+            FollowAuction::where('user_id', $user_id)
+                ->where('auction_id', $auction_id)
+                ->delete();
+
+            return back()->with('status', 'Auction unfollowed successfully.');
+        } else {
+            return back()->with('status', 'You are not following this auction.');
+        }
+    }
+
 
     public function followedAuctions()
     {

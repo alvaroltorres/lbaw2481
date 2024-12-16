@@ -51,12 +51,6 @@
                             </a>
                         </p>
                         <a href="{{ route('auctions.show', $auction) }}" class="btn btn-primary">{{ __('View Auction') }}</a>
-                        @if (auth()->user()->user_id !== $auction->user_id)
-                            <form action="{{ route('auction.follow', ['auction_id' => $auction->auction_id]) }}" method="POST">
-                                @csrf
-                                <button type="submit" class="btn btn-primary">Follow Auction</button>
-                            </form>
-                        @endif
                     </div>
                 @empty
                     <p>{{ __('No auctions found for the applied filters.') }}</p>

@@ -42,10 +42,19 @@
                         </div>
                         <button type="submit" class="btn btn-primary">{{ __('Place Bid') }}</button>
                     </form>
-                    <form action="{{ route('auction.follow', ['auction_id' => $auction->auction_id]) }}" method="POST">
-                        @csrf
-                        <button type="submit" class="btn btn-primary">Follow Auction</button>
-                    </form>
+                    @if($isFollowed)
+                        <form action="{{ route('auction.unfollow', ['auction_id' => $auction->auction_id]) }}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger">{{ __('Unfollow Auction') }}</button>
+                        </form>
+                    @else
+                        <form action="{{ route('auction.follow', ['auction_id' => $auction->auction_id]) }}" method="POST">
+                            @csrf
+                            <button type="submit" class="btn btn-primary">{{ __('Follow Auction') }}</button>
+                        </form>
+                    @endif
+
 
                 @endif
             @endauth
