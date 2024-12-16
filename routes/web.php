@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\AuctionController;
 use App\Http\Controllers\BidController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CreditController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\NotificationController;
@@ -65,6 +66,12 @@ Route::get('/auctions/{auction}/bidding-history', [AuctionController::class, 'bi
 
 // Auctions followed by the authenticated user
 Route::get('/auction/followed', [AuctionController::class, 'followed'])->middleware('auth')->name('auctions.followed');
+
+// Route to display the form to add credits
+Route::get('/credits/add', [CreditController::class, 'showAddCreditsForm'])->name('credits.add');
+
+// Route to process adding credits (POST)
+Route::post('/credits/add', [CreditController::class, 'addCredits'])->name('credits.add.post');
 
 // Categories
 Route::get('/categories/{category}', [CategoryController::class, 'show'])->name('categories.show');

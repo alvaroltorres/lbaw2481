@@ -70,6 +70,11 @@
                 <a href="{{ route('auctions.create') }}" class="nav-link">
                     {{ __('Create Auction') }}
                 </a>
+                <!-- Link to Add Credits page -->
+                <a href="{{ route('credits.add') }}" class="nav-link">
+                    {{ __('Credits : ') }}
+                    {{ Auth::user()->credits }}€
+                </a>
             @else
                 <!-- login/register -->
                 <div class="auth-links flex items-center space-x-2">
