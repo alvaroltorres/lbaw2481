@@ -122,10 +122,11 @@ Route::middleware('auth')->group(function() {
     Route::post('/messages/send', [MessageController::class, 'sendMessage'])->name('messages.send');
     Route::post('/messages/start', [MessageController::class, 'startChat'])->name('messages.start');
 
-    // Rota para polling de novas mensagens
+    // Polling de novas mensagens
     Route::get('/messages/poll', [MessageController::class, 'pollMessages'])->name('messages.poll');
+    // Polling de novos chats (leilões)
+    Route::get('/messages/poll-chats', [MessageController::class, 'pollChats'])->name('messages.pollChats');
 });
-
 
 Route::get('/user/{user}', [AdminUserController::class, 'show'])->name('user.show');
 

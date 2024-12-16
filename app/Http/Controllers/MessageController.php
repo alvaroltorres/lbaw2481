@@ -14,14 +14,7 @@ class MessageController extends Controller
 {
     public function index()
     {
-        $user = Auth::user();
-        $chatIds = ChatParticipant::where('user_id', $user->user_id)->pluck('chat_id');
-        $auctionIds = Message::whereIn('chat_id', $chatIds)
-            ->distinct()
-            ->pluck('auction_id');
-
-        $auctions = Auction::whereIn('auction_id', $auctionIds)->orderBy('title', 'asc')->get();
-
+        $auctions = $this->getUserAuctions();
         return view('messages.index', compact('auctions'));
     }
 
@@ -109,9 +102,6 @@ class MessageController extends Controller
         return response()->json(['messages' => $formatted]);
     }
 
-    /**
-     * Endpoint do Polling: Retorna mensagens com message_id > last_message_id
-     */
     public function pollMessages(Request $request)
     {
         $request->validate([
@@ -130,7 +120,6 @@ class MessageController extends Controller
         $otherUserId = $auction->user_id;
         $chat = $this->findOrCreateChat($user->user_id, $otherUserId, $auction_id);
 
-        // Pega apenas mensagens com message_id maior que last_message_id
         $newMessages = $chat->messages()
             ->with('sender')
             ->where('message_id', '>', $request->last_message_id)
@@ -154,17 +143,47 @@ class MessageController extends Controller
         return response()->json(['messages' => $formatted]);
     }
 
+    /**
+     * Polling de novos chats.
+     * Retorna a lista atualizada de auctions do usuário, mesma lógica do index,
+     * mas em JSON, para podermos atualizar a barra lateral.
+     */
+    public function pollChats(Request $request)
+    {
+        // Podemos simplesmente retornar todas as auctions, caso novas apareçam, serão adicionadas.
+        $auctions = $this->getUserAuctions();
+
+        // Retorna em um formato simples: uma lista de auctions com auction_id e title
+        $formatted = $auctions->map(function($a) {
+            return [
+                'auction_id' => $a->auction_id,
+                'title' => $a->title
+            ];
+        });
+
+        return response()->json(['auctions' => $formatted]);
+    }
+
     private function findOrCreateChat($userId, $otherUserId, $auction_id)
     {
         $chatIdsUser = ChatParticipant::where('user_id', $userId)->pluck('chat_id');
+
+        // Encontrar um chat que tenha o outro user e o mesmo auction_id
         $chatWithOther = ChatParticipant::whereIn('chat_id', $chatIdsUser)
             ->where('user_id', $otherUserId)
-            ->first();
+            ->get()
+            ->map(function($cp) {
+                return $cp->chat;
+            })
+            ->first(function($chat) use ($auction_id) {
+                return $chat->auction_id == $auction_id;
+            });
 
         if ($chatWithOther) {
-            return $chatWithOther->chat;
+            return $chatWithOther;
         } else {
             $newChat = Chat::create([
+                'auction_id' => $auction_id,
                 'is_private' => true,
                 'created_at' => Carbon::now()
             ]);
@@ -183,5 +202,16 @@ class MessageController extends Controller
 
             return $newChat;
         }
+    }
+
+    private function getUserAuctions()
+    {
+        $user = Auth::user();
+        $chatIds = ChatParticipant::where('user_id', $user->user_id)->pluck('chat_id');
+        $auctionIds = Message::whereIn('chat_id', $chatIds)
+            ->distinct()
+            ->pluck('auction_id');
+
+        return Auction::whereIn('auction_id', $auctionIds)->orderBy('title', 'asc')->get();
     }
 }

@@ -181,6 +181,7 @@ CREATE TABLE Notification (
 -- 17. Chat Table
 CREATE TABLE Chat (
                       chat_id SERIAL PRIMARY KEY,
+                      auction_id INTEGER REFERENCES "Auction"(auction_id) ON DELETE CASCADE,
                       is_private BOOLEAN NOT NULL DEFAULT FALSE,
                       created_at TIMESTAMP NOT NULL DEFAULT NOW()
 );
