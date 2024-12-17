@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\AuctionController;
+use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\BidController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CreditController;
@@ -126,6 +127,11 @@ Route::middleware('auth')->group(function() {
     Route::get('/messages/poll', [MessageController::class, 'pollMessages'])->name('messages.poll');
     // Polling de novos chats (leilões)
     Route::get('/messages/poll-chats', [MessageController::class, 'pollChats'])->name('messages.pollChats');
+});
+
+Route::middleware('admin')->prefix('admin')->group(function () {
+    Route::get('/users/create', [RegisteredUserController::class, 'create'])->name('admin.users.create');
+    Route::post('/users', [RegisteredUserController::class, 'store'])->name('admin.users.store');
 });
 
 Route::get('/user/{user}', [AdminUserController::class, 'show'])->name('user.show');
