@@ -1,60 +1,61 @@
 @extends('layouts.app')
 
 @section('content')
-    <h1>{{ __('Lista de Utilizadores') }}</h1>
+    <div class="container" style="padding-left: 20px; padding-right: 20px;">
+        <h1 class="mb-4">{{ __('Lista de Utilizadores') }}</h1>
 
-    <!-- Formulário de Pesquisa -->
-    <form action="{{ route('admin.users.search') }}" method="GET" class="mb-4">
-        <input type="text" name="query" placeholder="{{ __('Pesquisar utilizador...') }}"
-               value="{{ old('query', $searchTerm ?? '') }}"
-               style="padding: 8px; margin-bottom: 10px; width: 300px; border: 1px solid #ccc; border-radius: 4px;">
-        <button type="submit"
-                style="padding: 8px 12px; background-color: #007BFF; color: #fff; border: none; border-radius: 4px; cursor: pointer;">
-            {{ __('Pesquisar') }}
-        </button>
-    </form>
+        <!-- Formulário de Pesquisa -->
+        <form action="{{ route('admin.users.search') }}" method="GET" class="mb-4 d-flex align-items-center">
+            <input type="text" name="query" placeholder="{{ __('Pesquisar utilizador...') }}"
+                   value="{{ old('query', $searchTerm ?? '') }}"
+                   class="form-control me-2" style="max-width: 300px;">
+            <button type="submit" class="btn btn-primary">{{ __('Pesquisar') }}</button>
+        </form>
 
-    <a href="{{ route('admin.users.create') }}"
-       style="display: inline-block; padding: 8px 12px; background-color: #28a745; color: #fff; text-decoration: none; border-radius: 4px; margin-bottom: 10px;">
-        {{ __('Criar Utilizador') }}
-    </a>
+        <!-- Botão Criar Utilizador -->
+        <div class="mb-3">
+            <a href="{{ route('admin.users.create') }}" class="btn btn-success">{{ __('Criar Utilizador') }}</a>
+        </div>
 
+        <!-- Tabela de Utilizadores -->
+        <div class="table-responsive">
+            <table class="table table-striped table-hover" style="margin-left: auto; margin-right: auto;">
+                <thead class="table-light text-center">
+                <tr>
+                    <th style="padding-left: 20px; text-align: left;">{{ __('Nome') }}</th>
+                    <th style="padding-left: 20px; text-align: left;">{{ __('Email') }}</th>
+                    <th class="text-center">{{ __('Ações') }}</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach ($users as $user)
+                    <tr class="align-middle">
+                        <td style="padding-left: 20px;">{{ $user->fullname }}</td>
+                        <td style="padding-left: 20px;">{{ $user->email }}</td>
+                        <td class="text-center">
+                            <a href="{{ route('admin.users.edit', $user->user_id) }}"
+                               class="btn btn-sm btn-success me-2">{{ __('Editar') }}</a>
+                            <button class="btn btn-sm btn-danger delete-user-btn"
+                                    data-user-id="{{ $user->user_id }}">
+                                {{ __('Apagar') }}
+                            </button>
+                        </td>
+                    </tr>
+                @endforeach
+                </tbody>
+            </table>
+        </div>
 
-    <!-- Tabela de Utilizadores -->
-    <table id="users-table" style="width: 100%; border-collapse: collapse;">
-        <thead>
-        <tr style="background-color: #f4f4f4;">
-            <th>{{ __('Nome') }}</th>
-            <th>{{ __('Email') }}</th>
-            <th>{{ __('Ações') }}</th>
-        </tr>
-        </thead>
-        <tbody>
-        @foreach ($users as $user)
-            <tr id="user-row-{{ $user->user_id }}">
-                <td>{{ $user->fullname }}</td>
-                <td>{{ $user->email }}</td>
-                <td>
-                    <a href="{{ route('admin.users.edit', $user->user_id) }}">{{ __('Editar') }}</a>
-                    <button class="delete-user-btn" data-user-id="{{ $user->user_id }}"
-                            style="background-color: #dc3545; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px;">
-                        {{ __('Apagar') }}
-                    </button>
-                </td>
-            </tr>
-        @endforeach
-        </tbody>
-    </table>
-
-    @if ($users->isEmpty())
-        <p>{{ __('Nenhum utilizador encontrado.') }}</p>
-    @endif
+        <!-- Caso não existam utilizadores -->
+        @if ($users->isEmpty())
+            <p class="text-center">{{ __('Nenhum utilizador encontrado.') }}</p>
+        @endif
+    </div>
 @endsection
 
 @section('scripts')
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            // Selecionar todos os botões de deletar
             const deleteButtons = document.querySelectorAll('.delete-user-btn');
 
             deleteButtons.forEach(function(button) {
@@ -62,7 +63,7 @@
                     event.preventDefault();
 
                     const userId = this.getAttribute('data-user-id');
-                    const row = document.getElementById(`user-row-${userId}`);
+                    const row = this.closest('tr');
 
                     if (confirm('{{ __("Tem certeza que deseja apagar este utilizador?") }}')) {
                         fetch(`{{ url('/admin/users') }}/${userId}`, {
@@ -73,15 +74,9 @@
                                 'Content-Type': 'application/json',
                             },
                         })
-                            .then(response => {
-                                if (response.ok) {
-                                    return response.json();
-                                }
-                                throw new Error('Erro na resposta da rede.');
-                            })
+                            .then(response => response.json())
                             .then(data => {
                                 if (data.success) {
-                                    // Remover a linha da tabela
                                     row.remove();
                                     alert('{{ __("Utilizador apagado com sucesso.") }}');
                                 } else {
@@ -89,7 +84,7 @@
                                 }
                             })
                             .catch(error => {
-                                console.error('Ocorreu um problema com a operação fetch:', error);
+                                console.error('Erro:', error);
                                 alert('{{ __("Ocorreu um erro ao apagar o utilizador.") }}');
                             });
                     }
