@@ -328,5 +328,12 @@
     "Add Credits": "Adicionar Créditos",
     "Amount to Add": "Montante a Adicionar",
     "Credits: ": "Créditos: ",
-    "Pay": "Pagar"
+    "Pay": "Pagar",
+    "City, Country": "Cidade, País",
+    "Write a brief description": "Escreva uma pequena descrição",
+    "Followed Auctions": "Leilões Seguidos",
+    "You are not following any auctions.": "Não está a seguir nenhum leilão.",
+    "No bids have been placed on this auction yet.": "Nenhum lance foi colocado neste leilão ainda.",
+    "Sold": "Vendido",
+    "Unsold": "Não Vendido"
 }

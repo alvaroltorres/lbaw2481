@@ -1581,3 +1581,8 @@ form .mb-3 {
     to { opacity:1; }
 }
 
+.status {
+    font-size: 0.8em;
+    font-weight: bold;
+    color: #a9a9a9
+}

@@ -53,6 +53,7 @@
                         <div class="auction-card">
                             <img src="{{ asset('images/auctions/' . $auction->image) }}" alt="{{ $auction->title }}">
                             <h2>{{ $auction->title }}</h2>
+                            <p class="status">{{ __($auction->status) }}</p>
                             <p>{{ Str::limit($auction->description, 100) }}</p>
                             <p>{{ __('Current Bid') }}: ${{ number_format($auction->current_price, 2) }}</p>
                             <a href="{{ route('auctions.show', $auction) }}" class="btn btn-primary">{{ __('View Auction') }}</a>

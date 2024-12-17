@@ -14,6 +14,7 @@
             <img src="{{ asset('images/auctions/' . $auction->image) }}" alt="{{ $auction->title }}" class="auction-image">
             <h2 class="auction-title">{{ $auction->title }}</h2>
             <p class="auction-description">{{ $auction->description }}</p>
+            <p class="status">{{ __($auction->status) }}</p>
             <p class="auction-meta"><strong>{{ __('Current Bid') }}:</strong> €{{ number_format($auction->current_price, 2, ',', '.') }}</p>
             <p class="auction-meta"><strong>{{ __('Minimum Bid Increment') }}:</strong> €{{ number_format($auction->minimum_bid_increment, 2, ',', '.') }}</p>
 

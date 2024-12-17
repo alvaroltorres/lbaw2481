@@ -27,7 +27,7 @@
                 <select class="form-select" id="category_id" name="category_id" required>
                     <option value="" disabled selected>{{ __('Select a category') }}</option>
                     @foreach($categories as $category)
-                        <option value="{{ $category->category_id }}">{{ $category->name }}</option>
+                        <option value="{{ $category->category_id }}">{{ __($category->name) }}</option>
                     @endforeach
                 </select>
             </div>
@@ -71,7 +71,6 @@
                 <label for="status" class="form-label">{{ __('Status') }}</label>
                 <select class="form-select" id="status" name="status" required>
                     <option value="Active" {{ old('status') == 'Active' ? 'selected' : '' }}>{{ __('Active') }}</option>
-                    <option value="Closed" {{ old('status') == 'Closed' ? 'selected' : '' }}>{{ __('Closed') }}</option>
                 </select>
             </div>
 
