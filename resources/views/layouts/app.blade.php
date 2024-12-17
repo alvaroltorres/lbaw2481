@@ -28,6 +28,9 @@
 
 <!-- scripts -->
 <script src="{{ asset('js/main.js') }}"></script>
+<script src="{{ asset('js/app.js') }}"></script>
+<script src="{{ asset('js/notifications.js') }}"></script>
+<script src="{{ asset('js/add_credits.js') }}"></script>
 <script>
     window.translations = {
         notification: {

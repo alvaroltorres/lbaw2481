@@ -836,45 +836,160 @@ p {
 }
 
 
-/* POPUP DE NOTIFICAÇão*/
+/* POPUP DE NOTIFICAÇão*//* Estilos para o popup de notificação */
 .notification-popup {
     position: fixed;
-    bottom: 20px;
+    bottom: -100px;
     right: 20px;
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-left: 5px solid #007bff;
+    background: linear-gradient(135deg, #007bff, #0056b3);
+    color: #fff;
     padding: 15px;
-    width: 300px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    width: 320px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    border-radius: 8px;
     z-index: 1000;
-    animation: fadeInUp 0.5s;
+    display: flex;
+    align-items: center;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.3s ease;
+    font-family: 'Open Sans', sans-serif;
 }
 
-.notification-popup .notification-content {
-    margin-bottom: 10px;
+.notification-popup.show {
+    opacity: 1;
+    bottom: 20px;
+    transform: translateY(0);
 }
 
-.notification-popup .notification-close {
-    position: absolute;
-    top: 5px;
-    right: 10px;
+.notification-content {
+    display: flex;
+    align-items: flex-start;
+}
+
+.notification-icon {
+    font-size: 1.5rem;
+    margin-right: 10px;
+}
+
+.notification-icon i {
+    color: #fff;
+}
+
+.notification-text p {
+    margin: 0;
+    font-size: 0.95rem;
+}
+
+.notification-link {
+    color: #fff;
+    font-weight: bold;
+    text-decoration: underline;
+    display: inline-block;
+    margin-top: 5px;
+}
+
+.notification-close {
     background: none;
     border: none;
-    font-size: 18px;
+    color: #fff;
+    font-size: 1.2rem;
+    margin-left: auto;
     cursor: pointer;
 }
 
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translate3d(0, 100%, 0);
-    }
-    to {
-        opacity: 1;
-        transform: none;
-    }
+.notification-close:hover {
+    color: #ffdddd;
 }
+
+/* Página de notificações */
+.notifications-page {
+    max-width: 700px;
+    margin: 2rem auto;
+    font-family: 'Open Sans', sans-serif;
+}
+.notifications-page h1 {
+    margin-bottom: 1rem;
+    font-size: 1.8rem;
+}
+.notifications-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.notification-item {
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    transition: background 0.3s;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.notification-item.unread {
+    background: #eef6ff;
+    font-weight: bold;
+}
+.notification-item a {
+    text-decoration: none;
+    color: #333;
+    flex-grow: 1;
+}
+.notification-time {
+    font-size: 0.85rem;
+    color: #666;
+}
+.notification-actions {
+    margin-left: 10px;
+}
+.notification-actions a {
+    background: #007bff;
+    color: #fff;
+    padding: 5px 8px;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    text-decoration: none;
+    margin-left: 5px;
+}
+.notification-actions a:hover {
+    background: #0056b3;
+}
+
+/* Página de detalhe da notificação */
+.notification-detail {
+    max-width: 600px;
+    margin: 2rem auto;
+    font-family: 'Open Sans', sans-serif;
+}
+.notification-detail h1 {
+    margin-bottom: 1rem;
+    font-size: 1.8rem;
+}
+.notification-detail p {
+    margin-bottom: 0.5rem;
+}
+.notification-detail a {
+    color: #007bff;
+    text-decoration: none;
+}
+.notification-detail a:hover {
+    text-decoration: underline;
+}
+
+/* Contador de notificações no layout */
+#notification-count {
+    background: #e3342f;
+    color: #fff;
+    padding: 2px 6px;
+    border-radius: 50%;
+    font-size: 0.75rem;
+    position: absolute;
+    top: -5px;
+    right: -5px;
+}
+
 
 /* FIM POPUP DE NOTIFICAÇão*/
 
@@ -1270,5 +1385,199 @@ p {
 
 .btn--send:hover {
     background-color: #0056b3;
+}
+
+body {
+    font-family: 'Open Sans', sans-serif;
+    color: #333;
+    background: #f5f5f5;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 2rem auto;
+}
+
+h2 {
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+    color: #333;
+}
+
+form .mb-3 {
+    margin-bottom: 1rem;
+}
+
+.form-label {
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+.form-control, .form-select {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+.form-control:focus, .form-select:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 2px rgba(0,123,255,0.2);
+}
+
+.btn {
+    display: inline-block;
+    padding: 0.6rem 1.2rem;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    text-decoration: none;
+    color: #fff;
+    transition: background 0.3s;
+}
+
+.btn.btn-primary {
+    background: #007bff;
+}
+
+.btn.btn-primary:hover {
+    background: #0056b3;
+}
+
+.btn.btn-danger {
+    background: #e3342f;
+}
+
+.btn.btn-danger:hover {
+    background: #b02a20;
+}
+
+.btn.btn-success {
+    background: #38c172;
+}
+
+.btn.btn-success:hover {
+    background: #2f9e5b;
+}
+
+.btn.btn-secondary {
+    background: #6c757d;
+}
+
+.btn.btn-secondary:hover {
+    background: #565e64;
+}
+
+.alert {
+    padding: 1rem;
+    border-radius: 5px;
+    margin-bottom: 1rem;
+}
+
+.alert-success {
+    background: #d4edda;
+    color: #155724;
+}
+
+.alert-danger {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.invalid-feedback, .text-danger {
+    color: #e3342f;
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+}
+
+/* Página de Criar Leilão */
+.create-auction-page {
+    background: #fff;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* Página de adicionar créditos */
+.credits-page {
+    background: #fff;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.payment-modal {
+    display: none;
+    position: fixed;
+    z-index: 10000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background: rgba(0,0,0,0.4);
+    animation: fadeIn 0.3s;
+}
+
+.payment-modal-content {
+    background: #fff;
+    margin: 10% auto;
+    padding: 2rem;
+    border-radius: 10px;
+    width: 300px;
+    position: relative;
+    text-align: center;
+}
+
+.payment-modal-close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    color: #999;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.payment-modal-close:hover {
+    color: #333;
+}
+
+.payment-options {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.payment-option {
+    background: #007bff;
+    color: #fff;
+    border: none;
+    padding: 0.7rem;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.payment-option:hover {
+    background: #0056b3;
+}
+
+#processingMessage {
+    font-style: italic;
+    color: #333;
+    margin-top: 10px;
+}
+
+@keyframes fadeIn {
+    from { opacity:0; }
+    to { opacity:1; }
 }
 

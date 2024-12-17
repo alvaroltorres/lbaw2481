@@ -60,10 +60,12 @@
             </a>
             <!-- APAGAR PARA FUNCIONAR -->
              <!-- Notificações -->
-            <a href="{{ route('notifications.index') }}" class="action-link" aria-label="{{ __('Notificações') }}">
-                <i class="fas fa-bell"></i>
-            </a>
-
+            <div style="position:relative; display:inline-block;">
+                <a href="{{ route('notifications.index') }}" class="nav-link">
+                    <i class="fas fa-bell"></i>
+                    <span id="notification-count" style="display:none;"></span>
+                </a>
+            </div>
             @auth
                 <!-- profile -->
                 <a href="{{ route('profile.show') }}" class="action-link" aria-label="{{ __('Perfil') }}">

@@ -4,6 +4,7 @@ namespace App\Notifications;
 
 use Illuminate\Notifications\Notification;
 use App\Models\Bid;
+use Carbon\Carbon;
 
 class NewBidNotification extends Notification
 {
@@ -16,21 +17,32 @@ class NewBidNotification extends Notification
 
     public function via($notifiable)
     {
-        return ['database']; // Uses the database channel
+        return ['database'];
     }
 
     public function toArray($notifiable)
     {
+        $bidAmountFormatted = number_format($this->bid->price, 2, ',', '.');
+        $auctionTitle = $this->bid->auction->title;
+        $bidderName = $this->bid->user->fullname;
+        $createdAt = Carbon::parse($this->bid->time)->format('d/m/Y H:i');
+
+        $message = sprintf(
+            'Nova oferta: €%s no leilão "%s" por %s em %s. Clique para ver detalhes e acompanhar o leilão!',
+            $bidAmountFormatted,
+            $auctionTitle,
+            $bidderName,
+            $createdAt
+        );
+
         return [
             'bid_id' => $this->bid->bid_id,
             'auction_id' => $this->bid->auction->auction_id,
             'bidder_id' => $this->bid->user->user_id,
-            'bidder_name' => $this->bid->user->fullname,
+            'bidder_name' => $bidderName,
             'bid_amount' => $this->bid->price,
-            'auction_title' => $this->bid->auction->title,
-            'message' => 'Uma nova oferta de €' . number_format($this->bid->price, 2, ',', '.') .
-                ' foi feita no seu leilão: ' . $this->bid->auction->title .
-                ' por ' . $this->bid->user->fullname . '.',
+            'auction_title' => $auctionTitle,
+            'message' => $message,
         ];
     }
 }
