@@ -2,9 +2,28 @@
 
 @section('content')
     <h1>{{ __('Lista de Utilizadores') }}</h1>
-    <table id="users-table">
+
+    <!-- Formulário de Pesquisa -->
+    <form action="{{ route('admin.users.search') }}" method="GET" class="mb-4">
+        <input type="text" name="query" placeholder="{{ __('Pesquisar utilizador...') }}"
+               value="{{ old('query', $searchTerm ?? '') }}"
+               style="padding: 8px; margin-bottom: 10px; width: 300px; border: 1px solid #ccc; border-radius: 4px;">
+        <button type="submit"
+                style="padding: 8px 12px; background-color: #007BFF; color: #fff; border: none; border-radius: 4px; cursor: pointer;">
+            {{ __('Pesquisar') }}
+        </button>
+    </form>
+
+    <a href="{{ route('admin.users.create') }}"
+       style="display: inline-block; padding: 8px 12px; background-color: #28a745; color: #fff; text-decoration: none; border-radius: 4px; margin-bottom: 10px;">
+        {{ __('Criar Utilizador') }}
+    </a>
+
+
+    <!-- Tabela de Utilizadores -->
+    <table id="users-table" style="width: 100%; border-collapse: collapse;">
         <thead>
-        <tr>
+        <tr style="background-color: #f4f4f4;">
             <th>{{ __('Nome') }}</th>
             <th>{{ __('Email') }}</th>
             <th>{{ __('Ações') }}</th>
@@ -17,12 +36,19 @@
                 <td>{{ $user->email }}</td>
                 <td>
                     <a href="{{ route('admin.users.edit', $user->user_id) }}">{{ __('Editar') }}</a>
-                    <button class="delete-user-btn" data-user-id="{{ $user->user_id }}">{{ __('Apagar') }}</button>
+                    <button class="delete-user-btn" data-user-id="{{ $user->user_id }}"
+                            style="background-color: #dc3545; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px;">
+                        {{ __('Apagar') }}
+                    </button>
                 </td>
             </tr>
         @endforeach
         </tbody>
     </table>
+
+    @if ($users->isEmpty())
+        <p>{{ __('Nenhum utilizador encontrado.') }}</p>
+    @endif
 @endsection
 
 @section('scripts')
@@ -39,7 +65,7 @@
                     const row = document.getElementById(`user-row-${userId}`);
 
                     if (confirm('{{ __("Tem certeza que deseja apagar este utilizador?") }}')) {
-                        fetch(`{{ url('/admin/user') }}/${userId}`, {
+                        fetch(`{{ url('/admin/users') }}/${userId}`, {
                             method: 'DELETE',
                             headers: {
                                 'X-CSRF-TOKEN': '{{ csrf_token() }}',

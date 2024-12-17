@@ -101,6 +101,24 @@ class AdminUserController extends Controller
     }
 
 
+
+    // pesquisar um user na área de admin
+
+    public function search(Request $request)
+    {
+        $searchTerm = $request->input('query'); // Parâmetro 'query' da URL
+
+        // Realizar a busca nos campos 'username', 'email' e 'fullname'
+        $users = User::where('username', 'LIKE', "%{$searchTerm}%")
+            ->orWhere('email', 'LIKE', "%{$searchTerm}%")
+            ->orWhere('fullname', 'LIKE', "%{$searchTerm}%")
+            ->get();
+
+        // Retorna a mesma view da lista de utilizadores com os resultados filtrados
+        return view('admin.users.index', ['users' => $users, 'searchTerm' => $searchTerm]);
+    }
+
+
     /**
      * Apagar um utilizador da base de dados.
      */

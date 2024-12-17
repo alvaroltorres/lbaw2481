@@ -13,5 +13,6 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('/users/{user}/edit', [AdminUserController::class, 'edit'])->name('admin.users.edit');
     Route::patch('/users/{user}', [AdminUserController::class, 'update'])->name('admin.users.update');
     Route::delete('/users/{user}', [AdminUserController::class, 'destroy'])->name('admin.users.destroy');
+    Route::get('/admin/users/search', [AdminUserController::class, 'search'])->name('admin.users.search');
 });
 
