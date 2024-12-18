@@ -138,6 +138,8 @@
                     <select id="status" class="form-select @error('status') is-invalid @enderror" name="status" required>
                         <option value="Active" {{ $auction->status == 'Active' ? 'selected' : '' }}>{{ __('Active') }}</option>
                         <option value="Closed" {{ $auction->status == 'Closed' ? 'selected' : '' }}>{{ __('Closed') }}</option>
+                        <option value="Sold" {{ $auction->status == 'Sold' ? 'selected' : '' }}>{{ __('Sold') }}</option>
+                        <option value="Unsold" {{ $auction->status == 'Unsold' ? 'selected' : '' }}>{{ __('Unsold') }}</option>
                     </select>
 
                     @error('status')
