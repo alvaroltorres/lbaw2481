@@ -132,6 +132,8 @@ Route::middleware('auth')->group(function() {
 Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('/users/create', [RegisteredUserController::class, 'create'])->name('admin.users.create');
     Route::post('/users', [RegisteredUserController::class, 'store'])->name('admin.users.store');
+    Route::delete('/users/{id}', [AdminUserController::class, 'destroy'])->name('admin.users.destroy');
+
 });
 
 Route::get('/user/{user}', [AdminUserController::class, 'show'])->name('user.show');

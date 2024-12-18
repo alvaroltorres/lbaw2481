@@ -12,8 +12,10 @@ class AdminUserController extends Controller
      */
     public function index()
     {
-        $users = User::all(); // Obter todos os utilizadores.
-        return view('admin.users.index', compact('users')); // Retorna a vista com os utilizadores.
+        // Obter apenas utilizadores que não sejam administradores
+        $users = User::where('is_admin', false)->get();
+
+        return view('admin.users.index', compact('users'));
     }
 
     /**
@@ -36,22 +38,22 @@ class AdminUserController extends Controller
             'password' => 'required|min:8|confirmed',
             'nif' => 'nullable|max:100',
             'is_admin' => 'required|boolean',
-            'is_enterprise' => 'required|boolean',
         ]);
 
-        // Criar o novo utilizador.
+        // Criar o novo utilizador com is_enterprise sempre como falso
         User::create([
             'username' => $validated['username'],
             'email' => $validated['email'],
             'fullname' => $validated['fullname'],
-            'nif' => $validated['nif'],
+            'nif' => $validated['nif'] ?? null,
             'password_hash' => bcrypt($validated['password']),
             'is_admin' => $validated['is_admin'],
-            'is_enterprise' => $validated['is_enterprise'],
+            'is_enterprise' => false, // Definido diretamente como falso
         ]);
 
         return redirect()->route('admin.users.index')->with('success', 'Utilizador criado com sucesso.');
     }
+
 
     /**
      * Mostrar o formulário de edição para um utilizador específico.
@@ -100,9 +102,7 @@ class AdminUserController extends Controller
         return view('user.show', compact('user'));
     }
 
-
-
-    // pesquisar um user na área de admin
+    //
 
     public function search(Request $request)
     {
@@ -126,23 +126,14 @@ class AdminUserController extends Controller
     {
         $user = User::findOrFail($id);
 
-        // Apagar registos relacionados na tabela BlockedUser
-        \DB::table('blockeduser')->where('blocked_user_id', $id)->orWhere('admin_id', $id)->delete();
-
         try {
+            \DB::table('blockeduser')->where('blocked_user_id', $id)->orWhere('admin_id', $id)->delete();
             $user->delete();
 
-            if ($request->expectsJson()) {
-                return response()->json(['success' => true, 'message' => 'Utilizador apagado com sucesso.']);
-            }
-
-            return redirect()->route('admin.users.index')->with('success', 'Utilizador apagado com sucesso.');
+            return response()->json(['success' => true, 'message' => 'Utilizador apagado com sucesso.']);
         } catch (\Exception $e) {
-            if ($request->expectsJson()) {
-                return response()->json(['success' => false, 'message' => 'Falha ao apagar o utilizador.'], 500);
-            }
-
-            return redirect()->route('admin.users.index')->with('error', 'Falha ao apagar o utilizador.');
+            return response()->json(['success' => false, 'message' => 'Erro ao apagar utilizador.'], 500);
         }
     }
+
 }

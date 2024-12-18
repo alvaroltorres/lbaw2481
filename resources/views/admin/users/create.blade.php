@@ -90,21 +90,6 @@
                         @enderror
                     </div>
 
-                    <!-- Is Enterprise Field -->
-                    <div class="form-group">
-                        <label for="is_enterprise">{{ __('É Empresa?') }}</label>
-                        <select id="is_enterprise" name="is_enterprise" class="form-control @error('is_enterprise') is-invalid @enderror" required>
-                            <option value="0">{{ __('Não') }}</option>
-                            <option value="1">{{ __('Sim') }}</option>
-                        </select>
-
-                        @error('is_enterprise')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                        @enderror
-                    </div>
-
                     <!-- Submit Button -->
                     <div class="form-group mt-3">
                         <button type="submit" class="btn btn-primary">
