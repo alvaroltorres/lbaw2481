@@ -10,7 +10,7 @@
 
         <!-- Search Bar -->
         <div class="search-bar flex items-center ml-6 flex-grow">
-            <form action="{{ route('search') }}" method="GET" class="search-bar-form">
+            <form action="{{ route('search') }}" method="GET" class="search-bar-form flex items-center w-full">
                 <input type="text" name="query" placeholder="{{ __('Search...') }}" class="search-input flex-grow px-4 py-2 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary-color" />
                 <select name="category" class="search-select px-4 py-2 border-l border-r border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary-color">
                     <option value="">{{ __('All Categories') }}</option>
@@ -21,8 +21,8 @@
                 <button type="submit" class="search-button px-4 py-2 bg-accent-color text-white hover:bg-accent-color-dark focus:outline-none focus:ring-2 focus:ring-accent-color">
                     <i class="fas fa-search"></i>
                 </button>
-                <label for="exact_match" class="exact-match-button ml-2">
-                    <input type="checkbox" id="exact_match" name="exact_match" value="1">
+                <label for="exact_match" class="exact-match-button ml-2 flex items-center">
+                    <input type="checkbox" id="exact_match" name="exact_match" value="1" class="mr-1">
                     {{ __('Exact Match') }}
                 </label>
             </form>
@@ -34,19 +34,18 @@
                 <i class="fas fa-comments"></i>
             </a>
 
-            <div style="position:relative; display:inline-block;">
+            <div class="relative inline-block">
                 <a href="{{ route('notifications.index') }}" class="nav-link">
                     <i class="fas fa-bell"></i>
-                    <span id="notification-count" style="display:none;"></span>
+                    <span id="notification-count" class="notification-count hidden"></span>
                 </a>
             </div>
 
             @auth
                 <!-- Novo Ícone de Leilões Seguidos -->
-                <div style="position:relative; display:inline-block;">
+                <div class="relative inline-block">
                     <a href="{{ route('auctions.followed') }}" class="action-link" aria-label="{{ __('Followed Auctions') }}">
                         <i class="fas fa-heart"></i>
-                        <!-- Opcional: Indicador de quantidade -->
                         @php
                             $followedCount = Auth::user()->followedAuctions()->count();
                         @endphp
@@ -79,4 +78,20 @@
             </button>
         </div>
     </div>
+
+    <!-- Subheader para Perfil -->
+    @if(request()->is('profile*'))
+        <div class="profile-subnav">
+            <div class="container">
+                <ul class="profile-nav-list flex space-x-4">
+                    <li><a href="{{ route('profile.show') }}" class="{{ request()->routeIs('profile.show') ? 'active' : '' }}">{{ __('Profile') }}</a></li>
+                    <li><a href="{{ route('profile.biddingHistory') }}" class="{{ request()->routeIs('profile.biddingHistory') ? 'active' : '' }}">{{ __('Bidding History') }}</a></li>
+                    <li><a href="{{ route('profile.orders') }}" class="{{ request()->routeIs('profile.orders') ? 'active' : '' }}">{{ __('My Orders') }}</a></li>
+                    <li><a href="{{ route('profile.ratings') }}" class="{{ request()->routeIs('profile.ratings') ? 'active' : '' }}">{{ __('My Ratings') }}</a></li>
+                    <li><a href="{{ route('profile.myauctions') }}" class="{{ request()->routeIs('profile.myauctions') ? 'active' : '' }}">{{ __('My Auctions') }}</a></li>
+                    <li><a href="{{ route('profile.soldauctions') }}" class="{{ request()->routeIs('profile.soldauctions') ? 'active' : '' }}">{{ __('Sold Auctions') }}</a></li>
+                </ul>
+            </div>
+        </div>
+    @endif
 </header>

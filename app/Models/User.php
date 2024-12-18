@@ -123,4 +123,24 @@ class User extends Authenticatable
         return $this->belongsToMany(Auction::class, 'follow_auctions', 'user_id', 'auction_id');
     }
 
+    public function orders()
+    {
+        // hasManyThrough(Order,Transaction, 'buyer_id','transaction_id','user_id','transaction_id')
+        return $this->hasManyThrough(
+            Order::class,
+            Transaction::class,
+            'buyer_id', // Foreign key em Transaction
+            'transaction_id', // Foreign key em Orders
+            'user_id', // Local key em User
+            'transaction_id' // Local key em Transaction
+        );
+    }
+
+    // Relacionamento para RATINGS recebidos
+    // Ratings tem rated_user_id, que aponta para este user
+    public function receivedRatings()
+    {
+        return $this->hasMany(Rating::class, 'rated_user_id', 'user_id');
+    }
+
 }

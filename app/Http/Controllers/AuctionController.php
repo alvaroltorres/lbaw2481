@@ -240,8 +240,9 @@ class AuctionController extends Controller
             $query->where('user_id', $user->user_id);
         })->get();
 
+        $bids = Bid::where('user_id', $user->user_id)->orderBy('time', 'desc')->get();
         // Pass the auctions to the view
-        return view('auctions.followed', compact('auctions'));
+        return view('profile.bidding_history', compact('user', 'auctions', 'bids'));
     }
 
 

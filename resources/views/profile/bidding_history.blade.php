@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container">
-        <h1>{{ __('Bidding History for') }} {{ $user->title }}</h1>
+        <h1>{{ __('Bidding History for') }} {{ $user->fullname }}</h1>
 
         @if($bids->isEmpty())
             <p>{{ __('No bids have been placed on this auction yet.') }}</p>
@@ -27,7 +27,5 @@
             </table>
         @endif
 
-        <!-- Back to Auction Button -->
-        <a href="{{ route('auctions.show', $auction) }}" class="btn btn-secondary">{{ __('Back to Auction') }}</a>
     </div>
 @endsection

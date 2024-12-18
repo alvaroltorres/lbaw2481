@@ -137,4 +137,30 @@ class ProfileController extends Controller
             'user' => $request->user(),
         ]);
     }
+    public function orders() {
+        $user = Auth::user();
+        // Através do relacionamento orders() no User
+        $orders = $user->orders()->with('transaction.auction')->paginate(10);
+        return view('profile.orders', compact('orders', 'user'));
+    }
+
+    public function ratings() {
+        $user = Auth::user();
+        $ratings = $user->receivedRatings()->orderBy('rating_time','desc')->paginate(10);
+        return view('profile.ratings', compact('ratings', 'user'));
+    }
+
+    public function myAuctions() {
+        $user = Auth::user();
+        $myauctions = $user->auctions()->paginate(10);
+        return view('profile.myauctions', compact('myauctions', 'user'));
+    }
+
+    public function soldAuctions() {
+        $user = Auth::user();
+        // sold auctions = status = 'Closed' (ajuste conforme sua lógica)
+        $soldAuctions = $user->auctions()->where('status','Closed')->paginate(10);
+        return view('profile.soldauctions', compact('soldAuctions', 'user'));
+    }
+
 }

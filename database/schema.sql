@@ -217,7 +217,7 @@ CREATE TABLE Report (
                         admin_id INTEGER REFERENCES "User"(user_id)
 );
 
--- 21. Orders Table (Renamed from "Order")
+-- 21. Orders Table (Renamed from "Order.php")
 CREATE TABLE Orders (
                         order_id SERIAL PRIMARY KEY,
                         transaction_id INTEGER REFERENCES Transaction(transaction_id) ON DELETE CASCADE,
