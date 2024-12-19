@@ -136,4 +136,54 @@ class AdminUserController extends Controller
         }
     }
 
+    public function block($id)
+    {
+        $user = User::findOrFail($id);
+
+        // Verifica se o utilizador é admin e impede o bloqueio
+        if ($user->is_admin) {
+            return redirect()->back()->with('error', 'Não é possível bloquear um administrador.');
+        }
+
+        // Verifica se o utilizador já está bloqueado pelo admin atual
+        $exists = \DB::table('blockeduser')
+            ->where('admin_id', auth()->user()->user_id) // Admin logado
+            ->where('blocked_user_id', $user->user_id)  // Utilizador a ser bloqueado
+            ->exists();
+
+        if ($exists) {
+            return redirect()->back()->with('error', 'O utilizador já está bloqueado.');
+        }
+
+        // Marca o utilizador como bloqueado e insere na tabela blockeduser
+        $user->is_blocked = true;
+        $user->save();
+
+        \DB::table('blockeduser')->insert([
+            'admin_id' => auth()->user()->user_id, // Admin logado
+            'blocked_user_id' => $user->user_id,
+        ]);
+
+        return redirect()->route('admin.users.index')->with('success', 'Utilizador bloqueado com sucesso.');
+    }
+
+
+    public function unblock($id)
+    {
+        $user = User::findOrFail($id);
+
+        // Verifica se não é admin
+        if ($user->is_admin) {
+            return redirect()->back()->with('error', 'Não é possível desbloquear um admin (desnecessário).');
+        }
+
+        // Desbloqueia o utilizador e remove da tabela blockeduser
+        $user->is_blocked = false;
+        $user->save();
+
+        \DB::table('blockeduser')->where('blocked_user_id', $user->user_id)->delete();
+
+        return redirect()->route('admin.users.index')->with('success', 'Utilizador desbloqueado com sucesso.');
+    }
+
 }

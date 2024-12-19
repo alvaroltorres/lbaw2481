@@ -35,7 +35,7 @@ class User extends Authenticatable
         'email',
         'password_hash',
         'is_admin',
-        'is_enterprise',
+        'is_blocked',
         'two_factor_enabled',
     ];
 

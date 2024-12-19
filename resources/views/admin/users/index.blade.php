@@ -39,6 +39,20 @@
                                     data-user-id="{{ $user->user_id }}">
                                 {{ __('Apagar') }}
                             </button>
+
+                            @if(!$user->is_admin)
+                                @if($user->is_blocked)
+                                    <form action="{{ route('admin.users.unblock', $user->user_id) }}" method="POST" style="display:inline;">
+                                        @csrf
+                                        <button class="btn btn-sm btn-warning ms-2">{{ __('Desbloquear') }}</button>
+                                    </form>
+                                @else
+                                    <form action="{{ route('admin.users.block', $user->user_id) }}" method="POST" style="display:inline;">
+                                        @csrf
+                                        <button class="btn btn-sm btn-secondary ms-2">{{ __('Bloquear') }}</button>
+                                    </form>
+                                @endif
+                            @endif
                         </td>
                     </tr>
                 @empty

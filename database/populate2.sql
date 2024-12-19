@@ -29,7 +29,7 @@ INSERT INTO "Category" (parent_id, name) VALUES
 
 -- Insert Users
 -- ALL PASSWORDS ARE 1234
-INSERT INTO "User" (is_enterprise, is_admin, two_factor_enabled, username, email, password_hash, fullname, nif) VALUES
+INSERT INTO "User" (is_blocked, is_admin, two_factor_enabled, username, email, password_hash, fullname, nif) VALUES
                                                                                                                     (FALSE, TRUE, FALSE, 'adminuser', 'admin@bidzenith.com', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W', 'Alice Admin', '123456789'),
                                                                                                                     (FALSE, FALSE, TRUE, 'johndoe', 'john.doe@example.com', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W', 'John Doe', '987654321'),
                                                                                                                     (FALSE, FALSE, TRUE, 'janedoe', 'jane.doe@example.com', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W', 'Jane Doe', '192837465'),

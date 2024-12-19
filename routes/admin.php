@@ -14,5 +14,8 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::patch('/users/{user}', [AdminUserController::class, 'update'])->name('admin.users.update');
     Route::delete('/users/{user}', [AdminUserController::class, 'destroy'])->name('admin.users.destroy');
     Route::get('/admin/users/search', [AdminUserController::class, 'search'])->name('admin.users.search');
+    Route::post('/users/{id}/block', [AdminUserController::class, 'block'])->name('admin.users.block');
+    Route::post('/users/{id}/unblock', [AdminUserController::class, 'unblock'])->name('admin.users.unblock');
 });
+
 

@@ -129,13 +129,6 @@ Route::middleware('auth')->group(function() {
     Route::get('/messages/poll-chats', [MessageController::class, 'pollChats'])->name('messages.pollChats');
 });
 
-Route::middleware('admin')->prefix('admin')->group(function () {
-    Route::get('/users/create', [RegisteredUserController::class, 'create'])->name('admin.users.create');
-    Route::post('/users', [RegisteredUserController::class, 'store'])->name('admin.users.store');
-    Route::delete('/users/{id}', [AdminUserController::class, 'destroy'])->name('admin.users.destroy');
-
-});
-
 Route::get('/user/{user}', [AdminUserController::class, 'show'])->name('user.show');
 
 require __DIR__.'/admin.php';

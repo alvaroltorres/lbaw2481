@@ -18,7 +18,7 @@ CREATE TABLE "Category" (
 -- 2. User Table
 CREATE TABLE "User" (
                         user_id SERIAL PRIMARY KEY,
-                        is_enterprise BOOLEAN NOT NULL,
+                        is_blocked BOOLEAN NOT NULL,
                         is_admin BOOLEAN NOT NULL,
                         two_factor_enabled BOOLEAN NOT NULL DEFAULT FALSE,
                         created_at TIMESTAMP NOT NULL DEFAULT NOW(),
