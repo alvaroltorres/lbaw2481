@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use App\Models\Auction;
 use App\Models\User;
 
 class AdminUserController extends Controller
@@ -197,5 +198,19 @@ class AdminUserController extends Controller
             DB::rollBack();
             return redirect()->back()->with('error', 'Ocorreu um erro ao desbloquear o utilizador.');
         }
+    }
+    public function cancel(Request $request, Auction $auction)
+    {
+        $request->validate([
+            'reason' => 'required|string|max:255',
+        ]);
+
+        // Atualizar o leilão para "cancelado"
+        $auction->update([
+            'status' => 'cancelled',
+            'cancel_reason' => $request->input('reason'),
+        ]);
+
+        return redirect()->back()->with('success', 'Auction cancelled successfully.');
     }
 }

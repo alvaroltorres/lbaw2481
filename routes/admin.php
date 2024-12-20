@@ -16,6 +16,7 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('/admin/users/search', [AdminUserController::class, 'search'])->name('admin.users.search');
     Route::post('/users/{user}/block', [AdminUserController::class, 'block'])->name('admin.users.block');
     Route::post('/users/{user}/unblock', [AdminUserController::class, 'unblock'])->name('admin.users.unblock');
+    Route::post('/admin/auctions/{auction}/cancel', [AdminAuctionController::class, 'cancel'])->name('admin.auctions.cancel');
 });
 
 

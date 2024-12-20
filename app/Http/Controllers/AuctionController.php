@@ -176,6 +176,8 @@ class AuctionController extends Controller
         }
     }
 
+
+
     public function unfollowAuction(Request $request, $auction_id)
     {
         // Get the currently authenticated user's ID
@@ -209,18 +211,18 @@ class AuctionController extends Controller
 
         // Pass the auctions to the view
         return view('auctions.followed', compact('auctions'));
+    }public function destroy(Auction $auction)
+{
+    if ($auction->user_id !== Auth::id() && !auth()->user()->is_admin) {
+        return redirect()->route('auctions.show', $auction)->with('error', 'You do not have permission to delete this auction.');
     }
 
-    public function destroy(Auction $auction)
-    {
-        if ($auction->user_id !== Auth::id()) {
-            return redirect()->route('auctions.show', $auction)->with('error', 'You do not have permission to delete this auction.');
-        }
+    $auction->delete();
+    return redirect()->route('auctions.index')->with('success', 'Auction deleted successfully!');
+}
 
-        $auction->delete();
 
-        return redirect()->route('auctions.index')->with('success', 'Auction deleted successfully!');
-    }
+
 
     public function biddingHistory(Auction $auction)
     {
