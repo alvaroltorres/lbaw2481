@@ -8,29 +8,32 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <!-- titulo -->
+    <!-- Título -->
     <title>{{ config('app.name', 'BidZenith') }}</title>
 
-    <!-- css -->
+    <!-- CSS -->
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
 </head>
 <body class="font-sans antialiased">
-<!-- header já incluído  -->
+<!-- Header já incluído -->
 @include('partials.header')
 
-<!-- conteudo da pagina -->
+<!-- Conteúdo da página -->
 <main>
     @yield('content')
 </main>
 
+<!-- Footer -->
 @include('partials.footer')
 
-<!-- scripts -->
+<!-- Scripts -->
 <script src="{{ asset('js/main.js') }}"></script>
 <script src="{{ asset('js/app.js') }}"></script>
-<script src="{{ asset('js/notifications.js') }}"></script>
+<script src="{{ asset('js/notifications.js') }}"></script>§
 <script src="{{ asset('js/add_credits.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
     window.translations = {
         notification: {

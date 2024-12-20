@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\User;
 
@@ -32,8 +34,8 @@ class AdminUserController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'username' => 'required|unique:User|max:50',
-            'email' => 'required|email|unique:User|max:100',
+            'username' => 'required|unique:users|max:50',
+            'email' => 'required|email|unique:users|max:100',
             'fullname' => 'required|max:100',
             'password' => 'required|min:8|confirmed',
             'nif' => 'nullable|max:100',
@@ -54,7 +56,6 @@ class AdminUserController extends Controller
         return redirect()->route('admin.users.index')->with('success', 'Utilizador criado com sucesso.');
     }
 
-
     /**
      * Mostrar o formulário de edição para um utilizador específico.
      */
@@ -70,8 +71,8 @@ class AdminUserController extends Controller
     public function update(Request $request, $id)
     {
         $validated = $request->validate([
-            'username' => 'required|max:50|unique:User,username,' . $id . ',user_id',
-            'email' => 'required|email|max:100|unique:User,email,' . $id . ',user_id',
+            'username' => 'required|max:50|unique:users,username,' . $id,
+            'email' => 'required|email|max:100|unique:users,email,' . $id,
             'fullname' => 'required|max:100',
             'nif' => 'nullable|max:100',
             'password' => 'nullable|min:8|confirmed',
@@ -95,14 +96,11 @@ class AdminUserController extends Controller
         return redirect()->route('admin.users.index')->with('success', 'Utilizador atualizado com sucesso.');
     }
 
-
     public function show($id)
     {
         $user = User::with('auctions')->findOrFail($id);
         return view('user.show', compact('user'));
     }
-
-    //
 
     public function search(Request $request)
     {
@@ -118,7 +116,6 @@ class AdminUserController extends Controller
         return view('admin.users.index', ['users' => $users, 'searchTerm' => $searchTerm]);
     }
 
-
     /**
      * Apagar um utilizador da base de dados.
      */
@@ -127,7 +124,7 @@ class AdminUserController extends Controller
         $user = User::findOrFail($id);
 
         try {
-            \DB::table('blockeduser')->where('blocked_user_id', $id)->orWhere('admin_id', $id)->delete();
+            DB::table('blockeduser')->where('blocked_user_id', $id)->orWhere('admin_id', $id)->delete();
             $user->delete();
 
             return response()->json(['success' => true, 'message' => 'Utilizador apagado com sucesso.']);
@@ -136,54 +133,69 @@ class AdminUserController extends Controller
         }
     }
 
-    public function block($id)
+    public function block(Request $request, $id)
     {
-        $user = User::findOrFail($id);
+        $user = User::find($id);
 
-        // Verifica se o utilizador é admin e impede o bloqueio
-        if ($user->is_admin) {
-            return redirect()->back()->with('error', 'Não é possível bloquear um administrador.');
-        }
 
-        // Verifica se o utilizador já está bloqueado pelo admin atual
-        $exists = \DB::table('blockeduser')
-            ->where('admin_id', auth()->user()->user_id) // Admin logado
-            ->where('blocked_user_id', $user->user_id)  // Utilizador a ser bloqueado
-            ->exists();
 
-        if ($exists) {
+        // Verifica se o utilizador já está bloqueado
+        if (DB::table('blockeduser')->where('blocked_user_id', $user->user_id)->exists()) {
             return redirect()->back()->with('error', 'O utilizador já está bloqueado.');
         }
 
-        // Marca o utilizador como bloqueado e insere na tabela blockeduser
+        // Verifica se o utilizador é administrador
+        if ($user->is_admin) {
+            return redirect()->back()->with('error', 'Não é possível bloquear um administrador.');
+        }
+        // Valida a razão do bloqueio
+        $request->validate([
+            'reason' => 'required|string|max:255',
+        ]);
+
+
+        // Insere os dados na tabela blockeduser
+        DB::table('blockeduser')->insert([
+            'admin_id' => auth()->id(),
+            'blocked_user_id' => $user->user_id, // O $user->id será usado como a chave primária
+            'reason' => $request->reason,
+            'blocked_at' =>     Carbon::now(),
+        ]);
+
+        // Marca o utilizador como bloqueado
         $user->is_blocked = true;
         $user->save();
 
-        \DB::table('blockeduser')->insert([
-            'admin_id' => auth()->user()->user_id, // Admin logado
-            'blocked_user_id' => $user->user_id,
-        ]);
-
-        return redirect()->route('admin.users.index')->with('success', 'Utilizador bloqueado com sucesso.');
+        return redirect()->back()->with('success', 'O utilizador foi bloqueado com sucesso.');
     }
+
 
 
     public function unblock($id)
     {
         $user = User::findOrFail($id);
 
-        // Verifica se não é admin
-        if ($user->is_admin) {
-            return redirect()->back()->with('error', 'Não é possível desbloquear um admin (desnecessário).');
+        // Verifica se o utilizador já está desbloqueado
+        if (!$user->is_blocked) {
+            return redirect()->back()->with('error', 'O utilizador já está desbloqueado.');
         }
 
-        // Desbloqueia o utilizador e remove da tabela blockeduser
-        $user->is_blocked = false;
-        $user->save();
+        // Inicia a transação
+        DB::beginTransaction();
 
-        \DB::table('blockeduser')->where('blocked_user_id', $user->user_id)->delete();
+        try {
+            // Remove da tabela `blockeduser`
+            DB::table('blockeduser')->where('blocked_user_id', $user->user_id)->delete();
 
-        return redirect()->route('admin.users.index')->with('success', 'Utilizador desbloqueado com sucesso.');
+            // Atualiza o estado do utilizador
+            $user->is_blocked = false;
+            $user->save();
+
+            DB::commit();
+            return redirect()->route('admin.users.index')->with('success', 'Utilizador desbloqueado com sucesso.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->back()->with('error', 'Ocorreu um erro ao desbloquear o utilizador.');
+        }
     }
-
 }

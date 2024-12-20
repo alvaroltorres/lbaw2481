@@ -56,7 +56,7 @@ class User extends Authenticatable
      */
     protected $casts = [
         'is_admin' => 'boolean',
-        'is_enterprise' => 'boolean',
+        'is_blocked' => 'boolean',
         'two_factor_enabled' => 'boolean',
         'email_verified_at' => 'datetime',
     ];

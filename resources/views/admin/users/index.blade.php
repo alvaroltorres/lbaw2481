@@ -47,10 +47,11 @@
                                         <button class="btn btn-sm btn-warning ms-2">{{ __('Desbloquear') }}</button>
                                     </form>
                                 @else
-                                    <form action="{{ route('admin.users.block', $user->user_id) }}" method="POST" style="display:inline;">
-                                        @csrf
-                                        <button class="btn btn-sm btn-secondary ms-2">{{ __('Bloquear') }}</button>
-                                    </form>
+                                    <!-- Botão para abrir o modal -->
+                                    <button class="btn btn-sm btn-secondary ms-2 block-user-btn"
+                                            data-user-id="{{ $user->user_id }}">
+                                        {{ __('Bloquear') }}
+                                    </button>
                                 @endif
                             @endif
                         </td>
@@ -64,4 +65,48 @@
             </table>
         </div>
     </div>
+
+    <!-- Modal para Bloquear Utilizador -->
+    <div class="modal fade" id="blockUserModal" tabindex="-1" aria-labelledby="blockUserModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form method="POST" id="blockUserForm">
+                    @csrf
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="blockUserModalLabel">{{ __('Bloquear Utilizador') }}</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" name="user_id" id="blockUserId" value="">
+                        <div class="form-group">
+                            <label for="reason">{{ __('Razão para o Bloqueio') }}</label>
+                            <textarea class="form-control" id="reason" name="reason" rows="4" required></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Cancelar') }}</button>
+                        <button type="submit" class="btn btn-danger">{{ __('Confirmar Bloqueio') }}</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const blockButtons = document.querySelectorAll('.block-user-btn');
+            const blockUserIdInput = document.getElementById('blockUserId');
+            const blockUserForm = document.getElementById('blockUserForm');
+
+            blockButtons.forEach(button => {
+                button.addEventListener('click', function () {
+                    const userId = this.getAttribute('data-user-id');
+                    blockUserIdInput.value = userId;
+                    blockUserForm.action = `/admin/users/${userId}/block`;
+                    const modal = new bootstrap.Modal(document.getElementById('blockUserModal'));
+                    modal.show();
+                });
+            });
+        });
+    </script>
 @endsection

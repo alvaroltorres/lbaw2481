@@ -32,8 +32,8 @@ INSERT INTO "Category" (parent_id, name) VALUES
 INSERT INTO "User" (is_blocked, is_admin, two_factor_enabled, username, email, password_hash, fullname, nif) VALUES
                                                                                                                     (FALSE, TRUE, FALSE, 'adminuser', 'admin@bidzenith.com', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W', 'Alice Admin', '123456789'),
                                                                                                                     (FALSE, FALSE, TRUE, 'johndoe', 'john.doe@example.com', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W', 'John Doe', '987654321'),
-                                                                                                                    (FALSE, FALSE, TRUE, 'janedoe', 'jane.doe@example.com', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W', 'Jane Doe', '192837465'),
-                                                                                                                    (TRUE, FALSE, FALSE, 'enterprise1', 'contact@enterprise1.com', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W', 'Enterprise One Ltd.', '564738291');
+                                                                                                                    (TRUE, FALSE, TRUE, 'janedoe', 'jane.doe@example.com', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W', 'Jane Doe', '192837465'),
+                                                                                                                    (FALSE, FALSE, FALSE, 'enterprise1', 'contact@enterprise1.com', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W', 'Enterprise One Ltd.', '564738291');
 
 -- ******************************
 -- 3. UserSettings Table
@@ -209,8 +209,11 @@ INSERT INTO Report (reported_user_id, reporter_user_id, auction_id, content, adm
 -- 20. BlockedUser Table
 -- ******************************
 
+
+
 INSERT INTO BlockedUser (blocked_user_id, admin_id, reason) VALUES
     (3, 1, 'Violation of terms of service.');
+
 
 -- ******************************
 -- 21. Orders Table
