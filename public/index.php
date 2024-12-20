@@ -1,5 +1,10 @@
 <?php
 
+
+error_reporting(E_ALL & ~E_DEPRECATED);
+
+// Resto do código
+
 use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Http\Request;
 

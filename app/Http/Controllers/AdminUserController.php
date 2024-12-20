@@ -35,15 +35,14 @@ class AdminUserController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'username' => 'required|unique:users|max:50',
-            'email' => 'required|email|unique:users|max:100',
+            'username' => 'required|unique:User|max:50',
+            'email' => 'required|email|unique:User|max:100',
             'fullname' => 'required|max:100',
             'password' => 'required|min:8|confirmed',
             'nif' => 'nullable|max:100',
             'is_admin' => 'required|boolean',
         ]);
 
-        // Criar o novo utilizador com is_enterprise sempre como falso
         User::create([
             'username' => $validated['username'],
             'email' => $validated['email'],
@@ -51,7 +50,7 @@ class AdminUserController extends Controller
             'nif' => $validated['nif'] ?? null,
             'password_hash' => bcrypt($validated['password']),
             'is_admin' => $validated['is_admin'],
-            'is_enterprise' => false, // Definido diretamente como falso
+            'is_blocked' => false, // Definido diretamente como falso
         ]);
 
         return redirect()->route('admin.users.index')->with('success', 'Utilizador criado com sucesso.');
@@ -72,13 +71,12 @@ class AdminUserController extends Controller
     public function update(Request $request, $id)
     {
         $validated = $request->validate([
-            'username' => 'required|max:50|unique:users,username,' . $id,
-            'email' => 'required|email|max:100|unique:users,email,' . $id,
+            'username' => 'required|max:50|unique:User,username,' . $id,
+            'email' => 'required|email|max:100|unique:User,email,' . $id,
             'fullname' => 'required|max:100',
             'nif' => 'nullable|max:100',
             'password' => 'nullable|min:8|confirmed',
-            'is_admin' => 'required|boolean',
-            'is_enterprise' => 'required|boolean',
+            // tinha aqui is_enterprise antes, que mudei para is_admin
         ]);
 
         // Atualizar o utilizador.
@@ -91,7 +89,7 @@ class AdminUserController extends Controller
             $user->password_hash = bcrypt($validated['password']);
         }
         $user->is_admin = $validated['is_admin'];
-        $user->is_enterprise = $validated['is_enterprise'];
+        $user->is_blocked = $validated['is_blocked'];
         $user->save();
 
         return redirect()->route('admin.users.index')->with('success', 'Utilizador atualizado com sucesso.');
@@ -105,17 +103,21 @@ class AdminUserController extends Controller
 
     public function search(Request $request)
     {
-        $searchTerm = $request->input('query'); // Parâmetro 'query' da URL
+        $searchTerm = $request->input('query'); // Obtém o termo da pesquisa
 
-        // Realizar a busca nos campos 'username', 'email' e 'fullname'
-        $users = User::where('username', 'LIKE', "%{$searchTerm}%")
-            ->orWhere('email', 'LIKE', "%{$searchTerm}%")
-            ->orWhere('fullname', 'LIKE', "%{$searchTerm}%")
+        // Realizar a busca nos campos com as condições agrupadas corretamente
+        $users = User::where(function ($query) use ($searchTerm) {
+            $query->where('username', 'LIKE', "%{$searchTerm}%")
+                ->orWhere('email', 'LIKE', "%{$searchTerm}%")
+                ->orWhere('fullname', 'LIKE', "%{$searchTerm}%");
+        })
+            ->where('is_admin', false) // Garante que exclui admins
             ->get();
 
-        // Retorna a mesma view da lista de utilizadores com os resultados filtrados
+        // Retorna a view com os resultados filtrados
         return view('admin.users.index', ['users' => $users, 'searchTerm' => $searchTerm]);
     }
+
 
     /**
      * Apagar um utilizador da base de dados.
@@ -125,14 +127,27 @@ class AdminUserController extends Controller
         $user = User::findOrFail($id);
 
         try {
-            DB::table('blockeduser')->where('blocked_user_id', $id)->orWhere('admin_id', $id)->delete();
-            $user->delete();
+            DB::transaction(function () use ($id, $user) {
+                // Apagar dependências relacionadas
+                DB::table('blockeduser')->where('blocked_user_id', $id)->orWhere('admin_id', $id)->delete();
+                DB::table('Auction')->where('user_id', $id)->delete();
+                DB::table('Bid')->where('user_id', $id)->delete();
+                DB::table('chatparticipant')->where('user_id', $id)->delete();
+                DB::table('follow_auctions')->where('user_id', $id)->delete();
+                DB::table('notification')->where('user_id', $id)->delete();
+                DB::table('watchlist')->where('user_id', $id)->delete();
+                DB::table('message')->where('sender_id', $id)->delete();
 
+                // Apagar o utilizador
+                $user->delete();
+            });
             return response()->json(['success' => true, 'message' => 'Utilizador apagado com sucesso.']);
         } catch (\Exception $e) {
-            return response()->json(['success' => false, 'message' => 'Erro ao apagar utilizador.'], 500);
+            \Log::error('Erro ao apagar utilizador: ' . $e->getMessage());
+            return response()->json(['success' => false, 'message' => 'Erro ao apagar utilizador.', 'error' => $e->getMessage()], 500);
         }
     }
+
 
     public function block(Request $request, $id)
     {

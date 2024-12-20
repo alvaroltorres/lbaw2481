@@ -23,6 +23,14 @@ Route::get('/', function () {
     return redirect()->route('home');
 });
 
+
+
+Route::view('/test', 'test');
+Route::post('/test', function (\Illuminate\Http\Request $request) {
+    return 'CSRF Token validated! Data: ' . $request->input('example');
+});
+
+
 // Home page
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 

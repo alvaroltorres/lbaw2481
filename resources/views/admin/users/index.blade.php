@@ -1,35 +1,33 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container" style="padding: 20px;">
-        <h1 class="mb-4">{{ __('Lista de Utilizadores') }}</h1>
+    <div class="container py-4">
+        <h1 class="mb-4 text-center">{{ __('Lista de Utilizadores') }}</h1>
 
         <!-- Formulário de Pesquisa -->
-        <form action="{{ route('admin.users.search') }}" method="GET" class="mb-4 d-flex align-items-center">
-            <input type="text" name="query" placeholder="{{ __('Pesquisar utilizador...') }}"
-                   value="{{ old('query', $searchTerm ?? '') }}"
-                   class="form-control me-2" style="max-width: 300px;">
-            <button type="submit" class="btn btn-primary">{{ __('Pesquisar') }}</button>
-        </form>
-
-        <!-- Botão Criar Utilizador -->
-        <div class="mb-3">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <form action="{{ route('admin.users.search') }}" method="GET" class="d-flex">
+                <input type="text" name="query" placeholder="{{ __('Pesquisar utilizador...') }}"
+                       value="{{ old('query', $searchTerm ?? '') }}"
+                       class="form-control me-2" style="max-width: 300px;">
+                <button type="submit" class="btn btn-primary">{{ __('Pesquisar') }}</button>
+            </form>
             <a href="{{ route('admin.users.create') }}" class="btn btn-success">{{ __('Criar Utilizador') }}</a>
         </div>
 
         <!-- Tabela de Utilizadores -->
-        <div class="table-responsive">
-            <table class="table table-striped table-hover">
+        <div class="table-responsive shadow-sm rounded">
+            <table class="table table-striped table-hover align-middle">
                 <thead class="table-light text-center">
                 <tr>
-                    <th style="text-align: left;">{{ __('Nome') }}</th>
-                    <th style="text-align: left;">{{ __('Email') }}</th>
+                    <th class="text-start">{{ __('Nome') }}</th>
+                    <th class="text-start">{{ __('Email') }}</th>
                     <th class="text-center">{{ __('Ações') }}</th>
                 </tr>
                 </thead>
                 <tbody>
                 @forelse ($users as $user)
-                    <tr class="align-middle" id="user-row-{{ $user->user_id }}">
+                    <tr>
                         <td>{{ $user->fullname }}</td>
                         <td>{{ $user->email }}</td>
                         <td class="text-center">
@@ -42,12 +40,11 @@
 
                             @if(!$user->is_admin)
                                 @if($user->is_blocked)
-                                    <form action="{{ route('admin.users.unblock', $user->user_id) }}" method="POST" style="display:inline;">
+                                    <form action="{{ route('admin.users.unblock', $user->user_id) }}" method="POST" class="d-inline">
                                         @csrf
                                         <button class="btn btn-sm btn-warning ms-2">{{ __('Desbloquear') }}</button>
                                     </form>
                                 @else
-                                    <!-- Botão para abrir o modal -->
                                     <button class="btn btn-sm btn-secondary ms-2 block-user-btn"
                                             data-user-id="{{ $user->user_id }}">
                                         {{ __('Bloquear') }}
@@ -58,7 +55,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="3" class="text-center">{{ __('Nenhum utilizador encontrado.') }}</td>
+                        <td colspan="3" class="text-center text-muted">{{ __('Nenhum utilizador encontrado.') }}</td>
                     </tr>
                 @endforelse
                 </tbody>
@@ -94,17 +91,31 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            const blockButtons = document.querySelectorAll('.block-user-btn');
-            const blockUserIdInput = document.getElementById('blockUserId');
-            const blockUserForm = document.getElementById('blockUserForm');
-
-            blockButtons.forEach(button => {
-                button.addEventListener('click', function () {
+            const deleteButtons = document.querySelectorAll('.delete-user-btn');
+            deleteButtons.forEach(button => {
+                button.addEventListener('click', function (e) {
+                    e.preventDefault();
                     const userId = this.getAttribute('data-user-id');
-                    blockUserIdInput.value = userId;
-                    blockUserForm.action = `/admin/users/${userId}/block`;
-                    const modal = new bootstrap.Modal(document.getElementById('blockUserModal'));
-                    modal.show();
+                    fetch(`/admin/users/${userId}`, {
+                        method: 'DELETE',
+                        headers: {
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                            'Accept': 'application/json'
+                        }
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                document.getElementById(`user-row-${userId}`).remove();
+                                alert('Utilizador apagado com sucesso!');
+                            } else {
+                                alert(data.message || 'Erro ao apagar utilizador.');
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Erro na requisição:', error);
+                            alert('Ocorreu um erro ao tentar apagar o utilizador.');
+                        });
                 });
             });
         });
