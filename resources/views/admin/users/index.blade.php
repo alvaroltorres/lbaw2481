@@ -5,12 +5,16 @@
         <h1 class="mb-4">{{ __('Lista de Utilizadores') }}</h1>
 
         <!-- Formulário de Pesquisa -->
-        <form action="{{ route('admin.users.search') }}" method="GET" class="mb-4 d-flex align-items-center">
+        <form action="{{ route('admin.users.search') }}" method="GET" class="mb-4" style="display: flex; align-items: center; gap: 10px;">
             <input type="text" name="query" placeholder="{{ __('Pesquisar utilizador...') }}"
                    value="{{ old('query', $searchTerm ?? '') }}"
-                   class="form-control me-2" style="max-width: 300px;">
-            <button type="submit" class="btn btn-primary">{{ __('Pesquisar') }}</button>
+                   class="form-control"
+                   style="max-width: 300px; height: 38px; box-sizing: border-box;">
+            <button type="submit" class="btn btn-primary"
+                    style="height: 38px; box-sizing: border-box;">{{ __('Pesquisar') }}</button>
         </form>
+
+
 
         <!-- Botão Criar Utilizador -->
         <div class="mb-3">
@@ -49,11 +53,14 @@
                                 @else
                                     <!-- Botão para abrir o modal -->
                                     <button class="btn btn-sm btn-secondary ms-2 block-user-btn"
-                                            data-user-id="{{ $user->user_id }}">
+                                            data-user-id="{{ $user->user_id }}"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#blockUserModal">
                                         {{ __('Bloquear') }}
                                     </button>
                                 @endif
                             @endif
+
                         </td>
                     </tr>
                 @empty
