@@ -71,13 +71,14 @@ class AdminUserController extends Controller
     public function update(Request $request, $id)
     {
         $validated = $request->validate([
-            'username' => 'required|max:50|unique:User,username,' . $id,
-            'email' => 'required|email|max:100|unique:User,email,' . $id,
+            'username' => 'required|max:50|unique:User,username,' . $id . ',user_id',
+            'email' => 'required|email|max:100|unique:User,email,' . $id . ',user_id',
             'fullname' => 'required|max:100',
             'nif' => 'nullable|max:100',
             'password' => 'nullable|min:8|confirmed',
-            // tinha aqui is_enterprise antes, que mudei para is_admin
+            'is_admin' => 'required|boolean',
         ]);
+
 
         // Atualizar o utilizador.
         $user = User::findOrFail($id);
@@ -89,11 +90,11 @@ class AdminUserController extends Controller
             $user->password_hash = bcrypt($validated['password']);
         }
         $user->is_admin = $validated['is_admin'];
-        $user->is_blocked = $validated['is_blocked'];
         $user->save();
 
         return redirect()->route('admin.users.index')->with('success', 'Utilizador atualizado com sucesso.');
     }
+
 
     public function show($id)
     {

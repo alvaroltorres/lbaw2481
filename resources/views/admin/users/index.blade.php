@@ -1,33 +1,35 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container py-4">
-        <h1 class="mb-4 text-center">{{ __('Lista de Utilizadores') }}</h1>
+    <div class="container" style="padding: 20px;">
+        <h1 class="mb-4">{{ __('Lista de Utilizadores') }}</h1>
 
         <!-- Formulário de Pesquisa -->
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <form action="{{ route('admin.users.search') }}" method="GET" class="d-flex">
-                <input type="text" name="query" placeholder="{{ __('Pesquisar utilizador...') }}"
-                       value="{{ old('query', $searchTerm ?? '') }}"
-                       class="form-control me-2" style="max-width: 300px;">
-                <button type="submit" class="btn btn-primary">{{ __('Pesquisar') }}</button>
-            </form>
+        <form action="{{ route('admin.users.search') }}" method="GET" class="mb-4 d-flex align-items-center">
+            <input type="text" name="query" placeholder="{{ __('Pesquisar utilizador...') }}"
+                   value="{{ old('query', $searchTerm ?? '') }}"
+                   class="form-control me-2" style="max-width: 300px;">
+            <button type="submit" class="btn btn-primary">{{ __('Pesquisar') }}</button>
+        </form>
+
+        <!-- Botão Criar Utilizador -->
+        <div class="mb-3">
             <a href="{{ route('admin.users.create') }}" class="btn btn-success">{{ __('Criar Utilizador') }}</a>
         </div>
 
         <!-- Tabela de Utilizadores -->
-        <div class="table-responsive shadow-sm rounded">
-            <table class="table table-striped table-hover align-middle">
+        <div class="table-responsive">
+            <table class="table table-striped table-hover">
                 <thead class="table-light text-center">
                 <tr>
-                    <th class="text-start">{{ __('Nome') }}</th>
-                    <th class="text-start">{{ __('Email') }}</th>
+                    <th style="text-align: left;">{{ __('Nome') }}</th>
+                    <th style="text-align: left;">{{ __('Email') }}</th>
                     <th class="text-center">{{ __('Ações') }}</th>
                 </tr>
                 </thead>
                 <tbody>
                 @forelse ($users as $user)
-                    <tr>
+                    <tr class="align-middle" id="user-row-{{ $user->user_id }}">
                         <td>{{ $user->fullname }}</td>
                         <td>{{ $user->email }}</td>
                         <td class="text-center">
@@ -40,11 +42,12 @@
 
                             @if(!$user->is_admin)
                                 @if($user->is_blocked)
-                                    <form action="{{ route('admin.users.unblock', $user->user_id) }}" method="POST" class="d-inline">
+                                    <form action="{{ route('admin.users.unblock', $user->user_id) }}" method="POST" style="display:inline;">
                                         @csrf
                                         <button class="btn btn-sm btn-warning ms-2">{{ __('Desbloquear') }}</button>
                                     </form>
                                 @else
+                                    <!-- Botão para abrir o modal -->
                                     <button class="btn btn-sm btn-secondary ms-2 block-user-btn"
                                             data-user-id="{{ $user->user_id }}">
                                         {{ __('Bloquear') }}
@@ -55,7 +58,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="3" class="text-center text-muted">{{ __('Nenhum utilizador encontrado.') }}</td>
+                        <td colspan="3" class="text-center">{{ __('Nenhum utilizador encontrado.') }}</td>
                     </tr>
                 @endforelse
                 </tbody>
@@ -90,12 +93,21 @@
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+        // Esperar que o DOM esteja totalmente carregado
+        document.addEventListener('DOMContentLoaded', function (message) {
+            console.log('Script carregado com sucesso.');
+
+            // Seleciona todos os botões de "Apagar"
             const deleteButtons = document.querySelectorAll('.delete-user-btn');
+
+            // Adiciona o evento de clique em cada botão
             deleteButtons.forEach(button => {
                 button.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    const userId = this.getAttribute('data-user-id');
+                    e.preventDefault(); // Impede o comportamento padrão do botão
+
+                    const userId = this.getAttribute('data-user-id'); // Obtém o ID do utilizador
+
+                    // Faz a requisição AJAX para apagar o utilizador
                     fetch(`/admin/users/${userId}`, {
                         method: 'DELETE',
                         headers: {
@@ -103,21 +115,32 @@
                             'Accept': 'application/json'
                         }
                     })
-                        .then(response => response.json())
+                        .then(response => {
+                            console.log('Status HTTP:', response.status); // Verifica o status da resposta
+                            return response.text(); // Captura a resposta como texto para depurar
+                        })
                         .then(data => {
-                            if (data.success) {
-                                document.getElementById(`user-row-${userId}`).remove();
-                                alert('Utilizador apagado com sucesso!');
-                            } else {
-                                alert(data.message || 'Erro ao apagar utilizador.');
+                            console.log('Resposta bruta do servidor:', data);
+                            try {
+                                const json = JSON.parse(data); // Converte para JSON
+                                if (json.success) {
+                                    const userRow = document.getElementById(`user-row-${userId}`);
+                                    if (userRow) userRow.remove();
+                                    alert('Utilizador apagado com sucesso!');
+                                } else {
+                                    alert(json.message || 'Erro ao apagar utilizador.');
+                                }
+                            } catch (error) {
+                                console.error('Erro ao processar JSON:', error);
+                                alert('Resposta inválida do servidor.', error);
                             }
                         })
                         .catch(error => {
                             console.error('Erro na requisição:', error);
                             alert('Ocorreu um erro ao tentar apagar o utilizador.');
                         });
-                });
-            });
+
+                }) })
         });
     </script>
 @endsection
