@@ -20,6 +20,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Notification as NotificationFacade;
+use Illuminate\Support\Facades\Storage;
 
 class AuctionController extends Controller
 {
@@ -105,11 +106,20 @@ class AuctionController extends Controller
             'ending_date' => 'required|date|after:starting_date',
             'location' => 'required|string|max:255',
             'description' => 'required|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
         $auction = new Auction($validated);
         $auction->user_id = Auth::id();
         $auction->current_price = $request->starting_price;
+
+        if ($request->hasFile('image')) {
+            $imageFile = $request->file('image');
+            $filename  = time() . '_' . $imageFile->getClientOriginalName();
+            $path = $imageFile->storeAs('public/images/auctions', $filename);
+            $auction->image = $filename;
+        }
+
         $auction->save();
 
         return redirect()->route('auctions.show', $auction)
@@ -136,33 +146,62 @@ class AuctionController extends Controller
         $categories = Category::all();
         return view('auctions.edit', compact('auction', 'categories'));
     }
-
     public function update(AuctionRequest $request, Auction $auction)
     {
         if ($auction->user_id !== Auth::id()) {
-            return redirect()->route('auctions.show', $auction)->with('error', 'You do not have permission to edit this auction.');
+            return redirect()->route('auctions.show', $auction)
+                ->with('error', 'You do not have permission to edit this auction.');
         }
 
+        // Validação
         $validated = $request->validate([
-            'title'                => 'required|string|max:255',
-            'category_id'          => 'required|exists:Category,category_id',
-            'starting_price'       => 'required|numeric|min:0',
-            'reserve_price'        => 'required|numeric|min:0',
-            'starting_date'        => 'required|date',
-            'ending_date'          => 'required|date|after:starting_date',
-            'location'             => 'required|string|max:255',
-            'description'          => 'required|string',
-            'status'               => 'required|in:Active,Sold,Unsold,Upcoming,Closed',
+            'title'         => 'required|string|max:255',
+            'category_id'   => 'required|exists:Category,category_id',
+            'starting_price'=> 'required|numeric|min:0',
+            'reserve_price' => 'required|numeric|min:0',
+            'starting_date' => 'required|date',
+            'ending_date'   => 'required|date|after:starting_date',
+            'location'      => 'required|string|max:255',
+            'description'   => 'required|string',
+            'status'        => 'required|in:Active,Sold,Unsold,Upcoming,Closed',
+            'image'         => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        if ($auction->update($validated)) {
-            return redirect()->route('auctions.show', $auction)
-                ->with('success', 'Auction updated successfully!');
-        } else {
-            return redirect()->route('auctions.edit', $auction)
-                ->with('error', 'An error occurred while updating the auction. Please try again.');
+        // 1) Preenche o objeto Auction com os campos validados (exceto imagem)
+        $auction->fill($validated);
+
+        // 2) Se há uma nova imagem, processa
+        if ($request->hasFile('image')) {
+            // Se havia uma imagem antiga, deleta (opcional) se não for 'default.png'
+            if ($auction->image && $auction->image !== 'default.png') {
+                \Storage::disk('public')->delete('images/auctions/'.$auction->image);
+            }
+
+            // Gera nome e salva
+            $imageFile = $request->file('image');
+            $filename  = time().'_'.preg_replace('/\s+/', '_', $imageFile->getClientOriginalName());
+
+            $path = $imageFile->storeAs(
+                'images/auctions', // pasta dentro de storage/app/public
+                $filename,
+                'public'
+            );
+
+            // Ajusta o campo 'image'
+            $auction->image = $filename;
+            \Log::info('Image updated', [
+                'auction_id' => $auction->auction_id,
+                'image' => $filename,
+            ]);
         }
+
+        // 3) Agora salva *tudo* de uma vez
+        $auction->save();
+
+        return redirect()->route('auctions.show', $auction)
+            ->with('success', 'Auction updated successfully!');
     }
+
 
     public function followAuction(Request $request, $auction_id)
     {

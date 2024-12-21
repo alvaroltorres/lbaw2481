@@ -12,10 +12,20 @@
 
         {{-- Bloco de informações do leilão (imagem, título, descrição...) --}}
         <div class="auction-meta-container" style="margin-top:1rem; margin-bottom:1rem; padding:1rem; border:1px solid #ddd; border-radius:8px;">
-            <img src="{{ asset('images/auctions/' . ($auction->image ?? 'default.png')) }}" alt="{{ $auction->title }}" class="auction-image">
+            @php
+                $finalImage = $auction->image
+                    ? 'storage/images/auctions/'.$auction->image
+                    : 'storage/images/auctions/default.png';
+            @endphp
+
+            <img src="{{ asset($finalImage) }}" alt="{{ $auction->title }}" class="show-auction-image">
+
             <h2 class="auction-title">{{ $auction->title }}</h2>
             <p class="auction-description">{{ $auction->description }}</p>
             <p class="status">{{ __($auction->status) }}</p>
+            <p class="auction-meta">
+                <strong>{{ __('Image') }}:</strong>
+                {{ $auction->image }}
 
             {{-- Data de término e vendedor --}}
             <p class="auction-meta">
