@@ -52,6 +52,13 @@
                             </a>
                         </p>
                         <a href="{{ route('auctions.show', $auction) }}" class="btn btn-primary">{{ __('View Auction') }}</a>
+                        @if(auth()->user()->is_admin || $auction->user_id === auth()->id())
+                            <form action="{{ route('auctions.destroy', $auction->auction_id) }}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger">{{ __('Cancel Auction') }}</button>
+                            </form>
+                        @endif
                     </div>
                 @empty
                     <p>{{ __('No auctions found for the applied filters.') }}</p>
