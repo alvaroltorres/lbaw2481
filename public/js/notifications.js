@@ -81,6 +81,10 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         if (typeof messageTemplate !== 'string') {
+            console.error('Invalid message template:', messageTemplate);
+            // mostrar no log o erro completo
+            console.log('Invalid message template:', messageTemplate);
+
             messageTemplate = 'You have a new notification.';
         }
         
