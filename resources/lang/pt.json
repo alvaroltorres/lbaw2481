@@ -255,7 +255,7 @@
     "Sort By:": "Ordenar por:",
     "All": "Todos",
     "Active": "Ativo",
-    "Upcoming": "Próximos",
+    "Upcoming": "Em breve",
     "Completed": "Concluído",
     "None": "Nenhum",
     "Recent": "Recente",
@@ -280,8 +280,8 @@
     "Enter your full name": "Digite o seu nome completo",
     "NIF": "NIF",
     "Enter your NIF": "Digite o seu NIF",
-    "Save": "Salvar",
-    "Saved.": "Salvo.",
+    "Save": "Guardar",
+    "Saved.": "Guardado.",
     "Login": "Entrar",
     "Email Address": "Endereço de E-mail",
     "Password": "Senha",
@@ -328,5 +328,12 @@
     "Add Credits": "Adicionar Créditos",
     "Amount to Add": "Montante a Adicionar",
     "Credits: ": "Créditos: ",
-    "Pay": "Pagar"
+    "Pay": "Pagar",
+    "City, Country": "Cidade, País",
+    "Write a brief description": "Escreva uma pequena descrição",
+    "Followed Auctions": "Leilões Seguidos",
+    "You are not following any auctions.": "Não está a seguir nenhum leilão.",
+    "No bids have been placed on this auction yet.": "Nenhum lance foi colocado neste leilão ainda.",
+    "Sold": "Vendido",
+    "Unsold": "Não Vendido"
 }

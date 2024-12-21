@@ -1587,3 +1587,38 @@ form .mb-3 {
     to { opacity:1; }
 }
 
+.status {
+    font-size: 0.8em;
+    font-weight: bold;
+    color: #a9a9a9
+}
+
+.profile-subnav {
+    background: #fff;
+    border-bottom:1px solid #ddd;
+    margin-top:1rem;
+}
+.profile-nav-list {
+    display:flex;
+    gap:1rem;
+    padding:0; margin:0;
+    list-style:none;
+}
+.profile-nav-list li {
+    padding:0.5rem 0;
+}
+.profile-nav-list a {
+    color:#333;
+    text-decoration:none;
+    font-weight:500;
+    padding:0.5rem 1rem;
+    border-radius:4px;
+    transition: background 0.3s, color 0.3s;
+}
+.profile-nav-list a:hover {
+    background:#f5f5f5;
+}
+.profile-nav-list a.active {
+    background:#007bff;
+    color:#fff;
+}

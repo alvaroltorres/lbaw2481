@@ -89,7 +89,7 @@ class AuctionController extends Controller
             'starting_price' => 'required|numeric|min:0',
             'reserve_price' => 'required|numeric|min:0',
             'minimum_bid_increment' => 'required|numeric|min:0',
-            'status' => 'required|in:Active,Upcoming',
+            'status' => 'required|in:Active,Sold,Unsold,Upcoming,Closed',
             'starting_date' => 'required|date',
             'ending_date' => 'required|date|after:starting_date',
             'location' => 'required|string|max:255',
@@ -144,6 +144,7 @@ class AuctionController extends Controller
             'ending_date' => 'required|date|after:starting_date',
             'location' => 'required|string|max:255',
             'description' => 'required|string',
+            'status' => 'required|in:Active,Sold,Unsold,Upcoming,Closed',
         ]);
 
         if ($auction->update($validated)) {
@@ -241,8 +242,9 @@ class AuctionController extends Controller
             $query->where('user_id', $user->user_id);
         })->get();
 
+        $bids = Bid::where('user_id', $user->user_id)->orderBy('time', 'desc')->get();
         // Pass the auctions to the view
-        return view('auctions.followed', compact('auctions'));
+        return view('profile.bidding_history', compact('user', 'auctions', 'bids'));
     }
 
 

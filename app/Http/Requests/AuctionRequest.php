@@ -31,7 +31,7 @@ class AuctionRequest extends FormRequest
             'ending_date' => 'required|date|after:starting_date',
             'title' => 'required|string|max:255',
             'location' => 'required|string|max:255',
-            'status' => 'required|in:Active,Closed',
+            'status' => 'required|in:Active,Upcoming,Sold,Unsold,Closed',
         ];
     }
 }

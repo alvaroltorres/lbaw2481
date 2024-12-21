@@ -47,7 +47,10 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::patch('/profile-picture/', [ProfileController::class, 'storeProfilePicture'])->name('profile.picture.store');
     Route::get('/profile-picture/{user_id}', [ProfileController::class, 'showProfilePicture'])->name('profile.picture');
-
+    Route::get('/profile/orders', [ProfileController::class, 'orders'])->name('profile.orders');
+    Route::get('/profile/ratings', [ProfileController::class, 'ratings'])->name('profile.ratings');
+    Route::get('/profile/myauctions', [ProfileController::class, 'myAuctions'])->name('profile.myauctions');
+    Route::get('/profile/soldauctions', [ProfileController::class, 'soldAuctions'])->name('profile.soldauctions');
 
     // Profile settings
     Route::get('/profile/settings', [ProfileController::class, 'settings'])->name('profile.settings');

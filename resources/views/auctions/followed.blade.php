@@ -2,10 +2,10 @@
 
 @section('content')
     <div class="followed_auctions">
-    <h1>Followed Auctions</h1>
+    <h1>{{ __('Followed Auctions') }}</h1>
 
     @if($auctions->isEmpty())
-        <p>You are not following any auctions.</p>
+        <p>{{ __('You are not following any auctions.') }}</p>
     @else
         <div class="auction-grid">
             @forelse($auctions as $auction)

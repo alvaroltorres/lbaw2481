@@ -44,6 +44,7 @@
                     <a href="{{ route('auctions.show', $auction->auction_id) }}" class="list-group-item list-group-item-action">
                         <h5 class="mb-1">{{ __($auction->title) }}</h5>
                         <p class="mb-1">{{ __($auction->description) }}</p>
+                        <p class="status">{{ __($auction->status) }}</p>
                         <small>{{ __('Category') }}: {{ __($auction->category->name) }}</small><br>
                         <small>{{ __('Current Price') }}: ${{ number_format($auction->current_price, 2) }}</small>
                     </a>

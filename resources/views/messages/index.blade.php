@@ -16,7 +16,7 @@
                                     <li>
                                         <button class="auction-chat-btn" data-auction-id="{{ $a->auction_id }}">
                                             <strong>{{ $a->title }}</strong><br>
-                                            <small>ID: {{ $a->auction_id }}</small>
+                                            <small>{{ $a->seller->fullname }}</small>
                                         </button>
                                     </li>
                                 @endforeach
@@ -49,6 +49,15 @@
     <style>
         .auction-chat-btn {
             cursor: pointer; /* Agora o botão parece clicável */
+            width: 100%;
+            text-align: left;
+            padding: 0.5rem 1rem;
+            border: none;
+            background: none;
+        }
+
+        .auction-chat-btn:hover {
+            background-color: #e0f7fa;
         }
 
         .auction-chat-btn.selected {
@@ -99,6 +108,30 @@
             padding:1rem; border-top:1px solid #ccc; background:#fff;
             display:flex; gap:10px;
         }
+
+        /* Novos estilos para o chatTitle */
+        #chatTitle {
+            font-size: 1rem; /* Reduzir o tamanho da fonte */
+            margin: 0;
+        }
+
+        #chatTitle a {
+            text-decoration: none; /* Remover sublinhado */
+            color: #333; /* Cor do link */
+            font-weight: 600; /* Peso da fonte para destacar */
+        }
+
+        #chatTitle a:hover {
+            color: #007bff; /* Cor ao passar o mouse */
+            text-decoration: underline; /* Sublinhado ao passar o mouse */
+        }
+
+        #chatTitle small {
+            display: block;
+            font-size: 0.8rem; /* Fonte menor para o nome do vendedor */
+            color: #666; /* Cor mais suave para o vendedor */
+            margin-top: 0.2rem;
+        }
     </style>
 
     <script>
@@ -120,6 +153,11 @@
             const CHAT_POLL_INTERVAL = 5000;
             let pollIntervalId = null;
             let chatPollIntervalId = null;
+
+            // Mapeamento de detalhes dos leilões
+            let auctionDetails = @json($auctions->mapWithKeys(function($a) {
+                return [$a->auction_id => ['title' => $a->title, 'seller_name' => $a->seller->fullname]];
+            }));
 
             function attachAuctionButtonEvents() {
                 auctionButtons = document.querySelectorAll('.auction-chat-btn');
@@ -195,7 +233,7 @@
                         }
                         noChatSelected.style.display = 'none';
                         messageForm.style.display = 'flex';
-                        chatTitle.textContent = 'Chat do Leilão ID: ' + auctionId;
+                        chatTitle.innerHTML = `<a href="/auctions/${auctionId}">${auctionDetails[auctionId].title}</a><small>${auctionDetails[auctionId].seller_name}</small>`;
                         messagesList.scrollTop = messagesList.scrollHeight;
 
                         // Atualiza a URL sem recarregar a página
@@ -300,6 +338,10 @@
                         const newAuctions = data.auctions.map(a => a.auction_id);
                         if (newAuctions.length !== currentAuctions.length ||
                             !newAuctions.every(id => currentAuctions.includes(id))) {
+                            // Atualiza auctionDetails com os novos leilões
+                            data.auctions.forEach(a => {
+                                auctionDetails[a.auction_id] = { title: a.title, seller_name: a.seller_name };
+                            });
                             updateChatList(data.auctions);
                             currentAuctions = newAuctions;
                         }

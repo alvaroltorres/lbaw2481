@@ -43,6 +43,7 @@
                         <img src="{{ asset('images/auctions/' . $auction->image) }}" alt="{{ __($auction->title) }}">
                         <h2>{{ __($auction->title) }}</h2>
                         <p>{{ __($auction->description) }}</p>
+                        <p class="status">{{ __($auction->status) }}</p>
                         <p>{{ __('Current Bid') }}: ${{ number_format($auction->current_price, 2) }}</p>
                         <p>
                             <strong>{{ __('Seller:') }}</strong>
