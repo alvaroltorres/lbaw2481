@@ -43,7 +43,10 @@ class AdminAuctionController extends Controller
         DB::table('notification')->insert([
             'user_id'    => $auction->user_id,
             'auction_id' => $auction->auction_id,
-            'content'    => "O seu leilão \"{$auction->title}\" foi cancelado pelo admin. Razão: {$request->reason}",
+            'content'    => __('Your auction :title was canceled by an admin. Reason: :reason', [
+                'title' => $auction->title,
+                'reason' => $request->reason
+            ]),
             'type'       => 'cancellation',
             'created_at' => now(),
         ]);
@@ -70,7 +73,10 @@ class AdminAuctionController extends Controller
         DB::table('notification')->insert([
             'user_id'    => $auction->user_id,
             'auction_id' => $auction->auction_id,
-            'content'    => "O seu leilão \"{$auction->title}\" foi suspenso pelo admin. Razão: {$request->reason}",
+            'content'    => __('Your auction :title was suspended by an admin. Reason: :reason', [
+                'title' => $auction->title,
+                'reason' => $request->reason
+            ]),
             'type'       => 'suspension',
             'created_at' => now(),
         ]);
@@ -99,7 +105,9 @@ class AdminAuctionController extends Controller
         DB::table('notification')->insert([
             'user_id'    => $auction->user_id,
             'auction_id' => $auction->auction_id,
-            'content'    => "O seu leilão \"{$auction->title}\" foi reativado pelo admin.",
+            'content'    => __('Your auction :title was reactivated by an admin.', [
+                'title' => $auction->title,
+            ]),
             'type'       => 'reactivation',
             'created_at' => now(),
         ]);

@@ -144,7 +144,7 @@ class AdminUserController extends Controller
             });
             return response()->json(['success' => true, 'message' => 'Utilizador apagado com sucesso.']);
         } catch (\Exception $e) {
-            \Log::error('Erro ao apagar utilizador: ' . $e->getMessage());
+            \Log::error(__('Error deleting user: ') . $e->getMessage());
             return response()->json(['success' => false, 'message' => 'Erro ao apagar utilizador.', 'error' => $e->getMessage()], 500);
         }
     }
@@ -161,13 +161,13 @@ class AdminUserController extends Controller
 
         // Verifica se o utilizador já está bloqueado
         if (DB::table('blockeduser')->where('blocked_user_id', $user->user_id)->exists()) {
-            \Log::info('Utilizador já está bloqueado', ['user_id' => $user->user_id]);
+            \Log::info(__('User is already blocked'), ['user_id' => $user->user_id]);
             return redirect()->back()->with('error', 'O utilizador já está bloqueado.');
         }
 
         // Verifica se o utilizador é administrador
         if ($user->is_admin) {
-            \Log::warning('Tentativa de bloquear administrador', ['user_id' => $user->user_id]);
+            \Log::warning(__('Not possible to block an admin'), ['user_id' => $user->user_id]);
             return redirect()->back()->with('error', 'Não é possível bloquear um administrador.');
         }
 
@@ -189,10 +189,10 @@ class AdminUserController extends Controller
             $user->is_blocked = true;
             $user->save();
 
-            \Log::info('Utilizador bloqueado com sucesso', ['user_id' => $user->user_id]);
+            \Log::info(__('User successfully blocked'), ['user_id' => $user->user_id]);
             return redirect()->back()->with('success', 'O utilizador foi bloqueado com sucesso.');
         } catch (\Exception $e) {
-            \Log::error('Erro ao bloquear utilizador', ['error' => $e->getMessage()]);
+            \Log::error(__('Error deleting user'), ['error' => $e->getMessage()]);
             return redirect()->back()->with('error', 'Erro ao bloquear utilizador.');
         }
     }

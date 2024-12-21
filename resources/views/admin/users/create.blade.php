@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="profile-div">
-        <h1>{{ __('Criar Novo Utilizador') }}</h1>
+        <h1>{{ __('Create new User') }}</h1>
 
         <div class="card">
             <div class="card-body">
@@ -77,10 +77,10 @@
 
                     <!-- Is Admin Field -->
                     <div class="form-group">
-                        <label for="is_admin">{{ __('É Admin?') }}</label>
+                        <label for="is_admin">{{ __('Is Admin?') }}</label>
                         <select id="is_admin" name="is_admin" class="form-control @error('is_admin') is-invalid @enderror" required>
-                            <option value="0">{{ __('Não') }}</option>
-                            <option value="1">{{ __('Sim') }}</option>
+                            <option value="0">{{ __('No') }}</option>
+                            <option value="1">{{ __('Yes') }}</option>
                         </select>
 
                         @error('is_admin')
@@ -93,7 +93,7 @@
                     <!-- Submit Button -->
                     <div class="form-group mt-3">
                         <button type="submit" class="btn btn-primary">
-                            {{ __('Guardar Utilizador') }}
+                            {{ __('Save User') }}
                         </button>
                     </div>
                 </form>
