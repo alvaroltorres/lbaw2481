@@ -84,7 +84,6 @@ class RegisterController extends Controller
             'nif' => ['required', 'string', 'max:20'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'is_admin' => ['sometimes', 'boolean'],
-            'is_enterprise' => ['sometimes', 'boolean'],
         ]);
     }
 
@@ -103,7 +102,7 @@ class RegisterController extends Controller
             'nif' => $data['nif'],
             'password_hash' => Hash::make($data['password']), // Hashing the password
             'is_admin' => false, // Set to false by default unless you change it
-            'is_enterprise' => false, // Set to false by default unless you change it
+            'is_blocked' => false,
         ]);
     }
 }

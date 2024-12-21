@@ -24,37 +24,36 @@ use Illuminate\Support\Facades\Notification as NotificationFacade;
 class AuctionController extends Controller
 {
     /**
-     * Exibe uma listagem de leilões com filtros e paginação.
+     * Display a listing of active auctions.
      */
     public function index(Request $request)
     {
         $query = Auction::query();
 
-        // Filtros de categoria
+        // Aplica filtros
         if ($request->has('category') && $request->category) {
             $category = Category::find($request->category);
+
             if ($category) {
                 $subcategories = $this->getSubcategories($category->category_id);
+
                 $query->whereIn('category_id', $subcategories);
             }
         }
 
-        // Filtro por preço mínimo
         if ($request->has('min_price') && $request->min_price) {
             $query->where('current_price', '>=', $request->min_price);
         }
 
-        // Filtro por preço máximo
         if ($request->has('max_price') && $request->max_price) {
             $query->where('current_price', '<=', $request->max_price);
         }
 
-        // Filtro por status
         if ($request->has('status') && $request->status) {
             $query->where('status', $request->status);
         }
 
-        // Ordenação
+        // Apply sorting filters
         if ($request->has('sort_by')) {
             if ($request->sort_by == 'recent') {
                 $query->orderBy('created_at', 'desc');
@@ -66,13 +65,14 @@ class AuctionController extends Controller
         }
 
         $activeAuctions = $query->paginate(10);
+
         $categories = Category::all();
 
         return view('auctions.index', compact('activeAuctions', 'categories'));
     }
 
     /**
-     * Obtém subcategorias (recursivamente).
+     * Recupera todas as subcategorias de uma categoria.
      */
     private function getSubcategories($categoryId)
     {
@@ -82,6 +82,7 @@ class AuctionController extends Controller
         foreach ($categories as $subcategoryId) {
             $allCategories = array_merge($allCategories, $this->getSubcategories($subcategoryId));
         }
+
         return $allCategories;
     }
 
@@ -94,20 +95,20 @@ class AuctionController extends Controller
     public function store(AuctionRequest $request)
     {
         $validated = $request->validate([
-            'title'                => 'required|string|max:255',
-            'category_id'          => 'required|exists:Category,category_id',
-            'starting_price'       => 'required|numeric|min:0',
-            'reserve_price'        => 'required|numeric|min:0',
-            'minimum_bid_increment'=> 'required|numeric|min:0',
-            'status'               => 'required|in:Active,Sold,Unsold,Upcoming,Closed',
-            'starting_date'        => 'required|date',
-            'ending_date'          => 'required|date|after:starting_date',
-            'location'             => 'required|string|max:255',
-            'description'          => 'required|string',
+            'title' => 'required|string|max:255',
+            'category_id' => 'required|exists:Category,category_id',
+            'starting_price' => 'required|numeric|min:0',
+            'reserve_price' => 'required|numeric|min:0',
+            'minimum_bid_increment' => 'required|numeric|min:0',
+            'status' => 'required|in:Active,Sold,Unsold,Upcoming,Closed',
+            'starting_date' => 'required|date',
+            'ending_date' => 'required|date|after:starting_date',
+            'location' => 'required|string|max:255',
+            'description' => 'required|string',
         ]);
 
         $auction = new Auction($validated);
-        $auction->user_id       = Auth::id();
+        $auction->user_id = Auth::id();
         $auction->current_price = $request->starting_price;
         $auction->save();
 
@@ -124,11 +125,12 @@ class AuctionController extends Controller
         return view('auctions.show', compact('auction', 'isFollowed'));
     }
 
+
+
     public function edit(Auction $auction)
     {
         if ($auction->user_id !== Auth::id()) {
-            return redirect()->route('auctions.show', $auction)
-                ->with('error', 'You do not have permission to edit this auction.');
+            return redirect()->route('auctions.show', $auction)->with('error', 'You do not have permission to edit this auction.');
         }
 
         $categories = Category::all();
@@ -138,8 +140,7 @@ class AuctionController extends Controller
     public function update(AuctionRequest $request, Auction $auction)
     {
         if ($auction->user_id !== Auth::id()) {
-            return redirect()->route('auctions.show', $auction)
-                ->with('error', 'You do not have permission to edit this auction.');
+            return redirect()->route('auctions.show', $auction)->with('error', 'You do not have permission to edit this auction.');
         }
 
         $validated = $request->validate([
@@ -165,16 +166,21 @@ class AuctionController extends Controller
 
     public function followAuction(Request $request, $auction_id)
     {
+        // Get the currently authenticated user's ID
         $user_id = Auth::id();
+
+        // Check if the user is already following this auction
         $isFollowing = FollowAuction::where('user_id', $user_id)
             ->where('auction_id', $auction_id)
             ->exists();
 
+        // If not already following, create a new follow entry
         if (!$isFollowing) {
             FollowAuction::create([
-                'user_id'    => $user_id,
+                'user_id' => $user_id,
                 'auction_id' => $auction_id,
             ]);
+
             return back()->with('status', 'Auction followed successfully.');
         } else {
             return back()->with('status', 'You are already following this auction.');
@@ -183,11 +189,15 @@ class AuctionController extends Controller
 
     public function unfollowAuction(Request $request, $auction_id)
     {
+        // Get the currently authenticated user's ID
         $user_id = Auth::id();
+
+        // Check if the user is following this auction
         $isFollowing = FollowAuction::where('user_id', $user_id)
             ->where('auction_id', $auction_id)
             ->exists();
 
+        // If the user is following, delete the follow entry
         if ($isFollowing) {
             FollowAuction::where('user_id', $user_id)
                 ->where('auction_id', $auction_id)
@@ -199,11 +209,16 @@ class AuctionController extends Controller
         }
     }
 
+
     public function followedAuctions()
     {
+        // Get the logged-in user
         $user = Auth::user();
+
+        // Fetch the auctions the user is following
         $auctions = $user->followedAuctions()->get();
 
+        // Pass the auctions to the view
         return view('auctions.followed', compact('auctions'));
     }
 
@@ -212,6 +227,9 @@ class AuctionController extends Controller
         if ($auction->user_id !== Auth::id()) {
             return redirect()->route('auctions.show', $auction)
                 ->with('error', 'You do not have permission to delete this auction.');
+        }
+        if ($auction->user_id !== Auth::id() && !auth()->user()->is_admin) {
+        return redirect()->route('auctions.show', $auction)->with('error', 'You do not have permission to delete this auction.');
         }
 
         $auction->delete();
@@ -223,12 +241,16 @@ class AuctionController extends Controller
     public function biddingHistory(Auction $auction)
     {
         $bids = $auction->bids()->orderBy('time', 'desc')->get();
+
         return view('auctions.bidding_history', compact('auction', 'bids'));
     }
 
     public function biddingHistoryForUser()
     {
+        // Get the authenticated user
         $user = Auth::user();
+
+        // Retrieve all auctions where the user has placed a bid
         $auctions = Auction::whereHas('bids', function ($query) use ($user) {
             $query->where('user_id', $user->user_id);
         })->get();
@@ -239,6 +261,7 @@ class AuctionController extends Controller
 
         return view('profile.bidding_history', compact('user', 'auctions', 'bids'));
     }
+
 
     public function followed()
     {

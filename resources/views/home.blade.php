@@ -1,5 +1,12 @@
 @extends('layouts.app')
 
+@section('title', __('Welcome to BidZenith'))
+
+@section('og:title', __('Welcome to BidZenith'))
+@section('og:description', __('Discover the most sought-after auctions. Join exclusive auctions with an interactive and secure experience.'))
+@section('og:image', asset('public/images/logo.png'))
+@section('og:url', url('/'))
+
 @section('content')
     <!-- Hero Section -->
     <section class="hero" id="hero">

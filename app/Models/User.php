@@ -35,7 +35,7 @@ class User extends Authenticatable
         'email',
         'password_hash',
         'is_admin',
-        'is_enterprise',
+        'is_blocked',
         'two_factor_enabled',
     ];
 
@@ -56,7 +56,7 @@ class User extends Authenticatable
      */
     protected $casts = [
         'is_admin' => 'boolean',
-        'is_enterprise' => 'boolean',
+        'is_blocked' => 'boolean',
         'two_factor_enabled' => 'boolean',
         'email_verified_at' => 'datetime',
     ];

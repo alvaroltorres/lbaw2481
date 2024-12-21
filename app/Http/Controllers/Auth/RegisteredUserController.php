@@ -45,7 +45,7 @@ class RegisteredUserController extends Controller
             'email' => $request->email,
             'password_hash' => Hash::make($request->password),
             'is_admin' => false, // Define como false por padrão
-            'is_enterprise' => false, // Define como false por padrão
+            'is_blocked' => false, // Define como false por padrão
             'two_factor_enabled' => false, // Valor padrão conforme a tabela
         ]);
 

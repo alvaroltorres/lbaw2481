@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+
+
 use App\Models\Auction;
 use App\Models\Bid;
 use App\Models\User;
@@ -15,6 +17,10 @@ class BidController extends Controller
 {
     public function store(Request $request, Auction $auction)
     {
+        if (auth()->user()->is_admin) {
+            abort(403, 'Administradores não podem licitar em leilões.');
+        }
+
         $validated = $request->validate([
             'price' => 'required|numeric|min:0.01',
         ]);

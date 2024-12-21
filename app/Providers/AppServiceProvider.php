@@ -20,6 +20,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        error_reporting(E_ALL & ~E_DEPRECATED & ~E_NOTICE);
+
         if(env('FORCE_HTTPS',false)) {
             error_log('configuring https');
 

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\AuctionController;
+use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\BidController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CreditController;
@@ -21,6 +22,14 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return redirect()->route('home');
 });
+
+
+
+Route::view('/test', 'test');
+Route::post('/test', function (\Illuminate\Http\Request $request) {
+    return 'CSRF Token validated! Data: ' . $request->input('example');
+});
+
 
 // Home page
 Route::get('/home', [HomeController::class, 'index'])->name('home');

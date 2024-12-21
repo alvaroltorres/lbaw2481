@@ -1008,7 +1008,7 @@ p {
 .modal {
     display: none;
     position: fixed;
-    z-index: 1000;
+    z-index: 2000;
     left: 0;
     top: 0;
     width: 100%;
@@ -1026,6 +1026,11 @@ p {
     max-width: 600px;
     border-radius: 10px;
 }
+
+.modal-backdrop {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
 
 .close-button {
     color: #aaa;
@@ -1402,11 +1407,12 @@ form .mb-3 {
     font-size: 1rem;
 }
 
-.form-control:focus, .form-select:focus {
+.form-control:focus, .form-select:focus, textarea:focus {
     outline: none;
     border-color: #007bff;
     box-shadow: 0 0 0 2px rgba(0,123,255,0.2);
 }
+
 
 .btn {
     display: inline-block;
