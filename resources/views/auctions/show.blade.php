@@ -49,7 +49,7 @@
                     <!-- SUSPENDER -->
                     @if($auction->status !== 'suspended')
                         <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#suspendAuctionModal">
-                            {{ __('Suspender Leilão') }}
+                            {{ __('Suspend Auction') }}
                         </button>
                     @endif
 
@@ -57,7 +57,7 @@
                     @if($auction->status === 'suspended')
                         <form action="{{ route('admin.auctions.unsuspend', $auction) }}" method="POST" style="display:inline;">
                             @csrf
-                            <button type="submit" class="btn btn-success">Reativar Leilão</button>
+                            <button type="submit" class="btn btn-success">{{__("Reactivate Auction")}}</button>
                         </form>
                     @endif
 
@@ -114,18 +114,18 @@
                 <form method="POST" action="{{ route('admin.auctions.suspend', $auction->auction_id) }}">
                     @csrf
                     <div class="modal-header">
-                        <h5 class="modal-title" id="suspendAuctionModalLabel">{{ __('Suspender Leilão') }}</h5>
+                        <h5 class="modal-title" id="suspendAuctionModalLabel">{{ __('Suspend Auction') }}</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="suspendReason">{{ __('Razão para a Suspensão') }}</label>
+                            <label for="suspendReason">{{ __('Reason for Suspension') }}</label>
                             <textarea class="form-control" id="suspendReason" name="reason" rows="4" required></textarea>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Cancelar') }}</button>
-                        <button type="submit" class="btn btn-warning">{{ __('Confirmar Suspensão') }}</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Cancel') }}</button>
+                        <button type="submit" class="btn btn-warning">{{ __('Confirm suspension') }}</button>
                     </div>
                 </form>
             </div>
