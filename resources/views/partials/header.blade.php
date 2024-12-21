@@ -34,10 +34,9 @@
                 <i class="fas fa-comments"></i>
             </a>
 
-            <div class="relative inline-block">
-                <a href="{{ route('notifications.index') }}" class="nav-link">
+            <div class="user-notifications relative inline-block">
+                <a href="{{ route('notifications.index') }}" class="action-link" aria-label="{{ __('Notifications') }}">
                     <i class="fas fa-bell"></i>
-                    <span id="notification-count" class="notification-count hidden"></span>
                 </a>
             </div>
 
@@ -46,12 +45,6 @@
                 <div class="relative inline-block">
                     <a href="{{ route('auctions.followed') }}" class="action-link" aria-label="{{ __('Followed Auctions') }}">
                         <i class="fas fa-heart"></i>
-                        @php
-                            $followedCount = Auth::user()->followedAuctions()->count();
-                        @endphp
-                        @if($followedCount > 0)
-                            <span class="followed-count badge">{{ $followedCount }}</span>
-                        @endif
                     </a>
                 </div>
 

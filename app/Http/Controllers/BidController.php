@@ -42,32 +42,35 @@ class BidController extends Controller
             'price' => $validated['price'],
         ]);
 
+        // Atualiza o preço atual do leilão
         $auction->current_price = $bid->price;
         $auction->save();
 
+        // Debita os créditos do usuário atual
         $currentUser->credits -= $validated['price'];
         $currentUser->save();
 
+        // Reembolsa o lance anterior, se houver
         if ($previousBid) {
             $previousBidder = User::find($previousBid->user_id);
             $previousBidder->credits += $previousBid->price;
             $previousBidder->save();
 
             Log::info('Previous bidder refunded', [
-                'user_id' => $previousBidder->user_id,
-                'auction_id' => $auction->auction_id,
-                'previous_bid' => $previousBid->price,
+                'user_id'     => $previousBidder->user_id,
+                'auction_id'  => $auction->auction_id,
+                'previous_bid'=> $previousBid->price,
             ]);
         }
 
         Log::info('Nova oferta feita', [
-            'bid_id' => $bid->bid_id,
+            'bid_id'     => $bid->bid_id,
             'auction_id' => $auction->auction_id,
-            'user_id' => $currentUser->user_id,
-            'price' => $bid->price,
+            'user_id'    => $currentUser->user_id,
+            'price'      => $bid->price,
         ]);
 
-        // Notificar o dono do leilão (se não for o próprio usuário)
+        // Notificar o dono do leilão (se não for o próprio usuário que deu o lance)
         if ($auction->user_id !== $currentUser->user_id) {
             $auctionOwner = $auction->user;
             if ($auctionOwner) {

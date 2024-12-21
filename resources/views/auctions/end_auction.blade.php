@@ -9,20 +9,23 @@
             <div class="flex flex-col lg:flex-row">
                 <!-- Imagem do Leilão -->
                 <div class="lg:w-1/3">
-                    <img src="{{ asset('images/auctions/' . $auction->image) }}" alt="{{ $auction->title }}" class="w-full h-full object-cover rounded-md">
+                    <img src="{{ asset('images/auctions/' . ($auction->image ?? 'default.png')) }}"
+                         alt="{{ $auction->title }}"
+                         class="w-full h-full object-cover rounded-md">
                 </div>
 
                 <!-- Informações do Leilão -->
                 <div class="lg:w-2/3 lg:pl-6 mt-4 lg:mt-0">
                     <h2 class="text-2xl font-bold mb-2">{{ $auction->title }}</h2>
                     <p class="text-gray-700 mb-4">{{ $auction->description }}</p>
-                    <p class="text-gray-600"><strong>{{ __('Status') }}:</strong> {{ __($auction->status) }}</p>
-                    <p class="text-gray-600"><strong>{{ __('Current Bid') }}:</strong> €{{ number_format($auction->current_price, 2, ',', '.') }}</p>
-                    <p class="text-gray-600"><strong>{{ __('Minimum Bid Increment') }}:</strong> €{{ number_format($auction->minimum_bid_increment, 2, ',', '.') }}</p>
-                    <p class="text-gray-600"><strong>{{ __('Seller') }}:</strong>
-                        <a href="{{ route('profile.show', $auction->seller->id) }}" class="text-blue-500 hover:underline">
-                            {{ $auction->seller->name }}
-                        </a>
+                    <p class="text-gray-600">
+                        <strong>{{ __('Status') }}:</strong> {{ __($auction->status) }}
+                    </p>
+                    <p class="text-gray-600">
+                        <strong>{{ __('Current Bid') }}:</strong> €{{ number_format($auction->current_price, 2, ',', '.') }}
+                    </p>
+                    <p class="text-gray-600">
+                        <strong>{{ __('Minimum Bid Increment') }}:</strong> €{{ number_format($auction->minimum_bid_increment, 2, ',', '.') }}
                     </p>
                 </div>
             </div>
@@ -52,14 +55,14 @@
                         @foreach($bids as $bid)
                             <tr class="border-t">
                                 <td class="px-4 py-2">
-                                    <a href="{{ route('profile.show', $bid->bidder) }}" class="text-blue-500 hover:underline">
-                                        {{ $bid->bidder }}
+                                    <a href="{{ route('profile.show', $bid->user) }}" class="text-blue-500 hover:underline">
+                                        {{ $bid->user->fullname ?? $bid->user->username }}
                                     </a>
                                 </td>
                                 <td class="px-4 py-2">€{{ number_format($bid->price, 2, ',', '.') }}</td>
                                 <td class="px-4 py-2">{{ $bid->created_at }}</td>
                                 <td class="px-4 py-2 text-center">
-                                    <input type="radio" name="winner_id" value="{{ $bid->bidder }}" required>
+                                    <input type="radio" name="winner_id" value="{{ $bid->user_id }}" required>
                                 </td>
                             </tr>
                         @endforeach
@@ -75,7 +78,7 @@
             @endif
         </div>
 
-        <!-- Botão para Cancelar -->
+        <!-- Botão para Cancelar (voltar) -->
         <div class="flex justify-end">
             <a href="{{ route('auctions.show', $auction) }}" class="text-gray-700 hover:underline">
                 {{ __('Cancel') }}

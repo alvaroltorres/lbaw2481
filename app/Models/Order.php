@@ -8,9 +8,12 @@ class Order extends Model
 {
     protected $table = 'orders';
     protected $primaryKey = 'order_id';
-    public $timestamps = false;
+    public $timestamps = false; // ou true se tiver created_at / updated_at
 
-    protected $fillable = ['transaction_id','created_at'];
+    protected $fillable = [
+        'transaction_id',
+        'created_at'
+    ];
 
     public function transaction()
     {

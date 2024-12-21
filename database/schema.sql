@@ -102,7 +102,8 @@ CREATE TABLE "Auction" (
                          updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
                          title VARCHAR(255) NOT NULL,
                          location VARCHAR(255),
-                         status VARCHAR(50) NOT NULL
+                         status VARCHAR(50) NOT NULL,
+                         winner_id INTEGER REFERENCES "User"(user_id) ON DELETE SET NULL
 );
 
 -- 10. Auction Status History Table

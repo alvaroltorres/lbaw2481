@@ -64,6 +64,7 @@ class Auction extends Model
         'title',
         'location',
         'status',
+        'winner_id',
     ];
     protected $casts = [
         'starting_date' => 'datetime',
@@ -104,5 +105,10 @@ class Auction extends Model
     public function winner()
     {
         return $this->belongsTo(User::class, 'winner_id');
+    }
+
+    public function isExpired(): bool
+    {
+        return $this->ending_date->isPast();
     }
 }

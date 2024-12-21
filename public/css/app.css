@@ -291,17 +291,6 @@ main {
     color: var(--primary-color);
 }
 
-.notification-count {
-    position: absolute;
-    top: -5px;
-    right: -5px;
-    background-color: #e3342f; /* Red color */
-    color: white;
-    padding: 2px 5px;
-    border-radius: 50%;
-    font-size: 0.75rem;
-    display: none; /* Initially hidden */
-}
 
 .user-menu {
     position: relative;
@@ -978,18 +967,6 @@ p {
     text-decoration: underline;
 }
 
-/* Contador de notificações no layout */
-#notification-count {
-    background: #e3342f;
-    color: #fff;
-    padding: 2px 6px;
-    border-radius: 50%;
-    font-size: 0.75rem;
-    position: absolute;
-    top: -5px;
-    right: -5px;
-}
-
 
 /* FIM POPUP DE NOTIFICAÇão*/
 
@@ -1615,4 +1592,18 @@ form .mb-3 {
 .profile-nav-list a.active {
     background:#007bff;
     color:#fff;
+}
+/* Redimensiona os ícones SVG na paginação */
+nav[aria-label="Pagination Navigation"] svg {
+    width: 20px; /* Define a largura para 20px */
+    height: 20px; /* Define a altura para 20px */
+}
+
+/* Opcional: Ajusta o espaçamento e o alinhamento dos links de paginação */
+nav[aria-label="Pagination Navigation"] a,
+nav[aria-label="Pagination Navigation"] span {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem; /* Ajuste conforme necessário */
 }

@@ -10,19 +10,20 @@ use Illuminate\Notifications\DatabaseNotification;
 class NotificationController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Lista de notificações (com paginação).
      */
     public function index()
     {
-        $notifications = auth()->user()->notifications()
+        $notifications = Auth::user()
+            ->notifications()
             ->orderBy('created_at', 'desc')
-            ->get();
+            ->paginate(10);
 
         return view('notifications.index', compact('notifications'));
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Exibe formulário de criação (se for necessário).
      */
     public function create()
     {
@@ -30,7 +31,7 @@ class NotificationController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Salva algo no banco (se for necessário).
      */
     public function store(Request $request)
     {
@@ -38,14 +39,15 @@ class NotificationController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Mostra uma notificação específica.
      */
     public function show($id)
     {
-        $notification = auth()->user()->notifications()
+        $notification = auth()->user()
+            ->notifications()
             ->findOrFail($id);
 
-        // Marcar como lida
+        // Marcar como lida, se ainda não estiver
         if (is_null($notification->read_at)) {
             $notification->markAsRead();
         }
@@ -53,9 +55,8 @@ class NotificationController extends Controller
         return view('notifications.show', compact('notification'));
     }
 
-
     /**
-     * Show the form for editing the specified resource.
+     * Editar notificação (se for necessário).
      */
     public function edit(Notification $notification)
     {
@@ -63,7 +64,7 @@ class NotificationController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Atualizar notificação (se for necessário).
      */
     public function update(Request $request, Notification $notification)
     {
@@ -71,7 +72,7 @@ class NotificationController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Deletar notificação (se for necessário).
      */
     public function destroy(Notification $notification)
     {
@@ -79,11 +80,7 @@ class NotificationController extends Controller
     }
 
     /**
-     * Fetch new notifications.
-     */
-
-    /**
-     * Fetch new notifications.
+     * Retorna as novas notificações (não lidas) em JSON.
      */
     public function fetchNewNotifications()
     {
@@ -93,26 +90,34 @@ class NotificationController extends Controller
             return response()->json([], 401);
         }
 
+        // Todas as notificações não lidas
         $notifications = $user->unreadNotifications;
 
-        // Map the notifications to include necessary data
+        // Mapeia para JSON
         $notificationsData = $notifications->map(function ($notification) {
             $data = $notification->data;
-            // Add formatted amount
-            $data['bid_amount_formatted'] = number_format($data['bid_amount'], 2, ',', '.');
+
+            // Se a notificação tiver 'bid_amount', formatamos
+            if (isset($data['bid_amount'])) {
+                $data['bid_amount_formatted'] = number_format($data['bid_amount'], 2, ',', '.');
+            } else {
+                $data['bid_amount_formatted'] = null;
+            }
+
             return [
-                'id' => $notification->id,
-                'type' => class_basename($notification->type),
-                'data' => $data,
+                'id'         => $notification->id,
+                'type'       => class_basename($notification->type),
+                'data'       => $data,
                 'created_at' => $notification->created_at->toDateTimeString(),
             ];
         });
 
+        // Agora retornamos em JSON
         return response()->json($notificationsData);
     }
 
     /**
-     * Mark notification as read.
+     * Marcar notificação como lida (via POST).
      */
     public function markAsRead($id)
     {
@@ -132,6 +137,9 @@ class NotificationController extends Controller
         return response()->json(['status' => 'not found'], 404);
     }
 
+    /**
+     * Retorna o número de notificações não lidas.
+     */
     public function unreadCount()
     {
         $user = Auth::user();
@@ -144,6 +152,4 @@ class NotificationController extends Controller
 
         return response()->json(['count' => $count]);
     }
-
-
 }

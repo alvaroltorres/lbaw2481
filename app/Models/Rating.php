@@ -8,9 +8,16 @@ class Rating extends Model
 {
     protected $table = 'rating';
     protected $primaryKey = 'rating_id';
-    public $timestamps = false;
+    public $timestamps = false; // ou true se quiser timestamps automáticos
 
-    protected $fillable = ['rated_user_id','rater_user_id','transaction_id','score','comment','rating_time'];
+    protected $fillable = [
+        'rated_user_id',
+        'rater_user_id',
+        'transaction_id',
+        'score',
+        'comment',
+        'rating_time'
+    ];
 
     public function ratedUser()
     {

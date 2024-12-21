@@ -8,9 +8,18 @@ class Transaction extends Model
 {
     protected $table = 'transaction';
     protected $primaryKey = 'transaction_id';
-    public $timestamps = false;
+    public $timestamps = false;  // Se a tabela não possui created_at/updated_at nativos
+    // (caso tenha, mude para true)
 
-    protected $fillable = ['buyer_id','auction_id','payment_method_id','value','created_at','payment_deadline','status'];
+    protected $fillable = [
+        'buyer_id',
+        'auction_id',
+        'payment_method_id',
+        'value',
+        'created_at',
+        'payment_deadline',
+        'status'
+    ];
 
     public function buyer()
     {

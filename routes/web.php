@@ -41,7 +41,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile/orders', [ProfileController::class, 'orders'])->name('profile.orders');
     Route::get('/profile/ratings', [ProfileController::class, 'ratings'])->name('profile.ratings');
     Route::get('/profile/myauctions', [ProfileController::class, 'myAuctions'])->name('profile.myauctions');
-    Route::get('/profile/soldauctions', [ProfileController::class, 'soldAuctions'])->name('profile.soldauctions');
+    Route::get('/profile/soldauctions', [AuctionController::class, 'soldAuctions'])->name('profile.soldauctions');
 
     // Profile settings
     Route::get('/profile/settings', [ProfileController::class, 'settings'])->name('profile.settings');
@@ -134,9 +134,43 @@ Route::middleware('auth')->group(function() {
 Route::get('/user/{user}', [AdminUserController::class, 'show'])->name('user.show');
 
 // Rota para exibir a página de encerramento do leilão
-Route::get('/auctions/{auction}/end', [AuctionController::class, 'showEndAuction'])->name('auctions.end.view')->middleware('auth');
+Route::get('/auctions/{auction}/end', [AuctionController::class, 'showEndAuction'])
+    ->name('auctions.end.view')
+    ->middleware('auth');
+
+Route::put('/auctions/{auction}/end', [AuctionController::class, 'endAuction'])
+    ->name('auctions.end')
+    ->middleware('auth');
+
+Route::post('/auctions/{auction}/end-manually', [AuctionController::class, 'endManually'])
+    ->name('auctions.endManually')
+    ->middleware('auth');
+
+Route::put('/auctions/{auction}/cancel', [AuctionController::class, 'cancelAuction'])
+    ->name('auctions.cancel')
+    ->middleware('auth');
 
 // Rota para processar o encerramento do leilão
 Route::put('/auctions/{auction}/end', [AuctionController::class, 'endAuction'])->name('auctions.end')->middleware('auth');
+
+Route::get('/ratings/{transaction_id}/create', [RatingController::class, 'create'])->name('ratings.create');
+Route::post('/ratings', [RatingController::class, 'store'])->name('ratings.store');
+Route::get('/users/{user_id}/ratings', [RatingController::class, 'index'])->name('ratings.index');
+
+
+use App\Http\Controllers\RatingController;
+
+Route::group(['middleware' => 'auth'], function() {
+    // Para criar o rating
+    Route::get('/ratings/{transaction_id}/create', [RatingController::class, 'create'])
+        ->name('ratings.create');
+    Route::post('/ratings', [RatingController::class, 'store'])
+        ->name('ratings.store');
+
+    // Para ver as avaliações de um determinado user
+    Route::get('/users/{user_id}/ratings', [RatingController::class, 'index'])
+        ->name('ratings.index');
+});
+
 require __DIR__.'/admin.php';
 
