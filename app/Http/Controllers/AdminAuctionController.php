@@ -26,6 +26,8 @@ class AdminAuctionController extends Controller
         return view('admin.auctions.show', compact('auction'));
     }
 
+
+
     /**
      * Cancela o leilão (status = "cancelled").
      */
@@ -35,21 +37,22 @@ class AdminAuctionController extends Controller
             'reason' => 'required|string|max:255',
         ]);
 
-        $auction->status = 'cancelled';
-        $auction->cancel_reason = $request->reason;
-        $auction->save();
+        $auction->delete();
 
-        // Notificar o seller
+        // Notificar o seller diretamente
         DB::table('notification')->insert([
-            'user_id'    => $auction->user_id, // seller
+            'user_id'    => $auction->user_id,
+            'auction_id' => $auction->auction_id,
             'content'    => "O seu leilão \"{$auction->title}\" foi cancelado pelo admin. Razão: {$request->reason}",
+            'type'       => 'cancellation',
             'created_at' => now(),
         ]);
 
         return redirect()
             ->back()
-            ->with('success', 'Leilão cancelado com sucesso.');
+            ->with('success', 'Leilão cancelado e notificação enviada ao criador.');
     }
+
 
     /**
      * Suspende o leilão (status = "suspended").
@@ -61,20 +64,22 @@ class AdminAuctionController extends Controller
         ]);
 
         $auction->status = 'suspended';
-        $auction->cancel_reason = $request->reason; 
         $auction->save();
 
-        // Notificar o seller
+        // Notificar o seller diretamente
         DB::table('notification')->insert([
             'user_id'    => $auction->user_id,
+            'auction_id' => $auction->auction_id,
             'content'    => "O seu leilão \"{$auction->title}\" foi suspenso pelo admin. Razão: {$request->reason}",
+            'type'       => 'suspension',
             'created_at' => now(),
         ]);
 
         return redirect()
             ->back()
-            ->with('success', 'Leilão suspenso com sucesso.');
+            ->with('success', 'Leilão suspenso e notificação enviada ao criador.');
     }
+
 
     /**
      * Reativa o leilão (remove a suspensão), status = "active".
@@ -88,18 +93,19 @@ class AdminAuctionController extends Controller
         }
 
         $auction->status = 'active';
-        $auction->cancel_reason = null; // limpa a reason se quiseres
         $auction->save();
 
-        // Notificar o seller
+        // Notificar o seller diretamente
         DB::table('notification')->insert([
             'user_id'    => $auction->user_id,
+            'auction_id' => $auction->auction_id,
             'content'    => "O seu leilão \"{$auction->title}\" foi reativado pelo admin.",
+            'type'       => 'reactivation',
             'created_at' => now(),
         ]);
 
         return redirect()
             ->back()
-            ->with('success', 'Leilão reativado com sucesso.');
+            ->with('success', 'Leilão reativado e notificação enviada ao criador.');
     }
 }
