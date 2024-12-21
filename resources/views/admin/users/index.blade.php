@@ -84,10 +84,9 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <input type="hidden" name="user_id" id="blockUserId" value="">
                         <div class="form-group">
-                            <label for="reason">{{ __('Razão para o Bloqueio') }}</label>
-                            <textarea class="form-control" id="reason" name="reason" rows="4" required></textarea>
+                            <label for="blockReason">{{ __('Razão para o Bloqueio') }}</label>
+                            <textarea class="form-control" id="blockReason" name="reason" rows="4" required></textarea>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -98,6 +97,7 @@
             </div>
         </div>
     </div>
+
 
     <script>
         // Esperar que o DOM esteja totalmente carregado
@@ -149,5 +149,18 @@
 
                 }) })
         });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const blockButtons = document.querySelectorAll('.block-user-btn');
+            const blockForm = document.getElementById('blockUserForm');
+
+            blockButtons.forEach(button => {
+                button.addEventListener('click', function () {
+                    const userId = this.getAttribute('data-user-id');
+                    blockForm.action = `/admin/users/${userId}/block`; // Atualiza a ação do formulário
+                });
+            });
+        });
+
     </script>
 @endsection

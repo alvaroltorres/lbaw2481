@@ -13,10 +13,10 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('/users/{user}/edit', [AdminUserController::class, 'edit'])->name('admin.users.edit');
     Route::patch('/users/{user}', [AdminUserController::class, 'update'])->name('admin.users.update');
     Route::delete('/users/{user}', [AdminUserController::class, 'destroy'])->name('admin.users.destroy');
-    Route::get('/admin/users/search', [AdminUserController::class, 'search'])->name('admin.users.search');
+    Route::get('/users/search', [AdminUserController::class, 'search'])->name('admin.users.search');
     Route::post('/users/{user}/block', [AdminUserController::class, 'block'])->name('admin.users.block');
     Route::post('/users/{user}/unblock', [AdminUserController::class, 'unblock'])->name('admin.users.unblock');
-    Route::post('/admin/auctions/{auction}/cancel', [AdminAuctionController::class, 'cancel'])->name('admin.auctions.cancel');
+    Route::post('/auctions/{auction}/cancel', [AdminAuctionController::class, 'cancel'])->name('admin.auctions.cancel');
 });
 
 

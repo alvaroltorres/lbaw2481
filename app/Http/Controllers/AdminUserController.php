@@ -154,36 +154,47 @@ class AdminUserController extends Controller
     {
         $user = User::find($id);
 
-
+        if (!$user) {
+            \Log::error('Utilizador não encontrado', ['user_id' => $id]);
+            return redirect()->back()->with('error', 'Utilizador não encontrado.');
+        }
 
         // Verifica se o utilizador já está bloqueado
         if (DB::table('blockeduser')->where('blocked_user_id', $user->user_id)->exists()) {
+            \Log::info('Utilizador já está bloqueado', ['user_id' => $user->user_id]);
             return redirect()->back()->with('error', 'O utilizador já está bloqueado.');
         }
 
         // Verifica se o utilizador é administrador
         if ($user->is_admin) {
+            \Log::warning('Tentativa de bloquear administrador', ['user_id' => $user->user_id]);
             return redirect()->back()->with('error', 'Não é possível bloquear um administrador.');
         }
+
         // Valida a razão do bloqueio
-        $request->validate([
+        $validated = $request->validate([
             'reason' => 'required|string|max:255',
         ]);
 
+        try {
+            // Insere os dados na tabela blockeduser
+            DB::table('blockeduser')->insert([
+                'admin_id' => auth()->id(),
+                'blocked_user_id' => $user->user_id,
+                'reason' => $validated['reason'],
+                'blocked_at' => Carbon::now(),
+            ]);
 
-        // Insere os dados na tabela blockeduser
-        DB::table('blockeduser')->insert([
-            'admin_id' => auth()->id(),
-            'blocked_user_id' => $user->user_id, // O $user->id será usado como a chave primária
-            'reason' => $request->reason,
-            'blocked_at' =>     Carbon::now(),
-        ]);
+            // Marca o utilizador como bloqueado
+            $user->is_blocked = true;
+            $user->save();
 
-        // Marca o utilizador como bloqueado
-        $user->is_blocked = true;
-        $user->save();
-
-        return redirect()->back()->with('success', 'O utilizador foi bloqueado com sucesso.');
+            \Log::info('Utilizador bloqueado com sucesso', ['user_id' => $user->user_id]);
+            return redirect()->back()->with('success', 'O utilizador foi bloqueado com sucesso.');
+        } catch (\Exception $e) {
+            \Log::error('Erro ao bloquear utilizador', ['error' => $e->getMessage()]);
+            return redirect()->back()->with('error', 'Erro ao bloquear utilizador.');
+        }
     }
 
 
