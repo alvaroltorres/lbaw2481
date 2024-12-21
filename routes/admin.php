@@ -17,6 +17,22 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::post('/users/{user}/block', [AdminUserController::class, 'block'])->name('admin.users.block');
     Route::post('/users/{user}/unblock', [AdminUserController::class, 'unblock'])->name('admin.users.unblock');
     Route::post('/auctions/{auction}/cancel', [AdminAuctionController::class, 'cancel'])->name('admin.auctions.cancel');
+
+    // Rotas de admin para leilões
+    Route::get('/auctions', [AdminAuctionController::class, 'index'])->name('admin.auctions.index');
+    Route::get('/auctions/{auction}', [AdminAuctionController::class, 'show'])->name('admin.auctions.show');
+
+    // Cancelar
+    Route::post('/auctions/{auction}/cancel', [AdminAuctionController::class, 'cancel'])
+        ->name('admin.auctions.cancel');
+
+    // Suspender
+    Route::post('/auctions/{auction}/suspend', [AdminAuctionController::class, 'suspend'])
+        ->name('admin.auctions.suspend');
+
+    // Reativar (remover suspensão)
+    Route::post('/auctions/{auction}/unsuspend', [AdminAuctionController::class, 'unsuspend'])
+        ->name('admin.auctions.unsuspend');
 });
 
 
