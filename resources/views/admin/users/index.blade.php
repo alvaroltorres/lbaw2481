@@ -77,7 +77,7 @@
     <div class="modal fade" id="blockUserModal" tabindex="-1" aria-labelledby="blockUserModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form method="POST" id="blockUserForm">
+                <form method="POST" id="blockUserForm" >
                     @csrf
                     <div class="modal-header">
                         <h5 class="modal-title" id="blockUserModalLabel">{{ __('Block User') }}</h5>
@@ -157,6 +157,7 @@
             blockButtons.forEach(button => {
                 button.addEventListener('click', function () {
                     const userId = this.getAttribute('data-user-id');
+                    console.log('Botão Block clicado, ID do utilizador:', userId);
                     blockForm.action = `/admin/users/${userId}/block`; // Atualiza a ação do formulário
                 });
             });
