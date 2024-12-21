@@ -9,6 +9,14 @@
     <link rel="icon" href="{{ asset('images/logo.png') }}">
     <title>{{ config('app.name', 'BidZenith') }}</title>
 
+    <!-- Open Graph Tags -->
+    <meta property="og:title" content="@yield('og:title', 'Welcome to BidZenith')" />
+    <meta property="og:description" content="@yield('og:description', 'Discover the most sought-after auctions. Join exclusive auctions with an interactive and secure experience.')" />
+    <meta property="og:image" content="@yield('og:image', asset('images/og-default.jpg'))" />
+    <meta property="og:url" content="{{ url()->current() }}" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="BidZenith" />
+
     <!-- Fonts & Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700" rel="stylesheet">
