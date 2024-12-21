@@ -36,6 +36,8 @@ class Kernel extends HttpKernel
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
+            \App\Http\Middleware\CheckIfBlocked::class,
+
         ],
 
 
@@ -71,5 +73,6 @@ class Kernel extends HttpKernel
 
     protected $routeMiddleware = [
         'is_admin' => \App\Http\Middleware\IsAdmin::class,
+        'blocked' => \App\Http\Middleware\CheckIfBlocked::class,
     ];
 }

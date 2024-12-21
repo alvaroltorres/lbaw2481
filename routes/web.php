@@ -128,6 +128,10 @@ Route::middleware('auth')->group(function () {
 
 use App\Http\Controllers\MessageController;
 
+Route::get('/blocked', function () {
+    return view('blocked');
+})->name('blocked');
+
 Route::middleware('auth')->group(function() {
     Route::get('/messages', [MessageController::class, 'index'])->name('messages.index');
     Route::get('/messages/chat', [MessageController::class, 'loadChat'])->name('messages.loadChat');
