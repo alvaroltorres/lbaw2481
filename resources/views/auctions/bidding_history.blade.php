@@ -42,7 +42,7 @@
                                         ${{ number_format($bid->price, 2) }}
                                     </td>
                                     <td>
-                                        {{ $bid->created_at}}
+                                        {{ $bid->time->diffForHumans() }}
                                     </td>
                                 </tr>
                             @endforeach

@@ -90,7 +90,7 @@ INSERT INTO PaymentMethod (user_id, is_enterprise, expiry_date, card_number, ccv
 -- ******************************
 
 INSERT INTO "Auction" (user_id, category_id, starting_price, reserve_price, current_price, minimum_bid_increment, description, starting_date, ending_date, title, location, status) VALUES
-                                                                                                                                                                                      (2, 1, 100.00, 500.00, 150.00, 10.00, 'Latest smartphone model.', NOW() - INTERVAL '1 hour', NOW() + INTERVAL '2 hours', 'Smartphone Auction', 'New York, NY', 'Active'),
+                                                                                                                                                                                      (2, 1, 100.00, 500.00, 150.00, 10.00, 'Latest smartphone model.', NOW() - INTERVAL '3 days', NOW() + INTERVAL '2 days' - Interval '2 hours' - Interval '42 minutes', 'Smartphone Sigma Auction', 'New York, NY', 'Active'),
                                                                                                                                                                                       (3, 3, 200.00, 800.00, 300.00, 20.00, 'Designer Coat collection.', NOW() - INTERVAL '2 hours', NOW() + INTERVAL '3 hours', 'Coat Auction', 'Los Angeles, CA', 'Active'),
                                                                                                                                                                                       (2, 2, 500.00, 1500.00, 700.00, 50.00, 'Original painting by famous artist.', NOW() + INTERVAL '5 hours', NOW() + INTERVAL '10 hours', 'Painting Auction', 'Paris, France', 'Upcoming'),
                                                                                                                                                                                       (3, 5, 1000.00, 5000.00, 1200.00, 100.00, 'Vintage motorcycle.', NOW() + INTERVAL '1 day', NOW() + INTERVAL '2 days', 'Motorcycle Auction', 'Chicago, IL', 'Upcoming'),
@@ -99,7 +99,7 @@ INSERT INTO "Auction" (user_id, category_id, starting_price, reserve_price, curr
                                                                                                                                                                                       (1, 7, 200.00, 800.00, 300.00, 20.00, 'Designer handbag collection.', NOW() - INTERVAL '2 hours', NOW() + INTERVAL '3 hours', 'Handbag Auction', 'Los Angeles, CA', 'Active'),
                                                                                                                                                                                       (1, 8, 500.00, 1500.00, 700.00, 50.00, 'Original painting by famous artist.', NOW() + INTERVAL '5 hours', NOW() + INTERVAL '10 hours', 'Painting Auction', 'Paris, France', 'Upcoming'),
                                                                                                                                                                                       (1, 9, 1000.00, 5000.00, 1200.00, 100.00, 'Vintage motorcycle.', NOW() + INTERVAL '1 day', NOW() + INTERVAL '2 days', 'Motorcycle Auction', 'Chicago, IL', 'Upcoming'),
-                                                                                                                                                                                      (1, 10, 300.00, 1200.00, 450.00, 30.00, 'Modern kitchen appliances set.', NOW() - INTERVAL '3 hours', NOW() + INTERVAL '1 hour', 'Kitchen Appliances Auction', 'Houston, TX', 'Active');
+                                                                                                                                                                                      (1, 10, 300.00, 1200.00, 450.00, 30.00, 'Modern appliances set.', NOW() - INTERVAL '9 days', NOW() + INTERVAL '1 hour', 'Kitchen Appliances Auction', 'Houston, TX', 'Active');
 
 
 -- ******************************
@@ -144,13 +144,27 @@ INSERT INTO Rating (rated_user_id, rater_user_id, transaction_id, score, comment
 -- 13. Bid Table
 -- ******************************
 
-INSERT INTO "Bid" (auction_id, user_id, price) VALUES
-                                                 (1, 3, 150.00),
-                                                 (1, 4, 160.00),
-                                                 (2, 4, 300.00),
-                                                 (5, 2, 450.00);
 
 -- ******************************
+-- 13. Bid Table
+-- ******************************
+-- ******************************
+-- 13. Bid Table
+-- ******************************
+
+INSERT INTO "Bid" (auction_id, user_id, price, time) VALUES
+    (1, 3, 150.00, NOW() - INTERVAL '30 minutes'),
+    (1, 4, 160.00, NOW() - INTERVAL '20 minutes'),
+    (2, 4, 300.00, NOW() - INTERVAL '10 minutes'),
+    (2, 2, 320.00, NOW() - INTERVAL '5 minutes'),
+    (3, 4, 300.00, NOW() - INTERVAL '30 minutes'),
+    (3, 4, 320.00, NOW() - INTERVAL '20 minutes'),
+    (4, 2, 450.00, NOW() - INTERVAL '10 minutes'),
+    (4, 4, 500.00, NOW() - INTERVAL '5 minutes'),
+    (5, 3, 450.00, NOW() - INTERVAL '30 minutes'),
+    (5, 2, 500.00, NOW() - INTERVAL '20 minutes');
+
+
 -- 14. Watchlist Table
 -- ******************************
 

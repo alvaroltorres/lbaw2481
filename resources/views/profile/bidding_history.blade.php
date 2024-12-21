@@ -20,7 +20,7 @@
                     <tr>
                         <td>{{ $bid->user->username }}</td>
                         <td>${{ number_format($bid->price, 2) }}</td>
-                        <td>{{ $bid->created_at }}</td>
+                        <td>{{ $bid->time->diffForHumans() }}</td>
                     </tr>
                 @endforeach
                 </tbody>

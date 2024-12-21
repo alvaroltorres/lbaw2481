@@ -25,7 +25,7 @@
                             </a>
                         </td>
                         <td>€{{ number_format($order->transaction->value, 2, ',', '.') }}</td>
-                        <td>{{ $order->created_at->format('d/m/Y H:i') }}</td>
+                        <td>{{ $order->created_at }}</td>
                         <td>{{ __($order->transaction->status) }}</td>
                     </tr>
                 @endforeach

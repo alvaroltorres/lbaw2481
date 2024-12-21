@@ -133,5 +133,10 @@ Route::middleware('auth')->group(function() {
 
 Route::get('/user/{user}', [AdminUserController::class, 'show'])->name('user.show');
 
+// Rota para exibir a página de encerramento do leilão
+Route::get('/auctions/{auction}/end', [AuctionController::class, 'showEndAuction'])->name('auctions.end.view')->middleware('auth');
+
+// Rota para processar o encerramento do leilão
+Route::put('/auctions/{auction}/end', [AuctionController::class, 'endAuction'])->name('auctions.end')->middleware('auth');
 require __DIR__.'/admin.php';
 

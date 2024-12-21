@@ -66,7 +66,7 @@
                                 <p class="auction-description">{{ Str::limit($auction->description, 100) }}</p>
                                 <div class="auction-meta">
                                     <span class="auction-price">€{{ number_format($auction->current_price ?? $auction->starting_price, 2, ',', '.') }}</span>
-                                    <span class="auction-timer" data-end-time="{{ $auction->ending_date->toIso8601String() }}">{{ $auction->ending_date->diffForHumans() }}</span>
+                                    <span class="auction-timer" data-end-time="{{ $auction->ending_date->toIso8601String() }}"></span>
                                 </div>
                                 <a href="{{ route('auctions.show', $auction) }}" class="btn btn--secondary">{{ __('Participate') }}</a>
                             </div>
@@ -92,7 +92,7 @@
                                 <p class="auction-description">{{ Str::limit($futureauction->description, 100) }}</p>
                                 <div class="auction-meta">
                                     <span class="auction-price">€{{ number_format($futureauction->current_price ?? $futureauction->starting_price, 2, ',', '.') }}</span>
-                                    <span class="auction-timer" data-end-time="{{ $futureauction->ending_date->toIso8601String() }}">{{ $futureauction->ending_date->diffForHumans() }}</span>
+                                    <span class="auction-timer" data-end-time="{{ $futureauction->ending_date->toIso8601String() }}"></span>
                                 </div>
                                 <a href="{{ route('auctions.show', $futureauction) }}" class="btn btn--secondary">{{ __('Participate') }}</a>
                             </div>
@@ -157,3 +157,105 @@
         </div>
     </div>
 @endsection
+
+@push('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const timers = document.querySelectorAll('.auction-timer');
+            let timerElements = [];
+
+            // Inicializa os timers
+            timers.forEach(timer => {
+                const endTime = new Date(timer.getAttribute('data-end-time'));
+                if (!isNaN(endTime)) { // Verifica se a data é válida
+                    timerElements.push({ element: timer, endTime: endTime });
+                }
+            });
+
+            // Função para calcular a diferença de tempo
+            function getTimeDifference(end, now) {
+                let years = end.getFullYear() - now.getFullYear();
+                let months = end.getMonth() - now.getMonth();
+                let days = end.getDate() - now.getDate();
+                let hours = end.getHours() - now.getHours();
+                let minutes = end.getMinutes() - now.getMinutes();
+                let seconds = end.getSeconds() - now.getSeconds();
+
+                if (seconds < 0) {
+                    seconds += 60;
+                    minutes--;
+                }
+                if (minutes < 0) {
+                    minutes += 60;
+                    hours--;
+                }
+                if (hours < 0) {
+                    hours += 24;
+                    days--;
+                }
+                if (days < 0) {
+                    // Obtém o número de dias no mês anterior
+                    const previousMonth = new Date(end.getFullYear(), end.getMonth(), 0);
+                    days += previousMonth.getDate();
+                    months--;
+                }
+                if (months < 0) {
+                    months += 12;
+                    years--;
+                }
+
+                return { years, months, days, hours, minutes, seconds };
+            }
+
+            // Função para atualizar todos os timers
+            function updateAllTimers() {
+                const now = new Date();
+                let activeTimers = [];
+
+                timerElements.forEach(timerObj => {
+                    const { endTime, element } = timerObj;
+                    if (endTime <= now) {
+                        element.textContent = '{{ __("Auction ended") }}';
+                    } else {
+                        const diff = getTimeDifference(endTime, now);
+                        let timeString = '';
+
+                        if (diff.years > 0) {
+                            timeString += `${diff.years}{{ __('y') }} `;
+                        }
+                        if (diff.months > 0) {
+                            timeString += `${diff.months}{{ __('m') }} `;
+                        }
+                        if (diff.days > 0) {
+                            timeString += `${diff.days}{{ __('d') }} `;
+                        }
+                        if (diff.hours > 0) {
+                            timeString += `${diff.hours}{{ __('h') }} `;
+                        }
+                        if (diff.minutes > 0) {
+                            timeString += `${diff.minutes}{{ __('m') }} `;
+                        }
+                        if (diff.seconds > 0) {
+                            timeString += `${diff.seconds}{{ __('s') }}`;
+                        }
+
+                        element.textContent = timeString.trim();
+                        activeTimers.push(timerObj); // Mantém o timer ativo
+                    }
+                });
+
+                timerElements = activeTimers; // Atualiza a lista de timers ativos
+
+                // Se todos os timers terminaram, para o intervalo
+                if (timerElements.length === 0) {
+                    clearInterval(timerInterval);
+                }
+            }
+
+            // Atualiza os timers imediatamente e depois a cada segundo
+            updateAllTimers();
+            const timerInterval = setInterval(updateAllTimers, 1000);
+        });
+    </script>
+@endpush
+

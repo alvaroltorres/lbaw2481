@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+
     <div class="container auction-page">
         @if(session('success'))
             <div class="alert alert-success">{{ session('success') }}</div>
@@ -9,20 +10,24 @@
         @if(session('error'))
             <div class="alert alert-danger">{{ session('error') }}</div>
         @endif
+            <div class="auction-meta-container" style="margin-top:1rem; margin-bottom:1rem; padding:1rem; border:1px solid #ddd; border-radius:8px;">
 
-        <div class="auction-card">
             <img src="{{ asset('images/auctions/' . $auction->image) }}" alt="{{ $auction->title }}" class="auction-image">
             <h2 class="auction-title">{{ $auction->title }}</h2>
             <p class="auction-description">{{ $auction->description }}</p>
             <p class="status">{{ __($auction->status) }}</p>
+            <p class="auction-meta"><strong>{{ __('Ends on') }}:</strong> {{ $auction->ending_date->format('d/m/Y H:i') }}</p>
+            <p class="auction-meta"><strong>{{ __('Seller') }}:</strong> <a href="{{ route('user.show', $auction->seller->user_id) }}">{{ $auction->seller->fullname }}</a></p>
             <p class="auction-meta"><strong>{{ __('Current Bid') }}:</strong> €{{ number_format($auction->current_price, 2, ',', '.') }}</p>
             <p class="auction-meta"><strong>{{ __('Minimum Bid Increment') }}:</strong> €{{ number_format($auction->minimum_bid_increment, 2, ',', '.') }}</p>
-
+            </div>
             @auth
                 @if (auth()->user()->user_id === $auction->user_id)
                     <div class="owner-actions">
                         <a href="{{ route('auctions.edit', $auction) }}" class="btn btn-primary">{{ __('Edit Auction') }}</a>
-
+                        <a href="{{ route('auctions.end.view', $auction) }}" class="text-red-500 hover:underline">
+                            {{ __('End Auction') }}
+                        </a>
                         <form action="{{ route('auctions.destroy', $auction) }}" method="POST" style="display:inline-block;">
                             @csrf
                             @method('DELETE')
@@ -39,13 +44,13 @@
                             <div class="text-danger">{{ $message }}</div>
                             @enderror
                         </div>
-                        <button type="submit" class="btn btn-success">{{ __('Place Bid') }}</button>
+                        <button type="submit" class="btn">{{ __('Place Bid') }}</button>
                     </form>
 
                     <form action="{{ route('messages.start') }}" method="POST" style="display:inline-block; margin-left:1em;">
                         @csrf
                         <input type="hidden" name="auction_id" value="{{ $auction->auction_id }}">
-                        <button type="submit" class="btn btn-secondary">
+                        <button type="submit" class="btn-link text-secondary p-0" style="border: none; background: none; cursor: pointer;">
                             {{ __('Contact Seller') }}
                         </button>
                     </form>
@@ -67,5 +72,4 @@
 
             <a href="{{ route('auctions.biddingHistory', $auction) }}" class="btn btn-info mt-3">{{ __('View Bidding History') }}</a>
         </div>
-    </div>
 @endsection

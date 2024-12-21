@@ -253,5 +253,52 @@ class AuctionController extends Controller
 
         return view('auctions.followed', compact('followedAuctions'));
     }
+    /**
+     * Exibe a página para encerrar o leilão e selecionar o vencedor.
+     */
+    public function showEndAuction(Auction $auction)
+    {
+        // Verifica se o usuário autenticado é o vendedor do leilão
+        if (Auth::id() !== $auction->user_id) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        // Obtém todos os lances do leilão
+        $bids = $auction->bids()->with('user')->orderBy('price', 'desc')->get();
+
+        return view('auctions.end_auction', compact('auction', 'bids'));
+    }
+
+    /**
+     * Processa o encerramento do leilão e define o vencedor.
+     */
+    public function endAuction(Request $request, Auction $auction)
+    {
+        // Verifica se o usuário autenticado é o vendedor do leilão
+        if (Auth::id() !== $auction->user_id) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        // Valida o input
+        $request->validate([
+            'winner_id' => 'required|exists:users,id',
+        ]);
+
+        // Define o vencedor
+        $winner = $auction->bids()->where('user_id', $request->winner_id)->first();
+
+        if (!$winner) {
+            return redirect()->back()->with('error', 'Bidder not found.');
+        }
+
+        // Atualiza o status do leilão e define o vencedor
+        $auction->status = 'ended';
+        $auction->winner_id = $winner->user_id; // Certifique-se de ter uma coluna 'winner_id' na tabela de leilões
+        $auction->save();
+
+        // Opcional: Notificar o vencedor e o vendedor sobre o encerramento do leilão
+
+        return redirect()->route('auctions.show', $auction)->with('success', 'Auction ended successfully and winner has been selected.');
+    }
 }
 ?>

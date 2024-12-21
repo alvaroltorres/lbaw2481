@@ -19,7 +19,7 @@ class Bid extends Model
 
     const UPDATED_AT = null; // No 'updated_at' column in the table
 
-    protected $fillable = ['auction_id', 'user_id', 'price'];
+    protected $fillable = ['auction_id', 'user_id', 'price', 'time'];
 
     public function auction()
     {
