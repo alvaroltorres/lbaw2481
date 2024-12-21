@@ -80,6 +80,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 break;
         }
 
+        if (typeof messageTemplate !== 'string') {
+            messageTemplate = 'You have a new notification.';
+        }
+        
         // Substitui placeholders de :auction, :reason, :bidder, etc.
         let message = messageTemplate;
 

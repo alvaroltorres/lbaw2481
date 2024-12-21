@@ -26,7 +26,6 @@ class AuctionWinnerNotification extends Notification
     {
         $isOwner = ($notifiable->user_id === $this->auction->user_id);
         $title   = $this->auction->title;
-
         $winnerName = $this->winner->fullname ?: $this->winner->username;
 
         $message = $isOwner
@@ -34,13 +33,14 @@ class AuctionWinnerNotification extends Notification
             : "O leilão \"{$title}\" tem um(a) vencedor(a): {$winnerName}.";
 
         return [
-            'notification_type' => 'auction_winner',
+            'notification_type' => 'auction_winner', // <--- KEY
             'is_owner'          => $isOwner,
             'auction_id'        => $this->auction->auction_id,
             'auction_title'     => $title,
             'winner_id'         => $this->winner->user_id,
             'winner_name'       => $winnerName,
-            'message'           => $message,
+            'message'           => $message, // <--- Mensagem final
         ];
     }
+
 }
