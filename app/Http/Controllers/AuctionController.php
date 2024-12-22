@@ -270,7 +270,7 @@ class AuctionController extends Controller
 
         if (! in_array($auction->status, ['Active', 'Upcoming'])) {
             return redirect()->route('auctions.show', $auction)
-                ->with('error', 'Este leilão não pode ser cancelado no status atual.');
+                ->with('error', 'This auction cannot be deleted.');
         }
 
 
@@ -313,9 +313,7 @@ class AuctionController extends Controller
         return view('auctions.followed', compact('followedAuctions'));
     }
 
-    /**
-     * Método privado para decidir o vencedor de um leilão e criar Transaction/Order.
-     */
+
     private function pickWinner(Auction $auction)
     {
         // Se o leilão não estiver 'Active', não faz nada
@@ -429,7 +427,7 @@ class AuctionController extends Controller
             $this->pickWinner($auction);
 
             return redirect()->route('auctions.show', $auction)
-                ->with('success', 'Auction ended successfully with pickWinner logic.');
+                ->with('success', 'Auction ended successfully!');
         }
 
         // Vendeu
@@ -465,7 +463,7 @@ class AuctionController extends Controller
         $this->pickWinner($auction);
 
         return redirect()->route('auctions.show', $auction)
-            ->with('success', 'Auction ended manually (pickWinner called).');
+            ->with('success', 'Auction ended!');
     }
 
     /**
@@ -562,7 +560,7 @@ class AuctionController extends Controller
 
         $notifiables = User::whereIn('user_id', $notifiablesIds)->get();
         foreach ($notifiables as $user) {
-            $user->notify(new AuctionCanceledNotification($auction, 'Cancelado manualmente pelo dono'));
+            $user->notify(new AuctionCanceledNotification($auction, 'Manually canceled by owner.'));
         }
 
         return redirect()->route('auctions.show', $auction)

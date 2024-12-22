@@ -3,27 +3,27 @@
 @section('content')
     <div class="container my-5">
                 <div class="d-flex justify-content-between align-items-center">
-                    <h2 class="mb-0">{{ __('Histórico de Lances para') }} {{ $auction->title }}</h2>
+                    <h2 class="mb-0">{{ __('Bidding History for') }} {{ $auction->title }}</h2>
                 </div>
                 @if($bids->isNotEmpty())
                     <div class="mt-2">
-                        <strong>{{ __('Maior Lance:') }}</strong>
+                        <strong>{{ __('Highest Bid') }}:</strong>
                         <span class="text-primary">${{ number_format($bids->max('price'), 2) }}</span>
                     </div>
                 @endif
             <div class="card-body p-4">
                 @if($bids->isEmpty())
                     <div class="alert alert-info text-center" role="alert">
-                        {{ __('Nenhum lance foi realizado neste leilão ainda.') }}
+                        {{ __('No bids have been placed on this auction yet.') }}
                     </div>
                 @else
                     <div class="table-responsive">
                         <table class="table table-hover align-middle mb-0">
                             <thead class="table-light">
                             <tr>
-                                <th scope="col">{{ __('Licitação') }}</th>
-                                <th scope="col">{{ __('Valor do Lance') }}</th>
-                                <th scope="col">{{ __('Hora do Lance') }}</th>
+                                <th scope="col">{{ __('Bid') }}</th>
+                                <th scope="col">{{ __('Amount') }}</th>
+                                <th scope="col">{{ __('Time') }}</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -49,7 +49,7 @@
             </div>
             <div class="card-footer bg-white border-top-0">
                 <a href="{{ route('auctions.show', $auction) }}" class="btn btn-outline-secondary">
-                    <i class="fas fa-arrow-left me-2"></i> {{ __('Voltar para o Leilão') }}
+                    <i class="fas fa-arrow-left me-2"></i> {{ __('Back to Auction') }}
                 </a>
             </div>
     </div>

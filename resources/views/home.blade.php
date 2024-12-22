@@ -60,8 +60,8 @@
         <div class="container">
             <h2 class="section-title" data-tooltip="{{ __('View all active auctions here.') }}">{{ __('Active Auctions') }}</h2>
             <div class="auction-grid">
-                @if($activeAuctions->count() > 0)
-                    @foreach($activeAuctions as $auction)
+                @if($upcomingAuctions->count() > 0)
+                    @foreach($upcomingAuctions as $auction)
                         <article class="auction-card">
                             @if($auction->image)
                                 <img src="{{ asset('storage/images/auctions/'. $auction->image) }}" alt="{{ __($auction->title) }}" class="auction-image">
@@ -86,8 +86,8 @@
 
             <h2 class="section-title">{{ __('Upcoming Auctions') }}</h2>
             <div class="auction-grid">
-                @if($upcomingAuctions->count() > 0)
-                    @foreach($upcomingAuctions as $futureauction)
+                @if($activeAuctions->count() > 0)
+                    @foreach($activeAuctions as $futureauction)
                         <article class="auction-card">
                             @if($futureauction->image)
                                 <img src="{{ asset('storage/images/auctions/'. $futureauction->image) }}" alt="{{ __($futureauction->title) }}" class="auction-image">

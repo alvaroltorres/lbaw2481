@@ -17,9 +17,6 @@ class BidController extends Controller
 {
     public function store(Request $request, Auction $auction)
     {
-        if (auth()->user()->is_admin) {
-            abort(403, 'Administradores não podem licitar em leilões.');
-        }
 
         $validated = $request->validate([
             'price' => 'required|numeric|min:0.01',
@@ -27,7 +24,7 @@ class BidController extends Controller
 
         if ($validated['price'] < $auction->current_price + $auction->minimum_bid_increment) {
             throw ValidationException::withMessages([
-                'price' => 'O valor da oferta deve ser pelo menos ' .
+                'price' => 'The bid must be at least ' .
                     number_format($auction->current_price + $auction->minimum_bid_increment, 2, ',', '.'),
             ]);
         }
@@ -36,7 +33,7 @@ class BidController extends Controller
 
         if ($currentUser->credits < $validated['price']) {
             return back()->withErrors([
-                'price' => 'Você não tem créditos suficientes para fazer esta oferta.',
+                'price' => 'You do not have enough credits to make this bid.',
             ]);
         }
 
@@ -76,7 +73,7 @@ class BidController extends Controller
             'price'      => $bid->price,
         ]);
 
-        // Notificar o dono do leilão (se não for o próprio usuário que deu o lance)
+        // Notificar o owner do leilão (se não for o próprio user que deu o lance)
         if ($auction->user_id !== $currentUser->user_id) {
             $auctionOwner = $auction->user;
             if ($auctionOwner) {
@@ -84,7 +81,7 @@ class BidController extends Controller
             }
         }
 
-        // Notificar outros usuários que deram lances anteriormente (exceto o atual e o dono)
+        // Notificar outros useers que deram lances anteriormente (exceto o atual e o dono)
         $otherBidderIds = $auction->bids()
             ->where('user_id', '!=', $auction->user_id)
             ->where('user_id', '!=', $currentUser->user_id)
@@ -97,6 +94,6 @@ class BidController extends Controller
         }
 
         return redirect()->route('auctions.show', $auction)
-            ->with('success', 'Sua oferta foi feita com sucesso!');
+            ->with('success', 'Your bid has been successfully placed.');
     }
 }
