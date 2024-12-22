@@ -1,3 +1,4 @@
+@php use Illuminate\Support\Facades\Storage; @endphp
 @extends('layouts.app')
 
 @section('content')
@@ -14,8 +15,8 @@
         <div class="auction-meta-container" style="margin-top:1rem; margin-bottom:1rem; padding:1rem; border:1px solid #ddd; border-radius:8px;">
             @php
                 $finalImage = $auction->image
-                    ? 'storage/images/auctions/'.$auction->image
-                    : 'storage/images/auctions/default.png';
+                    ? Storage::url('public/images/auctions/'. $auction->image)
+                    : Storage::url('public/images/auctions/default.png');
             @endphp
 
             <img src="{{ asset($finalImage) }}" alt="{{ $auction->title }}" class="show-auction-image">

@@ -175,9 +175,10 @@ class AuctionController extends Controller
             // Se havia uma imagem antiga, deleta (opcional) se não for 'default.png'
             if ($auction->image && $auction->image !== 'default.png') {
                 \Storage::disk('public')->delete('images/auctions/'.$auction->image);
+                // storage::disk significa que estamos a aceder o disco publico
             }
 
-            // Gera nome e salva
+
             $imageFile = $request->file('image');
             $filename  = time().'_'.preg_replace('/\s+/', '_', $imageFile->getClientOriginalName());
 
@@ -187,7 +188,6 @@ class AuctionController extends Controller
                 'public'
             );
 
-            // Ajusta o campo 'image'
             $auction->image = $filename;
             \Log::info('Image updated', [
                 'auction_id' => $auction->auction_id,

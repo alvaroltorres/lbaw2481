@@ -1,3 +1,4 @@
+@php use Illuminate\Support\Facades\Storage; @endphp
 @extends('layouts.app')
 
 @section('title', __('Welcome to BidZenith'))
@@ -63,11 +64,12 @@
                 @if($upcomingAuctions->count() > 0)
                     @foreach($upcomingAuctions as $auction)
                         <article class="auction-card">
-                            @if($auction->image)
-                                <img src="{{ asset('storage/images/auctions/'. $auction->image) }}" alt="{{ __($auction->title) }}" class="auction-image">
-                            @else
-                                <img src="{{ asset('storage/images/auctions/default.png') }}" alt="{{ __($auction->title) }}" class="auction-image">
-                            @endif
+                            @php
+                                $finalImage = $auction->image
+                                    ? Storage::url('public/images/auctions/'. $auction->image)
+                                    : Storage::url('public/images/auctions/default.png');
+                            @endphp
+                            <img src="{{ asset($finalImage) }}" alt="{{ $auction->title }}" class="auction-image">
                             <div class="auction-details">
                                 <h3 class="auction-title">{{ $auction->title }}</h3>
                                 <p class="auction-description">{{ Str::limit($auction->description, 100) }}</p>
@@ -89,11 +91,12 @@
                 @if($activeAuctions->count() > 0)
                     @foreach($activeAuctions as $futureauction)
                         <article class="auction-card">
-                            @if($futureauction->image)
-                                <img src="{{ asset('storage/images/auctions/'. $futureauction->image) }}" alt="{{ __($futureauction->title) }}" class="auction-image">
-                            @else
-                                <img src="{{ asset('storage/images/auctions/default.png') }}" alt="{{ __($futureauction->title) }}" class="auction-image">
-                            @endif
+                            @php
+                                $finalImage = $auction->image
+                                    ? Storage::url('public/images/auctions/'. $auction->image)
+                                    : Storage::url('public/images/auctions/default.png');
+                            @endphp
+                            <img src="{{ asset($finalImage) }}" alt="{{ $auction->title }}" class="auction-image">
                             <div class="auction-details">
                                 <h3 class="auction-title">{{ $futureauction->title }}</h3>
                                 <p class="auction-description">{{ Str::limit($futureauction->description, 100) }}</p>

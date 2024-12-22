@@ -1,3 +1,4 @@
+@php use Illuminate\Support\Facades\Storage; @endphp
 @extends('layouts.app')
 
 @section('content')
@@ -41,11 +42,11 @@
                 <div class="auction-grid">
                     @forelse($activeAuctions as $auction)
                         <div class="auction-card">
-                            @if($auction->image)
-                                <img src="{{ asset('storage/images/auctions/'. $auction->image) }}" alt="{{ __($auction->title) }}" class="auction-image">
-                            @else
-                                <img src="{{ asset('storage/images/auctions/default.png') }}" alt="{{ __($auction->title) }}" class="auction-image">
-                            @endif
+                            @php
+                                $finalImage = $auction->image
+                                    ? Storage::url('public/images/auctions/'. $auction->image)
+                                    : Storage::url('public/images/auctions/default.png');
+                            @endphp
                             <h2>{{ __($auction->title) }}</h2>
                             <p>{{ __($auction->description) }}</p>
                             <p class="status">{{ __($auction->status) }}</p>

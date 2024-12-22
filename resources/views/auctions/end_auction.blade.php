@@ -1,3 +1,4 @@
+@php use Illuminate\Support\Facades\Storage; @endphp
 @extends('layouts.app')
 
 @section('content')
@@ -9,9 +10,12 @@
             <div class="flex flex-col lg:flex-row">
                 <!-- Imagem do Leilão -->
                 <div class="lg:w-1/3">
-                    <img src="{{ asset('images/auctions/' . ($auction->image ?? 'default.png')) }}"
-                         alt="{{ $auction->title }}"
-                         class="w-full h-full object-cover rounded-md">
+                    @php
+                        $finalImage = $auction->image
+                            ? Storage::url('public/images/auctions/'. $auction->image)
+                            : Storage::url('public/images/auctions/default.png');
+                    @endphp
+                    <img src="{{ asset($finalImage) }}" alt="{{ $auction->title }}" class="auction-image">
                 </div>
 
                 <!-- Informações do Leilão -->

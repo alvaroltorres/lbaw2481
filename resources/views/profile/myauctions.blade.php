@@ -1,3 +1,4 @@
+@php use Illuminate\Support\Facades\Storage; @endphp
 @extends('layouts.app')
 
 @section('content')
@@ -10,11 +11,12 @@
             <div class="auction-grid" style="margin-top:1rem; gap:1rem; display:flex; flex-wrap:wrap;">
                 @foreach($myauctions->where('status', 'Active') as $auction)
                     <div class="auction-card" style="border:1px solid #ddd; padding:1rem; border-radius:8px; width:250px;">
-                        @if($auction->image)
-                            <img src="{{ asset('storage/images/auctions/'. $auction->image) }}" alt="{{ __($auction->title) }}" class="auction-image">
-                        @else
-                            <img src="{{ asset('storage/images/auctions/default.png') }}" alt="{{ __($auction->title) }}" class="auction-image">
-                        @endif
+                        @php
+                            $finalImage = $auction->image
+                                ? Storage::url('public/images/auctions/'. $auction->image)
+                                : Storage::url('public/images/auctions/default.png');
+                        @endphp
+                        <img src="{{ asset($finalImage) }}" alt="{{ $auction->title }}" class="auction-image">
                         <h2>{{ $auction->title }}</h2>
                         <p class="status">{{ __($auction->status) }}</p>
                         <p>{{ Str::limit($auction->description, 100) }}</p>
@@ -35,11 +37,12 @@
             <div class="auction-grid" style="margin-top:1rem; gap:1rem; display:flex; flex-wrap:wrap;">
                 @foreach($myauctions->where('status', 'Upcoming') as $auction)
                     <div class="auction-card" style="border:1px solid #ddd; padding:1rem; border-radius:8px; width:250px;">
-                        @if($auction->image)
-                            <img src="{{ asset('storage/images/auctions/'. $auction->image) }}" alt="{{ __($auction->title) }}" class="auction-image">
-                        @else
-                            <img src="{{ asset('storage/images/auctions/default.png') }}" alt="{{ __($auction->title) }}" class="auction-image">
-                        @endif
+                        @php
+                            $finalImage = $auction->image
+                                ? Storage::url('public/images/auctions/'. $auction->image)
+                                : Storage::url('public/images/auctions/default.png');
+                        @endphp
+                        <img src="{{ asset($finalImage) }}" alt="{{ $auction->title }}" class="auction-image">
                         <h2>{{ $auction->title }}</h2>
                         <p class="status">{{ __($auction->status) }}</p>
                         <p>{{ Str::limit($auction->description, 100) }}</p>
@@ -60,11 +63,12 @@
             <div class="auction-grid" style="margin-top:1rem; gap:1rem; display:flex; flex-wrap:wrap;">
                 @foreach($myauctions->where('status', 'Unsold') as $auction)
                     <div class="auction-card" style="border:1px solid #ddd; padding:1rem; border-radius:8px; width:250px;">
-                        @if($auction->image)
-                            <img src="{{ asset('storage/images/auctions/'. $auction->image) }}" alt="{{ __($auction->title) }}" class="auction-image">
-                        @else
-                            <img src="{{ asset('storage/images/auctions/default.png') }}" alt="{{ __($auction->title) }}" class="auction-image">
-                        @endif
+                        @php
+                            $finalImage = $auction->image
+                                ? Storage::url('public/images/auctions/'. $auction->image)
+                                : Storage::url('public/images/auctions/default.png');
+                        @endphp
+                        <img src="{{ asset($finalImage) }}" alt="{{ $auction->title }}" class="auction-image">
                         <h2>{{ $auction->title }}</h2>
                         <p class="status">{{ __($auction->status) }}</p>
                         <p>{{ Str::limit($auction->description, 100) }}</p>
@@ -84,11 +88,12 @@
             <div class="auction-grid" style="margin-top:1rem; gap:1rem; display:flex; flex-wrap:wrap;">
                 @foreach($myauctions->where('status', 'Closed') as $auction)
                     <div class="auction-card" style="border:1px solid #ddd; padding:1rem; border-radius:8px; width:250px;">
-                        @if($auction->image)
-                            <img src="{{ asset('storage/images/auctions/'. $auction->image) }}" alt="{{ __($auction->title) }}" class="auction-image">
-                        @else
-                            <img src="{{ asset('storage/images/auctions/default.png') }}" alt="{{ __($auction->title) }}" class="auction-image">
-                        @endif
+                        @php
+                            $finalImage = $auction->image
+                                ? Storage::url('public/images/auctions/'. $auction->image)
+                                : Storage::url('public/images/auctions/default.png');
+                        @endphp
+                        <img src="{{ asset($finalImage) }}" alt="{{ $auction->title }}" class="auction-image">
                         <h2>{{ $auction->title }}</h2>
                         <p class="status">{{ __($auction->status) }}</p>
                         <p>{{ Str::limit($auction->description, 100) }}</p>
