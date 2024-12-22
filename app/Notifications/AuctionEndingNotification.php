@@ -31,10 +31,17 @@ class AuctionEndingNotification extends Notification
             ? $this->auction->ending_date->format('d/m/Y H:i')
             : __('(unknown)');
 
-        // Mensagem customizada
         $message = $isOwner
-            ? "⚠️ Seu leilão \"{$auctionTitle}\" termina em {$this->minutesLeft} minutos (previsto para $endTime)."
-            : "⚠️ O leilão \"{$auctionTitle}\" que você participa termina em {$this->minutesLeft} minutos (previsto para $endTime).";
+            ? __("⚠️ Your auction \":title\" will end in :minutes minutes (scheduled for :end).", [
+                'title'   => $auctionTitle,
+                'minutes' => $this->minutesLeft,
+                'end'     => $endTime
+            ])
+            : __("⚠️ The auction \":title\" you are participating in will end in :minutes minutes (scheduled for :end).", [
+                'title'   => $auctionTitle,
+                'minutes' => $this->minutesLeft,
+                'end'     => $endTime
+            ]);
 
         return [
             'notification_type' => 'auction_ending',

@@ -44,7 +44,7 @@
                                 @endphp
                                 @if(!$existingRating)
                                     <!-- Se não existe rating, mostra o botão -->
-                                    <a href="{{ route('ratings.create', $transaction->transaction_id) }}" class="btn btn-sm btn-info">
+                                    <a href="{{ route('ratings.create', $transaction->transaction_id) }}" class="btn btn-sm btn-primary">
                                         {{ __('Rate Seller') }}
                                     </a>
                                 @else

@@ -74,7 +74,6 @@
 
     <!-- Subheader para Perfil -->
     @if(request()->is('profile*'))
-        <div class="profile-subnav">
             <div class="container">
                 <ul class="profile-nav-list flex space-x-4">
                     <li><a href="{{ route('profile.show') }}" class="{{ request()->routeIs('profile.show') ? 'active' : '' }}">{{ __('Profile') }}</a></li>
@@ -85,6 +84,5 @@
                     <li><a href="{{ route('profile.soldauctions') }}" class="{{ request()->routeIs('profile.soldauctions') ? 'active' : '' }}">{{ __('Sold Auctions') }}</a></li>
                 </ul>
             </div>
-        </div>
     @endif
 </header>

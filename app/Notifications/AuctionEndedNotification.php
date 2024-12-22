@@ -26,11 +26,11 @@ class AuctionEndedNotification extends Notification
 
         // se o winner_id for igual ao user_id do usuário autenticado
         if ($this->auction->winner_id === $notifiable->user_id) {
-            $message = "Parabéns! Você foi o vencedor do leilão \"{$title}\".";
+            $message = __("Congratulations! You won the auction \":title\".", ['title' => $title]);
         } else {
             $message = $isOwner
-                ? "O seu leilão \"{$title}\" foi encerrado."
-                : "O leilão \"{$title}\" em que você participou foi encerrado.";
+                ? __("Your auction \":title\" has ended.", ['title' => $title])
+                : __("The auction \":title\" you participated in has ended.", ['title' => $title]);
         }
 
         return [

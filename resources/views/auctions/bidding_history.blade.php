@@ -2,12 +2,8 @@
 
 @section('content')
     <div class="container my-5">
-        <div class="card shadow-sm border-0">
                 <div class="d-flex justify-content-between align-items-center">
                     <h2 class="mb-0">{{ __('Histórico de Lances para') }} {{ $auction->title }}</h2>
-                    <span class="badge bg-success fs-6">
-                        {{ __('Tempo Restante:') }} <span id="timeRemaining">{{ \Carbon\Carbon::now()->diffForHumans($auction->end_time, true) }}</span>
-                    </span>
                 </div>
                 @if($bids->isNotEmpty())
                     <div class="mt-2">
@@ -56,7 +52,6 @@
                     <i class="fas fa-arrow-left me-2"></i> {{ __('Voltar para o Leilão') }}
                 </a>
             </div>
-        </div>
     </div>
 @endsection
 

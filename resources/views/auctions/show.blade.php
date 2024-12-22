@@ -48,6 +48,7 @@
                 <strong>{{ __('Minimum Bid Increment') }}:</strong>
                 €{{ number_format($auction->minimum_bid_increment, 2, ',', '.') }}
             </p>
+
         </div>
 
         @auth
@@ -61,7 +62,7 @@
                     <!-- Encerrar agora (sem escolher lances) -->
                     <form action="{{ route('auctions.endManually', $auction) }}" method="POST" style="display:inline;">
                         @csrf
-                        <button type="submit" class="btn btn-warning">
+                        <button type="submit" class="btn btn-primary">
                             {{ __('End Auction Now') }}
                         </button>
                     </form>
@@ -93,22 +94,25 @@
                         <button type="submit" class="btn btn-success">{{ __("Reactivate Auction") }}</button>
                     </form>
                 @endif
+                @endif
 
-                {{-- Caso seja usuário normal (não dono, não admin) --}}
-            @else
                 <form action="{{ route('bids.store', $auction) }}" method="POST" class="bid-form">
                     @csrf
                     <div class="form-group">
-                        <label for="price">{{ __('Bid Price') }} (€):</label>
-                        <input type="number" name="price" id="price" class="form-control" step="0.01" required
-                               placeholder="{{ __('Enter your bid') }}">
                         @error('price')
                         <div class="text-danger">{{ $message }}</div>
                         @enderror
                     </div>
-                    <button type="submit" class="btn btn-success">{{ __('Place Bid') }}</button>
+                    @if($auction->status !== 'Active')
+                        <div class="alert alert-danger">{{ __('This auction is not active.') }}</div>
+                    @else
+                        <label for="price" class="me-2">{{ __('Bid Price') }} (€):</label>
+                            <input type="number" name="price" id="price" class="form-control me-2" step="0.01" required
+                                   placeholder="{{ __('Enter your bid') }}">
+                            <button type="submit" class="btn btn-primary" style="white-space: nowrap; margin-top: 1em; margin-bottom: 1em;">
+                                {{ __('Place Bid') }}
+                    @endif
                 </form>
-            @endif
 
             {{-- Botão "Contact Seller" se não for o próprio dono --}}
             @if (auth()->user()->user_id !== $auction->user_id)
@@ -122,25 +126,26 @@
             @endif
 
             {{-- Botão de seguir/desseguir o leilão --}}
-            @if($isFollowed && !auth()->user()->is_admin && auth()->user()->user_id === $auction->user_id)
+            @if($isFollowed && !auth()->user()->is_admin)
                 <form action="{{ route('auction.unfollow', ['auction_id' => $auction->auction_id]) }}"
                       method="POST" style="display:inline-block;">
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="btn btn-danger">{{ __('Unfollow Auction') }}</button>
                 </form>
-                @elseif(!$isFollowed && !auth()->user()->is_admin && auth()->user()->user_id === $auction->user_id)
+                @elseif(!$isFollowed && !auth()->user()->is_admin)
                 <form action="{{ route('auction.follow', ['auction_id' => $auction->auction_id]) }}"
                       method="POST" style="display:inline-block;">
                     @csrf
                     <button type="submit" class="btn btn-primary">{{ __('Follow Auction') }}</button>
                 </form>
+
             @endif
         @endauth
+        <form action="{{ route('auctions.biddingHistory', $auction) }}" method="GET" style="display:inline-block;">
+            <button type="submit" class="btn btn-secondary">{{ __('View Bidding History') }}</button>
+        </form>
 
-        <a href="{{ route('auctions.biddingHistory', $auction) }}" class="btn btn-info mt-3">
-            {{ __('View Bidding History') }}
-        </a>
     </div>
 
     {{-- Modal para suspender o leilão (apenas para admin, se desejar) --}}

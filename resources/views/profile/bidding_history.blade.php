@@ -10,7 +10,7 @@
             <table class="table">
                 <thead>
                 <tr>
-                    <th>{{ __('Bidder') }}</th>
+                    <th>{{ __('Auction') }}</th>
                     <th>{{ __('Bid Amount') }}</th>
                     <th>{{ __('Bid Time') }}</th>
                 </tr>
@@ -18,7 +18,7 @@
                 <tbody>
                 @foreach($bids as $bid)
                     <tr>
-                        <td>{{ $bid->user->username }}</td>
+                        <td><a href="{{ route('auctions.show', $bid->auction) }}">{{ $bid->auction->title }}</a></td>
                         <td>${{ number_format($bid->price, 2) }}</td>
                         <td>{{ $bid->time->diffForHumans() }}</td>
                     </tr>

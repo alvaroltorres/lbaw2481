@@ -22,8 +22,12 @@
             @endif
 
             @if($notification->bid)
-                <p><strong>{{ __('Bid Amount:') }}</strong> €{{ number_format($notification->bid->price ?? 0, 2, ',', '.') }}</p>
-                <p><strong>{{ __('Bidder:') }}</strong>
+                <p>
+                    <strong>{{ __('Bid Amount:') }}</strong>
+                    €{{ number_format($notification->bid->price ?? 0, 2, ',', '.') }}
+                </p>
+                <p>
+                    <strong>{{ __('Bidder:') }}</strong>
                     @if($notification->bid->user)
                         <a href="{{ route('user.show', $notification->bid->user_id) }}">
                             {{ $notification->bid->user->fullname }}

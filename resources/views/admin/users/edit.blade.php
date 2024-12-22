@@ -19,19 +19,19 @@
         @method('PATCH')
 
         <label for="fullname">{{__("Full name:")}}</label>
-        <input type="text" name="fullname" id="fullname" class="@error('fullname') is-invalid @enderror" value="{{ old('fullname', $user->fullname) }}" required placeholder="Digite o nome completo">
+        <input type="text" name="fullname" id="fullname" class="@error('fullname') is-invalid @enderror" value="{{ old('fullname', $user->fullname) }}" required placeholder= "Enter the full name">
         @error('fullname')
         <div class="invalid-feedback">{{ $message }}</div>
         @enderror
 
         <label for="email">{{__("Email:")}}</label>
-        <input type="email" name="email" id="email" class="@error('email') is-invalid @enderror" value="{{ old('email', $user->email) }}" required placeholder="Digite o endereço de email">
+        <input type="email" name="email" id="email" class="@error('email') is-invalid @enderror" value="{{ old('email', $user->email) }}" required placeholder= "Enter the email address">
         @error('email')
         <div class="invalid-feedback">{{ $message }}</div>
         @enderror
 
         <label for="username">{{__("Username:")}}</label>
-        <input type="text" name="username" id="username" class="@error('username') is-invalid @enderror" value="{{ old('username', $user->username) }}" required placeholder="Digite o nome de usuário">
+        <input type="text" name="username" id="username" class="@error('username') is-invalid @enderror" value="{{ old('username', $user->username) }}" required placeholder="Enter the username">
         @error('username')
         <div class="invalid-feedback">{{ $message }}</div>
         @enderror
@@ -46,7 +46,7 @@
         @enderror
 
         <label for="nif">{{__("NIF:")}}</label>
-        <input type="text" name="nif" id="nif" class="@error('nif') is-invalid @enderror" value="{{ old('nif', $user->nif) }}" required placeholder="Digite o NIF">
+        <input type="text" name="nif" id="nif" class="@error('nif') is-invalid @enderror" value="{{ old('nif', $user->nif) }}" required placeholder="Enter the NIF">
         @error('nif')
         <div class="invalid-feedback">{{ $message }}</div>
         @enderror

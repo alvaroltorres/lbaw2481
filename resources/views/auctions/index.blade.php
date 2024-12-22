@@ -42,9 +42,9 @@
                     @forelse($activeAuctions as $auction)
                         <div class="auction-card">
                             @if($auction->image)
-                                <img src="{{ asset('storage/images/auctions/'. $auction->image) }}" alt="{{ __($auction->title) }}">
+                                <img src="{{ asset('storage/images/auctions/'. $auction->image) }}" alt="{{ __($auction->title) }}" class="auction-image">
                             @else
-                                <img src="{{ asset('storage/images/auctions/default.png') }}" alt="{{ __($auction->title) }}">
+                                <img src="{{ asset('storage/images/auctions/default.png') }}" alt="{{ __($auction->title) }}" class="auction-image">
                             @endif
                             <h2>{{ __($auction->title) }}</h2>
                             <p>{{ __($auction->description) }}</p>
@@ -102,6 +102,5 @@
 
 @push('scripts')
     <script>
-        // Aqui você pode adicionar scripts adicionais, se necessário
     </script>
 @endpush

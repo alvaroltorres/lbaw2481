@@ -29,9 +29,14 @@ class AuctionWinnerNotification extends Notification
         $winnerName = $this->winner->fullname ?: $this->winner->username;
 
         $message = $isOwner
-            ? "Foi determinado(a) um(a) vencedor(a) para o seu leilão \"{$title}\"! Vencedor: {$winnerName}."
-            : "O leilão \"{$title}\" tem um(a) vencedor(a): {$winnerName}.";
-
+            ? __("A winner has been determined for your auction \":title\"! Winner: :winner.", [
+                'title'  => $title,
+                'winner' => $winnerName
+            ])
+            : __("The auction \":title\" now has a winner: :winner.", [
+                'title'  => $title,
+                'winner' => $winnerName
+            ]);
         return [
             'notification_type' => 'auction_winner', // <--- KEY
             'is_owner'          => $isOwner,

@@ -31,7 +31,7 @@
     <!-- Features Section -->
     <section class="features" id="features">
         <div class="container">
-            <h2 class="tooltip" data-tooltip="{{ __('Here you can find the main features of our platform.') }}">{{ __('Experience the Future of Online Auctions') }}</h2>
+            <h2 class="section-title" data-tooltip="{{ __('Here you can find the main features of our platform.') }}">{{ __('Experience the Future of Online Auctions') }}</h2>
             <div class="features__grid">
                 <div class="feature-item">
                     <i class="fas fa-bolt feature-icon" aria-hidden="true"></i>
@@ -118,7 +118,7 @@
     <!-- Testimonials Section -->
     <section class="testimonials" id="testimonials">
         <div class="container">
-            <h2 class="tooltip" data-tooltip="{{ __('Read testimonials from our satisfied users.') }}">{{ __('What Our Users Say') }}</h2>
+            <h2 class="section-title" data-tooltip="{{ __('Read testimonials from our satisfied users.') }}">{{ __('What Our Users Say') }}</h2>
             <div class="testimonials__grid">
                 <div class="testimonial-item">
                     <p class="testimonial-text">"BidZenith has transformed my online auction experience. Intuitive and secure platform!"</p>

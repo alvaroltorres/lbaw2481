@@ -28,8 +28,9 @@ class AuctionCanceledNotification extends Notification
         $reason  = $this->reason ?: __('No reason provided');
 
         $message = $isOwner
-            ? "Seu leilão \"{$title}\" foi cancelado. Motivo: {$reason}"
-            : "O leilão \"{$title}\" que você acompanha foi cancelado. Motivo: {$reason}";
+            ? __("Your auction \":title\" has been canceled. Reason: :reason", ['title' => $title, 'reason' => $reason])
+            : __("The auction \":title\" you are following has been canceled. Reason: :reason", ['title' => $title, 'reason' => $reason]);
+
 
         return [
             'notification_type' => 'auction_canceled',

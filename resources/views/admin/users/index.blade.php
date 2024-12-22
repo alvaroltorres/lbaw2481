@@ -131,9 +131,9 @@
                                 const userRow = document.getElementById(`user-row-${userId}`);
                                 if (userRow) {
                                     userRow.remove();
-                                    console.log('Utilizador apagado com sucesso!');
+                                    console.log('User successfully deleted.');
                                 }
-                                alert('Utilizador apagado com sucesso!');
+                                alert('User successfully deleted.');
                             } else {
                                 alert(data.message || 'Erro ao apagar utilizador.');
                             }
@@ -155,7 +155,7 @@
                 button.addEventListener('click', function () {
                     const userId = this.getAttribute('data-user-id');
                     console.log('Botão Block clicado, ID do utilizador:', userId);
-                    blockForm.action = `/admin/users/${userId}/block`; // Atualiza a ação do formulário
+                    blockForm.action = `/admin/users/${userId}/block`;
                 });
             });
         });

@@ -31,9 +31,19 @@ class NewBidNotification extends Notification
         $createdAt     = Carbon::parse($this->bid->time)->format('d/m/Y H:i');
 
         $message = $isOwner
-            ? "💸 Novo lance de €{$bidAmount} no seu leilão \"{$auctionTitle}\" por {$bidderName} em {$createdAt}!"
-            : "💸 Um novo lance de €{$bidAmount} foi dado no leilão \"{$auctionTitle}\" por {$bidderName} em {$createdAt} (você participa).";
-
+            ? __("💸 New bid of €:amount on your auction \":title\" by :bidder at :time", [
+                'amount'  => $bidAmount,
+                'title'   => $auctionTitle,
+                'bidder'  => $bidderName,
+                'time'    => $createdAt
+            ])
+            : __("💸 A new bid of €:amount was placed on \":title\" by :bidder at :time (you are participating).", [
+                'amount'  => $bidAmount,
+                'title'   => $auctionTitle,
+                'bidder'  => $bidderName,
+                'time'    => $createdAt
+            ]);
+        
         return [
             'notification_type'     => 'new_bid',  // <--- IMPORTANTÍSSIMO
             'is_owner'              => $isOwner,
