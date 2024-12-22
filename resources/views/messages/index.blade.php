@@ -12,11 +12,15 @@
                     <div class="chat-list-messages" id="chatListContainer">
                         @if($auctions->count() > 0)
                             <ul id="chatListUl" style="list-style:none; margin:0; padding:0;">
+
                                 @foreach($auctions as $a)
+                                    @php
+
+                                    @endphp
                                     <li>
                                         <button class="auction-chat-btn" data-auction-id="{{ $a->auction_id }}">
                                             <strong>{{ $a->title }}</strong><br>
-                                            <small>{{ $a->seller->fullname }}</small>
+                                            <small>{{ 'Auction by ' . $a->seller->fullname }}</small>
                                         </button>
                                     </li>
                                 @endforeach
@@ -164,7 +168,7 @@
 
             // Map of auctions
             let auctionDetails = @json($auctions->mapWithKeys(function($a) {
-                return [$a->auction_id => ['title' => $a->title, 'seller_name' => $a->seller->fullname]];
+                return [$a->auction_id => ['title' => $a->title, 'seller_name' => 'Auction by '.$a->seller->fullname]];
             }));
 
             function attachAuctionButtonEvents() {

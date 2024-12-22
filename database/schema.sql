@@ -2,6 +2,7 @@
 -- Set the search path to the new schema
 DROP SCHEMA IF EXISTS lbaw2481 CASCADE;
 CREATE SCHEMA lbaw2481;
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 SET search_path TO lbaw2481;
 
 -- ******************************
@@ -169,7 +170,7 @@ CREATE TABLE Watchlist (
 
 -- 16. Notification Table
 CREATE TABLE notifications (
-                               id SERIAL PRIMARY KEY,
+                               id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
                                type VARCHAR(255) NOT NULL,
                                notifiable_id INTEGER NOT NULL,
                                notifiable_type VARCHAR(255) NOT NULL,
