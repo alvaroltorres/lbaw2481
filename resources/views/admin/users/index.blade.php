@@ -101,54 +101,51 @@
 
     <script>
         // Esperar que o DOM esteja totalmente carregado
-        document.addEventListener('DOMContentLoaded', function (message) {
+        document.addEventListener('DOMContentLoaded', function () {
             console.log('Script carregado com sucesso.');
 
-            // Seleciona todos os botões de "Apagar"
             const deleteButtons = document.querySelectorAll('.delete-user-btn');
 
-            // Adiciona o evento de clique em cada botão
             deleteButtons.forEach(button => {
                 button.addEventListener('click', function (e) {
-                    e.preventDefault(); // Impede o comportamento padrão do botão
+                    e.preventDefault();
 
-                    const userId = this.getAttribute('data-user-id'); // Obtém o ID do utilizador
+                    const userId = this.getAttribute('data-user-id');
+                    console.log('A tentar apagar utilizador com ID:', userId);
 
-                    // Faz a requisição AJAX para apagar o utilizador
                     fetch(`/admin/users/${userId}`, {
                         method: 'DELETE',
                         headers: {
                             'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-                            'Accept': 'application/json'
-                        }
+                            'Accept': 'application/json',
+                        },
                     })
                         .then(response => {
-                            console.log('Status HTTP:', response.status); // Verifica o status da resposta
-                            return response.text(); // Captura a resposta como texto para depurar
+                            console.log('Resposta HTTP:', response.status);
+                            return response.json(); // Alterado para JSON diretamente
                         })
                         .then(data => {
-                            console.log('Resposta bruta do servidor:', data);
-                            try {
-                                const json = JSON.parse(data); // Converte para JSON
-                                if (json.success) {
-                                    const userRow = document.getElementById(`user-row-${userId}`);
-                                    if (userRow) userRow.remove();
-                                    alert('Utilizador apagado com sucesso!');
-                                } else {
-                                    alert(json.message || 'Erro ao apagar utilizador.');
+                            console.log('Resposta do servidor:', data);
+
+                            if (data.success) {
+                                const userRow = document.getElementById(`user-row-${userId}`);
+                                if (userRow) {
+                                    userRow.remove();
+                                    console.log('Utilizador apagado com sucesso!');
                                 }
-                            } catch (error) {
-                                console.error('Erro ao processar JSON:', error);
-                                alert('Resposta inválida do servidor.', error);
+                                alert('Utilizador apagado com sucesso!');
+                            } else {
+                                alert(data.message || 'Erro ao apagar utilizador.');
                             }
                         })
                         .catch(error => {
                             console.error('Erro na requisição:', error);
                             alert('Ocorreu um erro ao tentar apagar o utilizador.');
                         });
-
-                }) })
+                });
+            });
         });
+
 
         document.addEventListener('DOMContentLoaded', function () {
             const blockButtons = document.querySelectorAll('.block-user-btn');

@@ -33,27 +33,44 @@ class AdminAuctionController extends Controller
      */
     public function cancel(Request $request, Auction $auction)
     {
+
         $request->validate([
             'reason' => 'required|string|max:255',
         ]);
 
-        $auction->delete();
 
-        // Notificar o seller diretamente
-        DB::table('notification')->insert([
-            'user_id'    => $auction->user_id,
-            'auction_id' => $auction->auction_id,
-            'content'    => __('Your auction :title was canceled by an admin. Reason: :reason', [
-                'title' => $auction->title,
-                'reason' => $request->reason
-            ]),
-            'type'       => 'cancellation',
-            'created_at' => now(),
-        ]);
+        try {
+            // Verificar se o `auction_id` é válido antes de inserir
+            if (!$auction) {
+                return redirect()
+                    ->back()
+                    ->withErrors(['error' => 'Leilão não encontrado.']);
+            }
 
-        return redirect()
-            ->back()
-            ->with('success', 'Leilão cancelado e notificação enviada ao criador.');
+            // Notificar o seller diretamente
+            DB::table('notification')->insert([
+                'user_id'    => $auction->user_id,
+                'auction_id' => $auction->auction_id,
+                'content'    => __('Your auction :title was canceled by an admin. Reason: :reason', [
+                    'title' => $auction->title,
+                    'reason' => $request->reason,
+                ]),
+                'type'       => 'cancellation',
+                'created_at' => now(),
+            ]);
+
+            // Apagar o leilão
+            $auction->delete();
+
+            return redirect()
+                ->back()
+                ->with('success', 'Leilão cancelado e notificação enviada ao criador.');
+        } catch (\Exception $e) {
+            // Capturar qualquer erro durante a inserção
+            return redirect()
+                ->back()
+                ->withErrors(['error' => 'Erro ao cancelar o leilão: ' . $e->getMessage()]);
+        }
     }
 
 
@@ -79,6 +96,7 @@ class AdminAuctionController extends Controller
             ]),
             'type'       => 'suspension',
             'created_at' => now(),
+            'bid_id' => 0
         ]);
 
         return redirect()

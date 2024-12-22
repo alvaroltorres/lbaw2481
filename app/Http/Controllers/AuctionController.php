@@ -228,9 +228,12 @@ class AuctionController extends Controller
             return redirect()->route('auctions.show', $auction)
                 ->with('error', 'You do not have permission to delete this auction.');
         }
-        if ($auction->user_id !== Auth::id() && !auth()->user()->is_admin) {
-        return redirect()->route('auctions.show', $auction)->with('error', 'You do not have permission to delete this auction.');
+
+        if (! in_array($auction->status, ['Active', 'Upcoming'])) {
+            return redirect()->route('auctions.show', $auction)
+                ->with('error', 'Este leilão não pode ser cancelado no status atual.');
         }
+
 
         $auction->delete();
 

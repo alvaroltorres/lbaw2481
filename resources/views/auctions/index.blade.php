@@ -56,9 +56,40 @@
                                     {{ __($auction->seller->fullname) }}
                                 </a>
                             </p>
-                            <!-- Adicionando o Timer -->
                             <p>{{ __('Time Remaining') }}: <span class="auction-timer" data-end-time="{{ $auction->ending_date->toIso8601String() }}"></span></p>
                             <a href="{{ route('auctions.show', $auction) }}" class="btn btn-primary">{{ __('View Auction') }}</a>
+
+                            <!-- Botão para Cancelar Leilão -->
+                            @if(auth()->user()->is_admin)
+                                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#cancelAuctionModal-{{ $auction->auction_id }}">
+                                    {{ __('Cancel Auction') }}
+                                </button>
+                            @endif
+                        </div>
+
+                        <!-- Modal para Cancelar Leilão -->
+                        <div class="modal fade" id="cancelAuctionModal-{{ $auction->auction_id }}" tabindex="-1" aria-labelledby="cancelAuctionModalLabel-{{ $auction->auction_id }}" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <form action="{{ route('admin.auctions.cancel', $auction->auction_id) }}" method="POST">
+                                        @csrf
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="cancelAuctionModalLabel-{{ $auction->auction_id }}">{{ __('Cancel Auction') }}</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div>
+                                                <label for="reason-{{ $auction->auction_id }}">{{ __('Reason for Cancellation') }}:</label>
+                                                <textarea name="reason" id="reason-{{ $auction->auction_id }}" class="form-control" rows="3" placeholder="{{ __('Enter reason for cancellation') }}" required></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Close') }}</button>
+                                            <button type="submit" class="btn btn-danger">{{ __('Confirm Cancellation') }}</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
                         </div>
                     @empty
                         <p>{{ __('No auctions found for the applied filters.') }}</p>
@@ -71,101 +102,6 @@
 
 @push('scripts')
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const timers = document.querySelectorAll('.auction-timer');
-            let timerElements = [];
-
-            // Inicializa os timers
-            timers.forEach(timer => {
-                const endTime = new Date(timer.getAttribute('data-end-time'));
-                if (!isNaN(endTime)) { // Verifica se a data é válida
-                    timerElements.push({ element: timer, endTime: endTime });
-                }
-            });
-
-            // Função para calcular a diferença de tempo
-            function getTimeDifference(end, now) {
-                let years = end.getFullYear() - now.getFullYear();
-                let months = end.getMonth() - now.getMonth();
-                let days = end.getDate() - now.getDate();
-                let hours = end.getHours() - now.getHours();
-                let minutes = end.getMinutes() - now.getMinutes();
-                let seconds = end.getSeconds() - now.getSeconds();
-
-                if (seconds < 0) {
-                    seconds += 60;
-                    minutes--;
-                }
-                if (minutes < 0) {
-                    minutes += 60;
-                    hours--;
-                }
-                if (hours < 0) {
-                    hours += 24;
-                    days--;
-                }
-                if (days < 0) {
-                    // Obtém o número de dias no mês anterior
-                    const previousMonth = new Date(end.getFullYear(), end.getMonth(), 0);
-                    days += previousMonth.getDate();
-                    months--;
-                }
-                if (months < 0) {
-                    months += 12;
-                    years--;
-                }
-
-                return { years, months, days, hours, minutes, seconds };
-            }
-
-            // Função para atualizar todos os timers
-            function updateAllTimers() {
-                const now = new Date();
-                let activeTimers = [];
-
-                timerElements.forEach(timerObj => {
-                    const { endTime, element } = timerObj;
-                    if (endTime <= now) {
-                        element.textContent = '{{ __("Auction ended") }}';
-                    } else {
-                        const diff = getTimeDifference(endTime, now);
-                        let timeString = '';
-
-                        if (diff.years > 0) {
-                            timeString += `${diff.years}{{ __('y') }} `;
-                        }
-                        if (diff.months > 0) {
-                            timeString += `${diff.months}{{ __('m') }} `;
-                        }
-                        if (diff.days > 0) {
-                            timeString += `${diff.days}{{ __('d') }} `;
-                        }
-                        if (diff.hours > 0) {
-                            timeString += `${diff.hours}{{ __('h') }} `;
-                        }
-                        if (diff.minutes > 0) {
-                            timeString += `${diff.minutes}{{ __('m') }} `;
-                        }
-                        if (diff.seconds > 0) {
-                            timeString += `${diff.seconds}{{ __('s') }}`;
-                        }
-
-                        element.textContent = timeString.trim();
-                        activeTimers.push(timerObj); // Mantém o timer ativo
-                    }
-                });
-
-                timerElements = activeTimers; // Atualiza a lista de timers ativos
-
-                // Se todos os timers terminaram, para o intervalo
-                if (timerElements.length === 0) {
-                    clearInterval(timerInterval);
-                }
-            }
-
-            // Atualiza os timers imediatamente e depois a cada segundo
-            updateAllTimers();
-            const timerInterval = setInterval(updateAllTimers, 1000);
-        });
+        // Aqui você pode adicionar scripts adicionais, se necessário
     </script>
 @endpush
