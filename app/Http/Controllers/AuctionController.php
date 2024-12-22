@@ -471,17 +471,36 @@ class AuctionController extends Controller
      * Checa se algum leilão expirou (data passou) e chama pickWinner.
      * Chamado, por ex., via schedule (cron) no app/Console/Kernel.php
      */
-    public function checkAndCloseExpiredAuctions()
+    public function checkAndNotifyEndingAuctions($minutesLeft = 5)
     {
-        $expiredAuctions = Auction::where('status', 'Active')
-            ->where('ending_date', '<', now())
+        // Pega agora + $minutesLeft
+        $threshold = now()->addMinutes($minutesLeft);
+
+        // Localiza auctions que estão 'Active',
+        // cujo ending_date está entre agora e threshold
+        $aboutToEndAuctions = Auction::where('status', 'Active')
+            ->where('ending_date', '>', now())        // ainda não acabou
+            ->where('ending_date', '<=', $threshold)  // acaba em <= X minutos
             ->get();
 
-        foreach ($expiredAuctions as $auction) {
-            $this->pickWinner($auction);
+        foreach ($aboutToEndAuctions as $auction) {
+            // Monta lista de usuários que receberão a notificação
+            $ownerId = $auction->user_id;
+            $participantIds = $auction->bids()->pluck('user_id')
+                ->merge($auction->followers->pluck('user_id'))
+                ->unique();
+
+            $userIds = $participantIds->merge([$ownerId])->unique();
+            $users   = User::whereIn('user_id', $userIds)->get();
+
+            // Envia a notificação
+            \Illuminate\Support\Facades\Notification::send(
+                $users,
+                new AuctionEndingNotification($auction, $minutesLeft)
+            );
         }
 
-        return count($expiredAuctions);
+        return count($aboutToEndAuctions);
     }
 
     /**
@@ -522,7 +541,7 @@ class AuctionController extends Controller
      */
     public function cancelAuction(Auction $auction)
     {
-        if ($auction->user_id !== Auth::id()) {
+        if ($auction->user_id !== Auth::id()  || !Auth::user()->isAdmin()) {
             abort(403, 'Unauthorized action.');
         }
 

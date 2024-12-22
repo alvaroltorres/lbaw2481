@@ -15,6 +15,7 @@
         <div class="auction-meta-container" style="margin-top:1rem; margin-bottom:1rem; padding:1rem; border:1px solid #ddd; border-radius:8px;">
             @php
                 $finalImage = $auction->image
+                //
                     ? Storage::url('public/images/auctions/'. $auction->image)
                     : Storage::url('public/images/auctions/default.png');
             @endphp
@@ -24,9 +25,6 @@
             <h2 class="auction-title">{{ $auction->title }}</h2>
             <p class="auction-description">{{ $auction->description }}</p>
             <p class="status">{{ __($auction->status) }}</p>
-            <p class="auction-meta">
-                <strong>{{ __('Image') }}:</strong>
-                {{ $auction->image }}
 
             {{-- Data de término e vendedor --}}
             <p class="auction-meta">
@@ -65,6 +63,14 @@
                         @csrf
                         <button type="submit" class="btn btn-primary">
                             {{ __('End Auction Now') }}
+                        </button>
+                    </form>
+                    <!-- Cancelar leilão -->
+                    <form action="{{ route('auctions.cancel', $auction) }}" method="POST" style="display:inline;">
+                        @csrf
+                        @method('PUT')
+                        <button type="submit" class="btn btn-danger">
+                            {{ __('Cancel Auction') }}
                         </button>
                     </form>
 

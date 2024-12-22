@@ -12,21 +12,11 @@ class Kernel extends ConsoleKernel
     /**
      * Define the application's command schedule.
      */
-    protected function schedule(Schedule $schedule): void
+    protected function schedule(Schedule $schedule)
     {
-        $schedule->call(function() {
-            $now = now();
-            $interval = $now->copy()->addMinutes(30);
-
-            // Buscamos leilões 'Active' que terminam EXACTAMENTE daqui a 30 minutos
-            // ou que estejam no range que quiser
-            $auctionsEndingSoon = Auction::where('status', 'Active')
-                ->whereBetween('ending_date', [$now, $interval])
-                ->get();
-
-            foreach ($auctionsEndingSoon as $auction) {
-                app(AuctionController::class)->notifyAuctionEnding($auction);
-            }
+        $schedule->call(function () {
+            app(\App\Http\Controllers\AuctionController::class)
+                ->checkAndNotifyEndingAuctions(5);
         })->everyMinute();
     }
 

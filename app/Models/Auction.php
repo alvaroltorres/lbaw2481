@@ -81,7 +81,7 @@ class Auction extends Model
 
     public function followers()
     {
-        return $this->belongsToMany(User::class, 'auction_user', 'auction_id', 'user_id');
+        return $this->hasMany(FollowAuction::class, 'auction_id', 'auction_id');
     }
 
 

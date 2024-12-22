@@ -178,6 +178,7 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('/users/{user_id}/ratings', [RatingController::class, 'index'])
         ->name('ratings.index');
 });
-
+Route::get('/auctions/check-ending', [AuctionController::class, 'checkAndNotifyEndingAuctions'])
+    ->name('auctions.check_ending');
 require __DIR__.'/admin.php';
 
