@@ -66,15 +66,6 @@
                         </button>
                     </form>
 
-                    <!-- Cancel Auction -->
-                    <form action="{{ route('auctions.cancel', $auction) }}" method="POST" style="display:inline;">
-                        @csrf
-                        @method('PUT')
-                        <button type="submit" class="btn btn-dark"
-                                onclick="return confirm('{{ __('Are you sure you want to cancel this auction?') }}');">
-                            {{ __('Cancel Auction') }}
-                        </button>
-                    </form>
 
                     <!-- Deletar do BD -->
                     <form action="{{ route('auctions.destroy', $auction) }}" method="POST" style="display:inline-block;">
@@ -131,14 +122,14 @@
             @endif
 
             {{-- Botão de seguir/desseguir o leilão --}}
-            @if($isFollowed)
+            @if($isFollowed && !auth()->user()->is_admin && auth()->user()->user_id === $auction->user_id)
                 <form action="{{ route('auction.unfollow', ['auction_id' => $auction->auction_id]) }}"
                       method="POST" style="display:inline-block;">
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="btn btn-danger">{{ __('Unfollow Auction') }}</button>
                 </form>
-            @else
+                @elseif(!$isFollowed && !auth()->user()->is_admin && auth()->user()->user_id === $auction->user_id)
                 <form action="{{ route('auction.follow', ['auction_id' => $auction->auction_id]) }}"
                       method="POST" style="display:inline-block;">
                     @csrf

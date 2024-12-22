@@ -96,7 +96,6 @@ class AdminAuctionController extends Controller
             ]),
             'type'       => 'suspension',
             'created_at' => now(),
-            'bid_id' => 0
         ]);
 
         return redirect()
