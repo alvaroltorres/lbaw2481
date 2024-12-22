@@ -20,7 +20,7 @@
                                     <li>
                                         <button class="auction-chat-btn" data-auction-id="{{ $a->auction_id }}">
                                             <strong>{{ $a->title }}</strong><br>
-                                            <small>{{ 'Auction by ' . $a->seller->fullname }}</small>
+                                            <small>{{ __('Auction by ') . $a->seller->fullname }}</small>
                                         </button>
                                     </li>
                                 @endforeach

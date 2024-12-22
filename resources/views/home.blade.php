@@ -32,7 +32,7 @@
     <!-- Features Section -->
     <section class="features" id="features">
         <div class="container">
-            <h2 class="section-title" data-tooltip="{{ __('Here you can find the main features of our platform.') }}">{{ __('Experience the Future of Online Auctions') }}</h2>
+        <h2 class="section-title" data-toggle="tooltip" data-placement="top" title="{{ __('Here you can find the main features of our platform.') }}">{{ __('Experience the Future of Online Auctions') }}</h2>
             <div class="features__grid">
                 <div class="feature-item">
                     <i class="fas fa-bolt feature-icon" aria-hidden="true"></i>
@@ -59,7 +59,7 @@
     <!-- Active Auctions Section -->
     <section class="active-auctions" id="active-auctions">
         <div class="container">
-            <h2 class="section-title" data-tooltip="{{ __('View all active auctions here.') }}">{{ __('Active Auctions') }}</h2>
+        <h2 class="section-title" data-toggle="tooltip" data-placement="top" title="{{ __('View all active auctions here.') }}">{{ __('Active Auctions') }}</h2>
             <div class="auction-grid">
                 @if($activeAuctions->count() > 0)
                     @foreach($activeAuctions->take(4) as $auction)
@@ -86,7 +86,7 @@
                 @endif
             </div>
 
-            <h2 class="section-title">{{ __('Upcoming Auctions') }}</h2>
+            <h2 class="section-title" data-toggle="tooltip" data-placement="top" title="{{ __('View all upcoming auctions here.') }}">{{ __('Upcoming Auctions') }}</h2>
             <div class="auction-grid">
                 @if($upcomingAuctions->count() > 0)
                     @foreach($upcomingAuctions->take(4) as $futureauction)
@@ -121,7 +121,7 @@
     <!-- Testimonials Section -->
     <section class="testimonials" id="testimonials">
         <div class="container">
-            <h2 class="section-title" data-tooltip="{{ __('Read testimonials from our satisfied users.') }}">{{ __('What Our Users Say') }}</h2>
+        <h2 class="section-title" data-toggle="tooltip" data-placement="top" title="{{ __('Read testimonials from our satisfied users.') }}">{{ __('What Our Users Say') }}</h2>
             <div class="testimonials__grid">
                 <div class="testimonial-item">
                     <p class="testimonial-text">"BidZenith has transformed my online auction experience. Intuitive and secure platform!"</p>

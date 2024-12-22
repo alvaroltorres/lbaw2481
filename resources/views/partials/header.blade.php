@@ -65,10 +65,6 @@
                 <span>|</span>
                 <button onclick="changeLanguage('en')" class="language-button {{ app()->getLocale() == 'en' ? 'active' : '' }}">EN</button>
             </div>
-
-            <button id="theme-toggle" class="theme-toggle p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-accent-color" aria-label="{{ __('Toggle Dark Mode') }}">
-                <i class="fas fa-moon"></i>
-            </button>
         </div>
     </div>
 
