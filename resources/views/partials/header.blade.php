@@ -1,6 +1,6 @@
 <!-- Header Section -->
 <header class="header">
-    <div class="container header__container flex items-center justify-between">
+    <div class="container-2 header__container">
         <!-- Logo -->
         <div class="logo">
             <a href="{{ route('home') }}" aria-label="{{ __('BidZenith Home') }}">
@@ -86,3 +86,13 @@
             </div>
     @endif
 </header>
+<!-- css -->
+<style>
+    .container-2 {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 0 7rem 0 7rem;
+
+    }
+</style>
