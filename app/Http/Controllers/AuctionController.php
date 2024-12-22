@@ -333,7 +333,7 @@ class AuctionController extends Controller
             $auction->save();
             return;
         }
-
+/*
         // Se o lance for menor que reserve_price => Unsold
         if ($highestBid->price < $auction->reserve_price) {
             $auction->status    = 'Unsold';
@@ -341,7 +341,7 @@ class AuctionController extends Controller
             $auction->save();
             return;
         }
-
+*/
         // Vendeu
         $auction->status        = 'Sold';
         $auction->winner_id     = $highestBid->user_id;
@@ -418,6 +418,7 @@ class AuctionController extends Controller
                 ->with('error', 'Selected winner not found among the bids.');
         }
 
+        /*
         // Se não atinge reserve price => Unsold
         if ($winnerBid->price < $auction->reserve_price) {
             $auction->status    = 'Unsold';
@@ -429,7 +430,7 @@ class AuctionController extends Controller
             return redirect()->route('auctions.show', $auction)
                 ->with('success', 'Auction ended successfully!');
         }
-
+*/
         // Vendeu
         $auction->status      = 'Sold';
         $auction->winner_id   = $winnerBid->user_id;
