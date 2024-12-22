@@ -61,8 +61,8 @@
         <div class="container">
             <h2 class="section-title" data-tooltip="{{ __('View all active auctions here.') }}">{{ __('Active Auctions') }}</h2>
             <div class="auction-grid">
-                @if($upcomingAuctions->count() > 0)
-                    @foreach($upcomingAuctions as $auction)
+                @if($activeAuctions->count() > 0)
+                    @foreach($activeAuctions->take(4) as $auction)
                         <article class="auction-card">
                             @php
                                 $finalImage = $auction->image
@@ -88,15 +88,15 @@
 
             <h2 class="section-title">{{ __('Upcoming Auctions') }}</h2>
             <div class="auction-grid">
-                @if($activeAuctions->count() > 0)
-                    @foreach($activeAuctions as $futureauction)
+                @if($upcomingAuctions->count() > 0)
+                    @foreach($upcomingAuctions->take(4) as $futureauction)
                         <article class="auction-card">
                             @php
-                                $finalImage = $auction->image
-                                    ? Storage::url('public/images/auctions/'. $auction->image)
+                                $finalImage = $futureauction->image
+                                    ? Storage::url('public/images/auctions/'. $futureauction->image)
                                     : Storage::url('public/images/auctions/default.png');
                             @endphp
-                            <img src="{{ asset($finalImage) }}" alt="{{ $auction->title }}" class="auction-image">
+                            <img src="{{ asset($finalImage) }}" alt="{{ $futureauction->title }}" class="auction-image">
                             <div class="auction-details">
                                 <h3 class="auction-title">{{ $futureauction->title }}</h3>
                                 <p class="auction-description">{{ Str::limit($futureauction->description, 100) }}</p>
