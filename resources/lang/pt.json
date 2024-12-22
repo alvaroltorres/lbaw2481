@@ -364,6 +364,15 @@
     "Suspend Auction": "Suspender leilão",
     "Confirm suspension": "Confirmar suspensão",
     "Reason for Suspension": "Razão para Suspensão",
-    "Cancel My Auction": "Cancelar meu Leilão"
+    "Cancel My Auction": "Cancelar meu Leilão",
+    "Image": "Imagem",
+    "Ends on": "Acaba em",
+    "Seller": "Vendedor",
+    "End Auction Now": "Acabar leilão agora",
+    "Cancel Auction": "Cancelar Leilão",
+    "Block User": "Bloquear User",
+    "Reason for the block": "Razão para o Block",
+    "Confirm Block": "Confirmar",
+    "Cancel": "Cancelar"
 
 }
