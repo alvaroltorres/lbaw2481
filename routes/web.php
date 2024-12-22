@@ -23,13 +23,10 @@ Route::get('/', function () {
     return redirect()->route('home');
 });
 
-
-
 Route::view('/test', 'test');
 Route::post('/test', function (\Illuminate\Http\Request $request) {
     return 'CSRF Token validated! Data: ' . $request->input('example');
 });
-
 
 // Home page
 Route::get('/home', [HomeController::class, 'index'])->name('home');
@@ -56,8 +53,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile/settings', [ProfileController::class, 'settings'])->name('profile.settings');
 });
 
-
-
 // Authentication routes
 require __DIR__.'/auth.php';
 
@@ -77,7 +72,6 @@ Route::post('/auctions/{auction}/bids', [BidController::class, 'store'])->name('
 Route::get('/auctions/{auction}/bidding-history', [AuctionController::class, 'biddingHistory'])->name('auctions.biddingHistory');
 
 Route::get('/profile/bidding-history', [AuctionController::class, 'biddingHistoryForUser'])->name('profile.biddingHistory');
-
 
 // Route to display the form to add credits
 Route::get('/credits/add', [CreditController::class, 'showAddCreditsForm'])->name('credits.add');
@@ -127,6 +121,10 @@ Route::middleware('auth')->group(function () {
 });
 
 use App\Http\Controllers\MessageController;
+
+Route::get('/blocked', function () {
+    return view('blocked');
+})->name('blocked');
 
 Route::middleware('auth')->group(function() {
     Route::get('/messages', [MessageController::class, 'index'])->name('messages.index');

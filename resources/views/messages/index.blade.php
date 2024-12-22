@@ -358,10 +358,16 @@
                 } else {
                     html = '<ul id="chatListUl" style="list-style:none; margin:0; padding:0;">';
                     auctions.forEach(a => {
+                        // obter o nome do outro usuário
+                        let otherUser = a.seller_name;
+                        if (a.seller_id === {{ auth()->id() }}) {
+                            otherUser = a.participant_name;
+                        }
+
                         html += `<li>
                     <button class="auction-chat-btn" data-auction-id="${a.auction_id}" style="cursor:pointer;">
                         <strong>${a.title}</strong><br>
-                        <small>ID: ${a.auction_id}</small>
+                        <small>${a.other_user}</small>
                     </button>
                 </li>`;
                     });

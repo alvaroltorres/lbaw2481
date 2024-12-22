@@ -33,7 +33,8 @@
     <script>
         window.translations = {
             notification: {
-                newBid: @json(__('A new bid of €:amount has been placed on your auction: :auction by :bidder.')),
+                newBidOwner: @json(__('New bid of €:amount on your auction ":auction" by :bidder!')),
+                newBidParticipant: @json(__('A new bid of €:amount was placed on the auction ":auction" by :bidder, which you are participating in!')),
                 viewDetails: @json(__('View Details')),
                 errorFetching: @json(__('Error fetching notifications')),
                 errorMarkingRead: @json(__('Error marking notification as read')),

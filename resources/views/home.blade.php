@@ -58,15 +58,15 @@
     <!-- Active Auctions Section -->
     <section class="active-auctions" id="active-auctions">
         <div class="container">
-            <h2 class="tooltip" data-tooltip="{{ __('View all active auctions here.') }}">{{ __('Active Auctions') }}</h2>
+            <h2 class="section-title" data-tooltip="{{ __('View all active auctions here.') }}">{{ __('Active Auctions') }}</h2>
             <div class="auction-grid">
                 @if($activeAuctions->count() > 0)
                     @foreach($activeAuctions as $auction)
                         <article class="auction-card">
                             @if($auction->image)
-                                <img src="{{ asset('images/auctions/' . $auction->image) }}" alt="{{ $auction->title }}" class="auction-image">
+                                <img src="{{ asset('storage/images/auctions/'. $auction->image) }}" alt="{{ __($auction->title) }}" class="auction-image">
                             @else
-                                <img src="{{ asset('images/auctions/default.png') }}" alt="{{ $auction->title }}" class="auction-image">
+                                <img src="{{ asset('storage/images/auctions/default.png') }}" alt="{{ __($auction->title) }}" class="auction-image">
                             @endif
                             <div class="auction-details">
                                 <h3 class="auction-title">{{ $auction->title }}</h3>
@@ -90,9 +90,9 @@
                     @foreach($upcomingAuctions as $futureauction)
                         <article class="auction-card">
                             @if($futureauction->image)
-                                <img src="{{ asset('images/auctions/' . $futureauction->image) }}" alt="{{ $futureauction->title }}" class="auction-image">
+                                <img src="{{ asset('storage/images/auctions/'. $futureauction->image) }}" alt="{{ __($futureauction->title) }}" class="auction-image">
                             @else
-                                <img src="{{ asset('images/auctions/default.png') }}" alt="{{ $futureauction->title }}" class="auction-image">
+                                <img src="{{ asset('storage/images/auctions/default.png') }}" alt="{{ __($futureauction->title) }}" class="auction-image">
                             @endif
                             <div class="auction-details">
                                 <h3 class="auction-title">{{ $futureauction->title }}</h3>

@@ -65,6 +65,7 @@ class Auction extends Model
         'location',
         'status',
         'winner_id',
+        'image',
     ];
     protected $casts = [
         'starting_date' => 'datetime',

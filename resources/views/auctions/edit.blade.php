@@ -14,7 +14,7 @@
             </div>
         @endif
 
-        <form method="POST" action="{{ route('auctions.update', $auction->auction_id) }}" class="card">
+        <form method="POST" action="{{ route('auctions.update', $auction->auction_id) }}" class="card" enctype="multipart/form-data">
             @csrf
             @method('PATCH')
 
@@ -147,6 +147,12 @@
                         <strong>{{ $message }}</strong>
                     </span>
                     @enderror
+                </div>
+
+                <div class="form-group">
+                    <label for="image">{{ __('Auction Image') }}</label>
+                    <input type="file" class="form-control" id="image" name="image" accept="image/*">
+                    <small>{{ __('Leave empty if you do not want to change the image') }}</small>
                 </div>
 
                 <!-- Save Changes Button -->
