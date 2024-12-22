@@ -175,16 +175,7 @@ INSERT INTO Watchlist (user_id, auction_id) VALUES
                                                 (4, 5);
 
 -- ******************************
--- 15. Notification Table
--- ******************************
-
-INSERT INTO Notification (user_id, content, type, auction_id, bid_id) VALUES
-                                                                          (2, 'Your bid has been outbid on Smartphone Auction.', 'Bid', 1, 3),
-                                                                          (3, 'Congratulations! You won the Handbag Auction.', 'Win', 2, 4),
-                                                                          (2, 'Payment pending for Kitchen Appliances Auction.', 'Payment', 5, 2);
-
--- ******************************
--- 16. Chat Table
+-- 15. Chat Table
 -- ******************************
 
 INSERT INTO Chat (is_private) VALUES
@@ -192,7 +183,7 @@ INSERT INTO Chat (is_private) VALUES
                                   (TRUE);
 
 -- ******************************
--- 17. ChatParticipant Table
+-- 16. ChatParticipant Table
 -- ******************************
 
 INSERT INTO ChatParticipant (chat_id, user_id) VALUES
@@ -202,7 +193,7 @@ INSERT INTO ChatParticipant (chat_id, user_id) VALUES
                                                    (2, 4);
 
 -- ******************************
--- 18. Message Table
+-- 17. Message Table
 -- ******************************
 
 INSERT INTO Message (chat_id, sender_id, text, auction_id) VALUES
@@ -212,7 +203,7 @@ INSERT INTO Message (chat_id, sender_id, text, auction_id) VALUES
                                                                (2, 4, 'Thank you!', NULL);
 
 -- ******************************
--- 19. Report Table
+-- 18. Report Table
 -- ******************************
 
 INSERT INTO Report (reported_user_id, reporter_user_id, auction_id, content, admin_id) VALUES
@@ -220,7 +211,7 @@ INSERT INTO Report (reported_user_id, reporter_user_id, auction_id, content, adm
                                                                                            (3, 2, 2, 'User failed to complete the transaction.', 1);
 
 -- ******************************
--- 20. BlockedUser Table
+-- 19. BlockedUser Table
 -- ******************************
 
 
@@ -230,7 +221,7 @@ INSERT INTO BlockedUser (blocked_user_id, admin_id, reason) VALUES
 
 
 -- ******************************
--- 21. Orders Table
+-- 20. Orders Table
 -- ******************************
 
 INSERT INTO Orders (transaction_id) VALUES

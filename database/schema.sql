@@ -168,15 +168,15 @@ CREATE TABLE Watchlist (
 );
 
 -- 16. Notification Table
-CREATE TABLE Notification (
-                              notification_id SERIAL PRIMARY KEY,
-                              user_id INTEGER REFERENCES "User"(user_id) ON DELETE CASCADE,
-                              content TEXT NOT NULL,
-                              is_read BOOLEAN NOT NULL DEFAULT FALSE,
-                              created_at TIMESTAMP NOT NULL DEFAULT NOW(),
-                              type VARCHAR(50) NOT NULL,
-                              auction_id INTEGER REFERENCES "Auction"(auction_id) ON DELETE CASCADE,
-                              bid_id INTEGER REFERENCES "Bid"(bid_id) ON DELETE CASCADE
+CREATE TABLE notifications (
+                               id SERIAL PRIMARY KEY,
+                               type VARCHAR(255) NOT NULL,
+                               notifiable_id INTEGER NOT NULL,
+                               notifiable_type VARCHAR(255) NOT NULL,
+                               data TEXT NOT NULL,
+                               read_at TIMESTAMP NULL,
+                               created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL,
+                               updated_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL
 );
 
 -- 17. Chat Table

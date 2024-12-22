@@ -38,30 +38,6 @@ CREATE TRIGGER update_auction_current_price_trigger
     AFTER INSERT ON "Bid"
     FOR EACH ROW EXECUTE FUNCTION update_auction_current_price();
 
--- 3. Notify Seller of New Bid
-CREATE OR REPLACE FUNCTION notify_seller_new_bid()
-RETURNS TRIGGER AS $$
-DECLARE
-v_seller_id INTEGER;
-    v_auction_title VARCHAR(255);
-BEGIN
-SELECT user_id, title INTO v_seller_id, v_auction_title FROM "Auction" WHERE auction_id = NEW.auction_id;
-
-INSERT INTO Notification (user_id, content, type, auction_id, bid_id)
-VALUES (
-           v_seller_id,
-           'Your auction "' || v_auction_title || '" has received a new bid of $' || NEW.price || '.',
-           'New Bid',
-           NEW.auction_id,
-           NEW.bid_id
-       );
-RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
-
-CREATE TRIGGER notify_seller_new_bid_trigger
-    AFTER INSERT ON "Bid"
-    FOR EACH ROW EXECUTE FUNCTION notify_seller_new_bid();
 
 -- 4. Validate Payment Method Expiry Date
 CREATE OR REPLACE FUNCTION validate_payment_method_expiry()
